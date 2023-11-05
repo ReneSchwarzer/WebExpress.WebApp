@@ -3,7 +3,7 @@
  * Folgende Events werden ausgelöst:
  * - webexpress.webapp.finish mit Parameter id
  */
-webexpress.webapp.taskProgressBarCtrl = class extends webexpress.ui.events {
+webexpress.webapp.taskProgressBarCtrl = class extends webexpress.webui.events {
     _restUri = "";
     _container = $("<div class='taskprogressbar'/>");
     _progress = $("<div class='progress'><div class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' style='width: 0%' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>");

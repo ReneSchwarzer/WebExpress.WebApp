@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WebExpress.WebUI.WebSettingPage;
 using WebExpress.WebApp.WebJob;
 using WebExpress.WebApp.WebScope;
 using WebExpress.WebAttribute;
@@ -8,6 +7,7 @@ using WebExpress.WebJob;
 using WebExpress.WebPage;
 using WebExpress.WebPlugin;
 using WebExpress.WebResource;
+using WebExpress.WebUI.WebSettingPage;
 
 [assembly: SystemPlugin()]
 
@@ -16,7 +16,7 @@ namespace WebExpress.WebApp
     [Name("WebExpress.WebApp")]
     [Description("plugin.description")]
     [Icon("/assets/img/Logo.png")]
-    [Dependency("webexpress.ui")]
+    [Dependency("webexpress.webui")]
     public sealed class Plugin : IPlugin
     {
         /// <summary>

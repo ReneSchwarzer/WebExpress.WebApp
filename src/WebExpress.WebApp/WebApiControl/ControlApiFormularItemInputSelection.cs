@@ -53,10 +53,10 @@ public class ControlApiFormularItemInputSelection : ControlFormItemInputSelectio
         builder.AppendLine($"obj.options = options;");
         builder.AppendLine($"obj.receiveData();");
         builder.AppendLine($"obj.value = [{string.Join(",", Values.Select(x => $"'{x}'"))}];");
-        builder.AppendLine($"obj.on('webexpress.ui.change.filter', function(key) {{ obj.receiveData(key); }});");
+        builder.AppendLine($"obj.on('webexpress.webui.change.filter', function(key) {{ obj.receiveData(key); }});");
         if (OnChange != null)
         {
-            builder.AppendLine($"obj.on('webexpress.ui.change.value', function() {{ {OnChange} }});");
+            builder.AppendLine($"obj.on('webexpress.webui.change.value', function() {{ {OnChange} }});");
         }
         builder.AppendLine($"container.replaceWith(obj.getCtrl);");
         builder.AppendLine($"}});");

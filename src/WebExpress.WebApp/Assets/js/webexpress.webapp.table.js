@@ -1,7 +1,7 @@
 /**
  * Eine Tabelle mit Funktionen für Create, Read, Update und Delate
  */
-webexpress.webapp.tableCtrl = class extends webexpress.ui.tableCtrl {
+webexpress.webapp.tableCtrl = class extends webexpress.webui.tableCtrl {
     _restUri = "";
     _searchCtrl = null;
     _paginationCtrl = null;
@@ -26,10 +26,10 @@ webexpress.webapp.tableCtrl = class extends webexpress.ui.tableCtrl {
             this.columns = columns;
         }.bind(this));
 
-        this._searchCtrl = new webexpress.ui.searchCtrl({ Id: settings.id + "-search" });
-        this._searchCtrl.on('webexpress.ui.change.filter', function (key) { this._filter = key; this.receiveData(); }.bind(this));
-        this._paginationCtrl = new webexpress.ui.paginationCtrl({ Id: settings.Id + "-pagination" });
-        this._paginationCtrl.on('webexpress.ui.change.page', function (page) { this._page = page; this.receiveData(); }.bind(this));
+        this._searchCtrl = new webexpress.webui.searchCtrl({ Id: settings.id + "-search" });
+        this._searchCtrl.on('webexpress.webui.change.filter', function (key) { this._filter = key; this.receiveData(); }.bind(this));
+        this._paginationCtrl = new webexpress.webui.paginationCtrl({ Id: settings.Id + "-pagination" });
+        this._paginationCtrl.on('webexpress.webui.change.page', function (page) { this._page = page; this.receiveData(); }.bind(this));
     }
 
     /**
@@ -42,7 +42,7 @@ webexpress.webapp.tableCtrl = class extends webexpress.ui.tableCtrl {
             var data = response.data;
             this.clear();
             this.addRange(data);
-            this.trigger('webexpress.ui.receive.complete');
+            this.trigger('webexpress.webui.receive.complete');
             var pagination = response.pagination;
             this._paginationCtrl.page(pagination.pagenumber, pagination.totalpage);
         }.bind(this));

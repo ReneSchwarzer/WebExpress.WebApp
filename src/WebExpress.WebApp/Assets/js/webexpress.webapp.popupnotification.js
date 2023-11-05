@@ -3,7 +3,7 @@
  * Folgende Events werden ausgelöst:
  * - webexpress.webapp.close mit Parameter id
  */
-webexpress.webapp.popupNotificationCtrl = class extends webexpress.ui.events {
+webexpress.webapp.popupNotificationCtrl = class extends webexpress.webui.events {
     _restUri = "";
     _container = $("<div class='popupnotification'/>");
     _activeNotifications = new Map();
