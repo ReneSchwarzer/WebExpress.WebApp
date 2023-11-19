@@ -1,28 +1,27 @@
-﻿using System;
-using WebExpress.WebHtml;
-using WebExpress.WebUI.WebControl;
+﻿using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebApp.WebUser;
-using WebExpress.WebPage;
-using static WebExpress.Internationalization.InternationalizationManager;
+using WebExpress.WebUI.WebControl;
+using static WebExpress.Core.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebControl
 {
     internal sealed class ControlModalFormularUserDelete : ControlModalFormularConfirmDelete
     {
         /// <summary>
-        /// Der zu löschende Benutzer
+        /// Returns or sets the user to be deleted.
         /// </summary>
         public User Item { get; set; }
 
         /// <summary>
-        /// Liefert die Beschreibung
+        /// Returns the description.
         /// </summary>
         private ControlFormItemStaticText Description { get; } = new ControlFormItemStaticText();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlModalFormularUserDelete(string id = null)
             : base("delete_" + id)
         {
@@ -33,11 +32,10 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn das Löschen bestätigt wurde
+        /// Invoked when the deletion is confirmed.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        /// <exception cref="NotImplementedException"></exception>
         private void OnConfirm(object sender, FormularEventArgs e)
         {
             UserManager.RemoveUser(Item);

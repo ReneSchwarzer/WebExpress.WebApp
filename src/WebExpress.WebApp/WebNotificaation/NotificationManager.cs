@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebExpress.Internationalization;
-using WebExpress.WebComponent;
-using WebExpress.WebMessage;
-using WebExpress.WebPlugin;
+using WebExpress.Core;
+using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebComponent;
+using WebExpress.Core.WebMessage;
+using WebExpress.Core.WebPlugin;
 
 namespace WebExpress.WebApp.WebNotificaation
 {

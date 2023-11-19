@@ -1,15 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using WebExpress.Core;
+using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebAttribute;
+using WebExpress.Core.WebMessage;
+using WebExpress.Core.WebScope;
 using WebExpress.Internationalization;
-using WebExpress.WebUI.WebAttribute;
-using WebExpress.WebUI.WebControl;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebApp.WebScope;
-using WebExpress.WebAttribute;
-using WebExpress.WebMessage;
-using WebExpress.WebScope;
+using WebExpress.WebUI.WebAttribute;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebSettingPage
 {

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebExpress.Core.WebAttribute;
+using WebExpress.Core.WebMessage;
+using WebExpress.Core.WebResource;
 using WebExpress.WebApp.Model;
 using WebExpress.WebApp.WebResource;
-using WebExpress.WebAttribute;
 using WebExpress.WebIndex.Wql;
-using WebExpress.WebMessage;
-using WebExpress.WebResource;
 using WebExpress.WebUI;
-using static WebExpress.Internationalization.InternationalizationManager;
+using static WebExpress.Core.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebAPI.V1
 {

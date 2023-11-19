@@ -3,7 +3,7 @@
     internal interface IControlApi
     {
         /// <summary>
-        /// Liefert oder setzt die Uri, welche die Daten ermittelt
+        /// Returns or sets the uri that determines the data.
         /// </summary>
         public string RestUri { get; set; }
     }

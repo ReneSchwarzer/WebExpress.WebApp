@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Linq;
-using WebExpress.WebUI.WebControl;
 using WebExpress.WebApp.WebUser;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
     internal sealed class ControlModalFormularGoupEdit : ControlModalFormular
     {
         /// <summary>
-        /// Die zu löschende Gruppe
+        /// Returns or sets the group to be deleted.
         /// </summary>
         public Group Item { get; set; }
 
         /// <summary>
-        /// Liefert die Beschreibung des Formulars
+        /// Returns the description of the form.
         /// </summary>
         private ControlFormItemStaticText Description { get; } = new ControlFormItemStaticText()
         {
@@ -22,7 +22,7 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert das Steuerlement zur Eingabe des Gruppennamen
+        /// Returns the control element for entering the group name.
         /// </summary>
         private ControlFormItemInputTextBox GroupName { get; } = new ControlFormItemInputTextBox()
         {
@@ -33,7 +33,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlModalFormularGoupEdit(string id = null)
             : base(id)
         {
@@ -49,7 +49,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn das Formular mit Initialwerten gefüllt werden soll
+        /// Invoked when the form is to be filled with initial values.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
@@ -59,7 +59,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn der eingegebene Gruppenname überprüft werden soll
+        /// Invoked when you want to check the group name you entered.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>

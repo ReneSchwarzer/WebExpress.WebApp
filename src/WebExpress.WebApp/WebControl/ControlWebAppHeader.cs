@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
-using WebExpress.WebHtml;
-using WebExpress.WebUI.WebControl;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebApp.WebPage;
-using WebExpress.WebPage;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Header für eine WebApp
+    /// Header for a web app.
     /// </summary>
     public class ControlWebAppHeader : Control
     {
         /// <summary>
-        /// Returns or sets the color. des Textes
+        /// Returns or sets the text color.
         /// </summary>
         public new virtual PropertyColorNavbar TextColor
         {
@@ -21,7 +21,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Die fixierte Anordnung
+        /// Returns or sets whether the arrangement is fixed.
         /// </summary>
         public virtual TypeFixed Fixed
         {
@@ -30,7 +30,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Fixiert die Anordnung, wenn sich die Toolbar am oberen Rand befindet
+        /// Returns or sets the fixed arrangement when the toolbar is at the top.
         /// </summary>
         public virtual TypeSticky Sticky
         {
@@ -39,21 +39,21 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Der Anwendungsnavigator
+        /// Returns or sets the application navigator.
         /// </summary>
         public ControlWebAppHeaderAppNavigator AppNavigator { get; } = new ControlWebAppHeaderAppNavigator("webexpress.webapp.header.appnavigator")
         {
         };
 
         /// <summary>
-        /// Der Name der Anwendung
+        /// Returns or setss the name of the application.
         /// </summary>
         public ControlWebAppHeaderAppTitle AppTitle { get; } = new ControlWebAppHeaderAppTitle("webexpress.webapp.header.apptitle")
         {
         };
 
         /// <summary>
-        /// Die Navigation der Anwendung
+        /// Returns or sets the navigation of the application.
         /// </summary>
         public ControlWebAppHeaderAppNavigation AppNavigation { get; } = new ControlWebAppHeaderAppNavigation("webexpress.webapp.header.appnavigation")
         {
@@ -62,21 +62,21 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Die Navigation der Anwendung
+        /// Returns or sets the quick create.
         /// </summary>
         public ControlWebAppHeaderQuickCreate QuickCreate { get; } = new ControlWebAppHeaderQuickCreate("webexpress.webapp.header.quickcreate")
         {
         };
 
         /// <summary>
-        /// Die Navigation der Anwendungshilfen
+        /// Returns or sets the navigation of the application helpers.
         /// </summary>
         public ControlWebAppHeaderHelp Help { get; } = new ControlWebAppHeaderHelp("webexpress.webapp.header.help")
         {
         };
 
         /// <summary>
-        /// Die Navigation der Anwendungseinstellungen
+        /// Returns or sets the navigation of the application settings.
         /// </summary>
         public ControlWebAppHeaderSettings Settings { get; } = new ControlWebAppHeaderSettings("webexpress.webapp.header.settings")
         {
@@ -85,7 +85,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlWebAppHeader(string id = null)
             : base(id)
         {

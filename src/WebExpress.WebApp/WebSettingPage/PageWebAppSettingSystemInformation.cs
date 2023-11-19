@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Reflection;
-using WebExpress.Internationalization;
+using WebExpress.Core;
+using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebAttribute;
+using WebExpress.Core.WebResource;
+using WebExpress.Core.WebScope;
+using WebExpress.WebApp.WebPage;
+using WebExpress.WebApp.WebScope;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebSettingPage;
-using WebExpress.WebApp.WebPage;
-using WebExpress.WebApp.WebScope;
-using WebExpress.WebAttribute;
-using WebExpress.WebResource;
-using WebExpress.WebScope;
 
 namespace WebExpress.WebApp.WebSettingPage
 {

@@ -1,7 +1,7 @@
-﻿using WebExpress.WebHtml;
-using WebExpress.Internationalization;
+﻿using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebUI.WebControl;
-using WebExpress.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -10,7 +10,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlModalFormularConfirmDelete(string id = null)
             : this(id, null)
         {
@@ -20,7 +20,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         /// <param name="content">Die Formularsteuerelemente</param>
         public ControlModalFormularConfirmDelete(string id, params ControlFormItem[] content)
             : base(id, content)

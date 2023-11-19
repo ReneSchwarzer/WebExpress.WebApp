@@ -3,12 +3,12 @@
 namespace WebExpress.WebApp.WebFragment
 {
     /// <summary>
-    /// Metainformationen einer CRUD-Tabellenfunktion
+    /// Meta information of a CRUD table function.
     /// </summary>
     public class FragmentCrudTableEditorLinkItem : FragmentCrudTableEditorItem
     {
         /// <summary>
-        /// Returns or sets the label. der Splalte
+        /// Returns or sets the label.
         /// </summary>
         public string Label { get; set; }
 
@@ -25,7 +25,7 @@ namespace WebExpress.WebApp.WebFragment
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="label">Die Beschriftung der Splalte</param>
+        /// <param name="label">The label of the column.</param>
         public FragmentCrudTableEditorLinkItem(string label)
         {
             Label = label;

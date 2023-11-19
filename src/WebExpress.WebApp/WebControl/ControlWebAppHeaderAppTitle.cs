@@ -1,20 +1,20 @@
-﻿using WebExpress.WebHtml;
-using WebExpress.Internationalization;
-using WebExpress.WebUI.WebControl;
+﻿using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebApp.WebPage;
-using WebExpress.WebPage;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Header für eine WebApp
+    /// App title for a web app.
     /// </summary>
     public class ControlWebAppHeaderAppTitle : ControlLink
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlWebAppHeaderAppTitle(string id = null)
             : base(id)
         {

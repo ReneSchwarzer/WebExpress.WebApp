@@ -1,9 +1,9 @@
 ﻿using System;
-using WebExpress.Internationalization;
-using WebExpress.WebUI.WebControl;
+using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebComponent;
+using WebExpress.Core.WebResource;
 using WebExpress.WebApp.WebNotificaation;
-using WebExpress.WebComponent;
-using WebExpress.WebResource;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebPage
 {

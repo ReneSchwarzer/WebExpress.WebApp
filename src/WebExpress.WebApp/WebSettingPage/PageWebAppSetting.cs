@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebExpress.Core.WebComponent;
+using WebExpress.Core.WebResource;
+using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.SettingPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebSettingPage;
-using WebExpress.WebApp.WebPage;
-using WebExpress.WebComponent;
-using WebExpress.WebResource;
 
 namespace WebExpress.WebApp.WebSettingPage
 {

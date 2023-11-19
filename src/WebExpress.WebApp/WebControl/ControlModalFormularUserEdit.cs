@@ -99,7 +99,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn das Formular mit Initialwerten gefüllt werden soll
+        /// Invoked when the form is to be filled with initial values.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>

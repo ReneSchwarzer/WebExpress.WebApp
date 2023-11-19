@@ -4,32 +4,32 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using static WebExpress.Internationalization.InternationalizationManager;
+using WebExpress.Core;
+using static WebExpress.Core.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebUser
 {
     public static class UserManager
     {
         /// <summary>
-        /// Returns or sets the reference to the context of the host
+        /// Returns or sets the reference to the context of the host.
         /// </summary>
         private static IHttpServerContext Context { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt das Wurzelverzeichnis, indem sich die Benutzerdatendaten befinden
+        /// Returns or sets the root directory where the user data is located.
         /// </summary>
         private static string UserRootPath { get; set; }
 
         /// <summary>
-        /// Liefert die registrierten Users
+        /// Returns the registered users.
         /// </summary>
         public static ICollection<User> Users { get; } = new List<User>();
 
         /// <summary>
-        /// Liefert die registrierten Gruppen
+        /// Returns the registered groups.
         /// </summary>
         public static ICollection<Group> Groups { get; } = new List<Group>();
-
 
         /// <summary>
         /// Initialization
@@ -48,7 +48,7 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Lade alle Users
+        /// Load all users from the file system.
         /// </summary>
         private static void LoadUser()
         {
@@ -76,9 +76,9 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Nimmt einen neuen User auf
+        /// Adds a new user.
         /// </summary>
-        /// <param name="user">Der neue User</param>
+        /// <param name="user">The new user.</param>
         public static void AddUser(User user)
         {
             UpdateUser(user);
@@ -87,9 +87,9 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Aktualisiert ein bestehenden User 
+        /// Updates an existing user.
         /// </summary>
-        /// <param name="user">Der bestehende User</param>
+        /// <param name="user">The existing user.</param>
         public static void UpdateUser(User user)
         {
             var serializer = new XmlSerializer(typeof(User));
@@ -121,9 +121,9 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Löscht einen Benutzer 
+        /// Deletes a user.
         /// </summary>
-        /// <param name="user">Der zu löschende Benutzer</param>
+        /// <param name="user">The user to be deleted.</param>
         public static void RemoveUser(User user)
         {
             var fileName = Path.Combine(UserRootPath, "users", string.Format("{0}.xml", user.Id));
@@ -135,7 +135,7 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Lade alle Gruppen 
+        /// Load all groups from file system.
         /// </summary>
         private static void LoadGroup()
         {
@@ -163,9 +163,9 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Nimmt einen neuen Gruppe auf
+        /// Adds a new group.
         /// </summary>
-        /// <param name="group">Die neue Gruppe</param>
+        /// <param name="group">The new group.</param>
         public static void AddGroup(Group group)
         {
             UpdateGroup(group);
@@ -174,9 +174,9 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Aktualisiert ein bestehenden Gruppe 
+        /// Updates an existing group.
         /// </summary>
-        /// <param name="group">Die bestehende Gruppe</param>
+        /// <param name="group">The existing group.</param>
         public static void UpdateGroup(Group group)
         {
             var serializer = new XmlSerializer(typeof(Group));
@@ -208,9 +208,9 @@ namespace WebExpress.WebApp.WebUser
         }
 
         /// <summary>
-        /// Löscht eine Gruppe 
+        /// Deletes a group. 
         /// </summary>
-        /// <param name="group">Die zu löschende Gruppe</param>
+        /// <param name="group">The group to be deleted.</param>
         public static void RemoveGroup(Group group)
         {
             var fileName = Path.Combine(UserRootPath, "groups", string.Format("{0}.xml", group.Id));

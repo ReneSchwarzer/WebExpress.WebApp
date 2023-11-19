@@ -1,28 +1,28 @@
 ﻿using System.Collections.Generic;
-using WebExpress.WebModule;
+using WebExpress.Core.WebModule;
 
 namespace WebExpress.WebApp.WebIdentity
 {
     /// <summary>
-    /// 
+    /// The identity directory.
     /// </summary>
-    internal class IdentityDictionary 
+    internal class IdentityDictionary
     {
         /// <summary>
-        /// Das Verzeichnis der Identitäten.
-        /// Modul -> Id -> Identität
+        /// The directory of identities.
+        /// module -> id -> identity
         /// </summary>
         public static Dictionary<IModuleContext, Dictionary<string, IdentityItem>> Identities { get; } = new Dictionary<IModuleContext, Dictionary<string, IdentityItem>>();
 
         /// <summary>
-        /// Das Verzeichnis der Rollen.
-        /// Modul -> Id -> Rolle
+        /// The directory of roles.
+        /// module -> id -> role
         /// </summary>
         public static Dictionary<IModuleContext, Dictionary<string, IdentityRoleItem>> Roles { get; } = new Dictionary<IModuleContext, Dictionary<string, IdentityRoleItem>>();
 
         /// <summary>
-        /// Das Verzeichnis der Ressourcen.
-        /// Modul -> Id -> Ressource
+        /// The directory of resources.
+        ///  module -> id -> resource
         /// </summary>
         public static Dictionary<IModuleContext, Dictionary<string, IdentityResourceItem>> Resources { get; } = new Dictionary<IModuleContext, Dictionary<string, IdentityResourceItem>>();
     }

@@ -1,7 +1,7 @@
-﻿using WebExpress.Internationalization;
-using WebExpress.WebMessage;
-using WebExpress.WebAttribute;
-using WebExpress.WebResource;
+﻿using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebAttribute;
+using WebExpress.Core.WebMessage;
+using WebExpress.Core.WebResource;
 
 namespace WebExpress.WebApp.WebStatusPage
 {

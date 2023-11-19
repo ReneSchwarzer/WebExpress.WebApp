@@ -1,62 +1,62 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.WebHtml;
-using WebExpress.WebUI.WebControl;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebApp.WebPage;
-using WebExpress.WebPage;
-using static WebExpress.Internationalization.InternationalizationManager;
+using WebExpress.WebUI.WebControl;
+using static WebExpress.Core.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Header für eine WebApp
+    /// Headline for an web app.
     /// </summary>
     public class ControlWebAppHeadline : Control
     {
         /// <summary>
-        /// Liefert oder setzt den Vorwort-Bereich für die App-Navigation
+        /// Returns or sets the prologue area.
         /// </summary>
         public List<IControl> Prologue { get; protected set; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den Bereich für die App-Navigation
+        /// Returns or sets the preferences area.
         /// </summary>
         public List<IControl> Preferences { get; protected set; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den Bereich für die App-Navigation
+        /// Returns or sets the primary area.
         /// </summary>
         public List<IControl> Primary { get; protected set; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den Bereich für die App-Navigation
+        /// Returns or sets the secondary area.
         /// </summary>
         public List<IControl> Secondary { get; protected set; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den Bereich für die App-Navigation
+        /// Returns or sets the preferences area for the more control.
         /// </summary>
         public List<IControlDropdownItem> MorePreferences { get; protected set; } = new List<IControlDropdownItem>();
 
         /// <summary>
-        /// Liefert oder setzt den Bereich für die App-Navigation
+        /// Returns or sets the primary area for the more control.
         /// </summary>
         public List<IControlDropdownItem> MorePrimary { get; protected set; } = new List<IControlDropdownItem>();
 
         /// <summary>
-        /// Liefert oder setzt den Bereich für die App-Navigation
+        /// Returns or sets the secondary area for the more control.
         /// </summary>
         public List<IControlDropdownItem> MoreSecondary { get; protected set; } = new List<IControlDropdownItem>();
 
         /// <summary>
-        /// Liefert oder setzt den Bereich für die Metadaten
+        /// Returns or sets the secondary area for the metadata.
         /// </summary>
         public List<IControl> Metadata { get; protected set; } = new List<IControl>();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlWebAppHeadline(string id = null)
             : base(id)
         {

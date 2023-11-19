@@ -1,10 +1,10 @@
-﻿using WebExpress.WebUI.WebAttribute;
-using WebExpress.WebUI.WebControl;
+﻿using WebExpress.Core.WebAttribute;
+using WebExpress.Core.WebResource;
+using WebExpress.Core.WebScope;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebApp.WebScope;
-using WebExpress.WebAttribute;
-using WebExpress.WebResource;
-using WebExpress.WebScope;
+using WebExpress.WebUI.WebAttribute;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebSettingPage
 {

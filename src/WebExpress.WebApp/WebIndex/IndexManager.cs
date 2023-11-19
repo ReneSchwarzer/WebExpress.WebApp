@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebExpress.Internationalization;
-using WebExpress.WebComponent;
+using WebExpress.Core;
+using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebComponent;
+using WebExpress.Core.WebPlugin;
 using WebExpress.WebIndex;
-using WebExpress.WebPlugin;
 
 namespace WebExpress.WebApp.WebIndex
 {

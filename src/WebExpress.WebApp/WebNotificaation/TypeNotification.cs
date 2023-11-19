@@ -1,7 +1,7 @@
 ﻿namespace WebExpress.WebApp.WebNotificaation
 {
     /// <summary>
-    /// Die Layoutmöglichkeiten der Benachrichtigung
+    /// The layout options of the notification.
     /// </summary>
     public enum TypeNotification
     {
@@ -21,10 +21,10 @@
     public static class TypeLayoutTabExtensions
     {
         /// <summary>
-        /// Umwandlung in eine Zeichenkette
+        /// Conversion to a string.
         /// </summary>
-        /// <param name="layout">Das Layout, welches umgewandelt werden soll</param>
-        /// <returns>Die konvertierte ZEichenkette</returns>
+        /// <param name="layout">The layout to be converted.</param>
+        /// <returns>The converted layout.</returns>
         public static string ToClass(this TypeNotification layout)
         {
             return layout switch

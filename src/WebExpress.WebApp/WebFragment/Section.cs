@@ -1,187 +1,187 @@
 ﻿namespace WebExpress.WebApp.WebFragment
 {
     /// <summary>
-    /// Definition von Schlüsseln zur Identifikation von Sektionen in Wen-Seiten, welche durch Komponenten besezt werden können.
+    /// Definition of keys to identify sections in wen pages that can be occupied by components.
     /// </summary>
     public static class Section
     {
         /// <summary>
-        /// Liefert oder setzt den App.Preferences-Bereich
+        /// Returns or sets the app.preferences section.
         /// </summary>
         public const string AppPreferences = "app.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den App.Primary-Bereich
+        /// Returns or sets the app.primary section.
         /// </summary>
         public const string AppPrimary = "app.primary";
 
         /// <summary>
-        /// Liefert oder setzt den app.secondary-Bereich
+        /// Returns or sets the app.secondary section.
         /// </summary>
         public const string AppSecondary = "app.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den app.navigation.preferences-Bereich
+        /// Returns or sets the app.navigation.preferences section.
         /// </summary>
         public const string AppNavigationPreferences = "app.navigation.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den app.navigation.primary-Bereich
+        /// Returns or sets the app.navigation.primary section.
         /// </summary>
         public const string AppNavigationPrimary = "app.navigation.primary";
 
         /// <summary>
-        /// Liefert oder setzt den app.navigation.secondary-Bereich
+        /// Returns or sets the app.navigation.secondary section.
         /// </summary>
         public const string AppNavigationSecondary = "app.navigation.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den den app.quickcreate.primary-Bereich
+        /// Returns or sets the app.quickcreate.primary section.
         /// </summary>
         public const string AppQuickcreatePreferences = "app.quickcreate.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den den app.quickcreate.primary-Bereich
+        /// Returns or sets the app.quickcreate.primary section.
         /// </summary>
         public const string AppQuickcreatePrimary = "app.quickcreate.primary";
 
         /// <summary>
-        /// Liefert oder setzt den app.quickcreate.secondary-Bereich
+        /// Returns or sets the app.quickcreate.secondary section.
         /// </summary>
         public const string AppQuickcreateSecondary = "app.quickcreate.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den app.help.preferences-Bereich
+        /// Returns or sets the app.help.preferences section.
         /// </summary>
         public const string AppHelpPreferences = "app.help.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den app.help.primary-Bereich
+        /// Returns or sets the app.help.primary section.
         /// </summary>
         public const string AppHelpPrimary = "app.help.primary";
 
         /// <summary>
-        /// Liefert oder setzt den app.help.secondary-Bereich
+        /// Returns or sets the app.help.secondary section.
         /// </summary>
         public const string AppHelpSecondary = "app.help.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den app.settings.primary-Bereich
+        /// Returns or sets the app.settings.primary section.
         /// </summary>
         public const string AppSettingsPreferences = "app.settings.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den app.settings.primary-Bereich
+        /// Returns or sets the app.settings.primary section.
         /// </summary>
         public const string AppSettingsPrimary = "app.settings.primary";
 
         /// <summary>
-        /// Liefert oder setzt den app.settings.secondary-Bereich
+        /// Returns or sets the app.settings.secondary section.
         /// </summary>
         public const string AppSettingsSecondary = "app.settings.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den sidebar.header-Bereich
+        /// Returns or sets the sidebar.header section.
         /// </summary>
         public const string SidebarHeader = "sidebar.header";
 
         /// <summary>
-        /// Liefert oder setzt den sidebar.preferences-Bereich
+        /// Returns or sets the sidebar.preferences section.
         /// </summary>
         public const string SidebarPreferences = "sidebar.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den sidebar.primary-Bereich
+        /// Returns or sets the sidebar.primary section.
         /// </summary>
         public const string SidebarPrimary = "sidebar.primary";
 
         /// <summary>
-        /// Liefert oder setzt den sidebar.secondary-Bereich
+        /// Returns or sets the sidebar.secondary section.
         /// </summary>
         public const string SidebarSecondary = "sidebar.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den property.preferences-Bereich
+        /// Returns or sets the property.preferences section.
         /// </summary>
         public const string PropertyPreferences = "property.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den property.primary-Bereich
+        /// Returns or sets the property.primary section.
         /// </summary>
         public const string PropertyPrimary = "property.primary";
 
         /// <summary>
-        /// Liefert oder setzt den property.secondary-Bereich
+        /// Returns or sets the property.secondary section.
         /// </summary>
         public const string PropertySecondary = "property.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den headline.prologue-Bereich
+        /// Returns or sets the headline.prologue section.
         /// </summary>
         public const string HeadlinePrologue = "headline.prologue";
 
         /// <summary>
-        /// Liefert oder setzt den headline.preferences-Bereich
+        /// Returns or sets the headline.preferences section.
         /// </summary>
         public const string HeadlinePreferences = "headline.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den headline.primary-Bereich
+        /// Returns or sets the headline.primary section.
         /// </summary>
         public const string HeadlinePrimary = "headline.primary";
 
         /// <summary>
-        /// Liefert oder setzt den headline.secondary-Bereich
+        /// Returns or sets the headline.secondary section.
         /// </summary>
         public const string HeadlineSecondary = "headline.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den more.preferences-Bereich
+        /// Returns or sets the more.preferences section.
         /// </summary>
         public const string MorePreferences = "more.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den more.primary-Bereich
+        /// Returns or sets the more.primary section.
         /// </summary>
         public const string MorePrimary = "more.primary";
 
         /// <summary>
-        /// Liefert oder setzt den more.secondary-Bereich
+        /// Returns or sets the more.secondary section.
         /// </summary>
         public const string MoreSecondary = "more.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den metadata-Bereich
+        /// Returns or sets the metadata section.
         /// </summary>
         public const string Metadata = "metadata";
 
         /// <summary>
-        /// Liefert oder setzt den content.preferences-Bereich
+        /// Returns or sets the content.preferences section.
         /// </summary>
         public const string ContentPreferences = "content.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den content.primary-Bereich
+        /// Returns or sets the content.primary section.
         /// </summary>
         public const string ContentPrimary = "content.primary";
 
         /// <summary>
-        /// Liefert oder setzt den content.secondary-Bereich
+        /// Returns or sets the content.secondary section.
         /// </summary>
         public const string ContentSecondary = "content.secondary";
 
         /// <summary>
-        /// Liefert oder setzt den footer.preferences-Bereich
+        /// Returns or sets the footer.preferences section.
         /// </summary>
         public const string FooterPreferences = "footer.preferences";
 
         /// <summary>
-        /// Liefert oder setzt den footer.primary-Bereich
+        /// Returns or sets the footer.primary section.
         /// </summary>
         public const string FooterPrimary = "footer.primary";
 
         /// <summary>
-        /// Liefert oder setzt den footer.secondary-Bereich
+        /// Returns or sets the footer.secondary section.
         /// </summary>
         public const string FooterSecondary = "footer.secondary";
 

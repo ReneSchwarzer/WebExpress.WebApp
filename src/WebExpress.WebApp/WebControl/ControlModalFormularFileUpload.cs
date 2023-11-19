@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebExpress.WebHtml;
-using WebExpress.WebMessage;
-using WebExpress.WebPage;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebMessage;
+using WebExpress.Core.WebPage;
 using WebExpress.WebUI.WebControl;
-using static WebExpress.Internationalization.InternationalizationManager;
+using static WebExpress.Core.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebControl
 {
     public class ControlModalFormularFileUpload : ControlModalFormular
     {
         /// <summary>
-        /// Liefert die Akzeptierten Datein
+        /// Returns or sets the files that are accepted.
         /// </summary>
         public ICollection<string> AcceptFile { get => File.AcceptFile; set => File.AcceptFile = value; }
 
         /// <summary>
-        /// Event wird ausgelöst, wenn das Hochladen bestätigt wurde
+        /// Event is triggered when the upload is confirmed.
         /// </summary>
         public event EventHandler<FormularUploadEventArgs> Upload;
 
         /// <summary>
-        /// Liefert oder setzt das Dokument
+        /// Returns or sets the document.
         /// </summary>
         public ControlFormItemInputFile File { get; } = new ControlFormItemInputFile()
         {
@@ -38,22 +38,22 @@ namespace WebExpress.WebApp.WebControl
         public PropertyIcon ButtonIcon { get; set; }
 
         /// <summary>
-        /// Returns or sets the color. der Schaltfläche
+        /// Returns or sets the button color.
         /// </summary>
         public PropertyColorButton ButtonColor { get; set; }
 
         /// <summary>
-        /// Returns or sets the label. der Schaltfläche
+        /// Returns or sets the button label.
         /// </summary>
         public string ButtonLabel { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Prolog
+        /// Teh prologue.
         /// </summary>
         private ControlFormItem prologue;
 
         /// <summary>
-        /// Liefert oder setzt den Prolog
+        /// Returns or sets the prologue area.
         /// </summary>
         public ControlFormItem Prologue
         {
@@ -62,13 +62,13 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Liefert oder setzt den Epilog
+        /// The epilogue.
         /// </summary>
         private ControlFormItem epilogue;
 
 
         /// <summary>
-        /// Liefert oder setzt den Epilog
+        /// Returns or sets the epilogue area.
         /// </summary>
         public ControlFormItem Epilogue
         {
@@ -84,7 +84,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlModalFormularFileUpload(string id = null)
             : this(id, null)
         {
@@ -93,7 +93,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         /// <param name="content">Die Formularsteuerelemente</param>
         public ControlModalFormularFileUpload(string id, params ControlFormItem[] content)
             : base(id, string.Empty, content)
@@ -118,9 +118,9 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Validierung der Uploaddatei
+        /// Validation of the upload file.
         /// </summary>
-        /// <param name="sender">Der Auslöser</param>
+        /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
         private void OnValidationFile(object sender, ValidationEventArgs e)
         {
@@ -133,7 +133,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Processing of the resource. des Formulares
         /// </summary>
-        /// <param name="sender">Der Auslöser</param>
+        /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
         private void OnProcessFormular(object sender, FormularEventArgs e)
         {

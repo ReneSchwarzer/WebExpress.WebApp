@@ -1,8 +1,8 @@
-﻿using WebExpress.WebHtml;
-using WebExpress.Internationalization;
+﻿using WebExpress.Core.Internationalization;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
-using WebExpress.WebPage;
 
 namespace WebExpress.WebApp.WebFragment
 {

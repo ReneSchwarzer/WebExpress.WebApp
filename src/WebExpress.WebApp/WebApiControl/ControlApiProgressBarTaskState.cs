@@ -1,25 +1,25 @@
 ﻿using System;
-using WebExpress.WebHtml;
+using WebExpress.Core.WebComponent;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebUI.WebControl;
-using WebExpress.WebComponent;
-using WebExpress.WebPage;
 
 namespace WebExpress.WebApp.WebApiControl
 {
     /// <summary>
-    /// Fortschrittsbalken für Aufgaben (Task)
+    /// Task progress bar.
     /// </summary>
     public class ControlApiProgressBarTaskState : ControlProgressBar
     {
         /// <summary>
-        /// Java-Script-Funktion, welche aufgerufen wird, wenn die Aufgabe abgeschlossen ist 
+        /// Returns or sets the Java script function, which is called when the task is completed.
         /// </summary>
         public string OnFinishScript { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlApiProgressBarTaskState(string id)
             : base(id ?? Guid.NewGuid().ToString())
         {
@@ -40,6 +40,5 @@ namespace WebExpress.WebApp.WebApiControl
 
             return base.Render(context);
         }
-
     }
 }

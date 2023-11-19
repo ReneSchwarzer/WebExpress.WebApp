@@ -1,5 +1,5 @@
-﻿using WebExpress.WebAttribute;
-using WebExpress.WebModule;
+﻿using WebExpress.Core.WebAttribute;
+using WebExpress.Core.WebModule;
 
 namespace WebExpress.WebApp
 {

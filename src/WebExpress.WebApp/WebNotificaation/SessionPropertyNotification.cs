@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using WebExpress.WebSession;
+using WebExpress.Core.WebSession;
 
 namespace WebExpress.WebApp.WebNotificaation
 {
     /// <summary>
-    /// Sammlung der Nachrichten
-    /// Key = BenachrichtigungsId
-    /// Value = Benachrichtigung
+    /// Collection of notifications.
+    /// Key = The notification id.
+    /// Value = The notification.
     /// </summary>
     public class SessionPropertyNotification : Dictionary<string, Notification>, ISessionProperty
     {

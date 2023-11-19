@@ -1,4 +1,4 @@
-﻿using WebExpress.WebMessage;
+﻿using WebExpress.Core.WebMessage;
 using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
@@ -6,7 +6,7 @@ namespace WebExpress.WebApp.WebControl
     public class FormularUploadEventArgs : FormularEventArgs
     {
         /// <summary>
-        /// Liefert oder setzt die Datei
+        /// Returns or sets the file.
         /// </summary>
         public ParameterFile File { get; set; }
 

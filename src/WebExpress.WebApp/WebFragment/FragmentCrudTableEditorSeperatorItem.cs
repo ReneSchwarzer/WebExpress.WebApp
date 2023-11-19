@@ -1,7 +1,7 @@
 ﻿namespace WebExpress.WebApp.WebFragment
 {
     /// <summary>
-    /// Metainformationen einer CRUD-Tabellenfunktion
+    /// Meta information of a CRUD table function.
     /// </summary>
     public class FragmentCrudTableEditorSeperatorItem : FragmentCrudTableEditorItem
     {

@@ -1,30 +1,30 @@
 ﻿using System;
-using WebExpress.WebHtml;
+using WebExpress.Core.WebComponent;
+using WebExpress.Core.WebHtml;
+using WebExpress.Core.WebPage;
 using WebExpress.WebUI.WebControl;
-using WebExpress.WebComponent;
-using WebExpress.WebPage;
 
 namespace WebExpress.WebApp.WebApiControl
 {
     /// <summary>
-    /// Dialog, welcher die Fortschrittsanzeige eines WebTask enthält
+    /// Dialog that contains the progress bar of a web task.
     /// </summary>
     public class ControlApiModalProgressTaskState : ControlModal
     {
         /// <summary>
-        /// Liefert die Fortschrittsanzeige
+        /// Returns or sets the progress bar.
         /// </summary>
         private ControlProgressBar ProgressBar { get; set; }
 
         /// <summary>
-        /// Liefert die Fortschrittnachricht
+        /// Returns or sets the progress message.
         /// </summary>
         private ControlText Message { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlApiModalProgressTaskState(string id)
             : base(id ?? Guid.NewGuid().ToString())
         {

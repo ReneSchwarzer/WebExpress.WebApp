@@ -1,4 +1,4 @@
-﻿using WebExpress.WebJob;
+﻿using WebExpress.Core.WebJob;
 
 namespace WebExpress.WebApp.WebJob
 {
