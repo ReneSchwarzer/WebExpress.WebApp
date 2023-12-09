@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using System.Security;
-using WebExpress.Internationalization;
-using WebExpress.WebApplication;
-using WebExpress.WebAttribute;
-using WebExpress.WebModule;
-using WebExpress.WebPlugin;
+using WebExpress.WebCore;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebApplication;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebModule;
+using WebExpress.WebCore.WebPlugin;
 
 namespace WebExpress.WebApp.WebIdentity
 {
     /// <summary>
-    /// Verwaltung der Identitäten (Benutzer)
+    /// Management of identities (users).
     /// </summary>
     public class IdentityManager
     {
@@ -19,17 +20,17 @@ namespace WebExpress.WebApp.WebIdentity
         public IHttpServerContext HttpServerContext { get; private set; }
 
         /// <summary>
-        /// Ermittelt die aktuelle angemeldete Identität
+        /// Returns the current signed-in identity.
         /// </summary>
         public static IIdentity CurrentIdentity { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Verweis auf Kontext des Plugins
+        /// Returns or sets the reference to the context of the plugin.
         /// </summary>
         private static IPluginContext Context { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt das Verzeichnis, indem Returns or sets the id.entitäten, Rollen und Ressourcen gelistet sind
+        /// Returns the directory by listing the entities, roles, and resources.
         /// </summary>
         private static IdentityDictionary Dictionary { get; } = new IdentityDictionary();
 
@@ -45,7 +46,7 @@ namespace WebExpress.WebApp.WebIdentity
         }
 
         /// <summary>
-        /// Fügt Identitäts-Einträge hinzu
+        /// Adds identity entries.
         /// </summary>
         /// <param name="context">The context that applies to the execution of the plugin.</param>
         public void Register(IModuleContext context)
@@ -77,53 +78,51 @@ namespace WebExpress.WebApp.WebIdentity
 
                 if (string.IsNullOrWhiteSpace(moduleId))
                 {
-                    // Es wurde kein Modul angebgeben
+                    // no module has been specified
                     HttpServerContext.Log.Warning(message: InternationalizationManager.I18N("webexpress:identitymanager.moduleless"), args: id);
 
                     continue;
                 }
 
-                // Zugehörige Modul ermitteln. 
+                // identify the associated module
                 //var module = ModuleManager.GetModule(context.Application, moduleId);
 
                 //if (module == null || !(module.ModuleId == context.ModuleId && module.Application.ApplicationId == context.Application.ApplicationId))
                 //{
                 //    continue;
                 //}
-
-
             }
         }
 
         /// <summary>
-        /// Meldet eine Identität an
+        /// Registers an identity.
         /// </summary>
-        /// <param name="identity">Returns or sets the id.entität</param>
+        /// <param name="identity">The identity.</param>
         public static void Register(IIdentity identity)
         {
 
         }
 
         /// <summary>
-        /// Meldet eine Rolle an
+        /// Registers a role.
         /// </summary>
-        /// <param name="role">Die (Identitäts-)Rolle</param>
+        /// <param name="role">The (identity) role.</param>
         public static void Register(IIdentityRole role)
         {
 
         }
 
         /// <summary>
-        /// Meldet eine Ressource an
+        /// Registers a resource.
         /// </summary>
-        /// <param name="resource">Die Ressorce</param>
+        /// <param name="resource">The resource.</param>
         public static void Register(IIdentityResource resource)
         {
 
         }
 
         /// <summary>
-        /// Entfernt alle Identitäten, Rollen und Ressourcen einer Anwendung
+        /// Removes all identities, roles, and resources of an application.
         /// </summary>
         /// <param name="application">Die Anwendung</param>
         public static void Unregister(IApplicationContext application)
@@ -132,18 +131,18 @@ namespace WebExpress.WebApp.WebIdentity
         }
 
         /// <summary>
-        /// MEldet eine Identität an
+        /// Login an identity.
         /// </summary>
-        /// <param name="login">Die Loginkennung</param>
-        /// <param name="password">Das Passwort</param>
-        /// <returns>true wenn erfolgreich, false sonst</returns>
+        /// <param name="login">The login id.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>True if successful, false otherwise.</returns>
         public static bool Login(string login, SecureString password)
         {
             return false;
         }
 
         /// <summary>
-        /// Loggt die aktuell angemeldete Identität ab
+        /// Logout an identity.
         /// </summary>
         public static void Logout()
         {
@@ -151,10 +150,10 @@ namespace WebExpress.WebApp.WebIdentity
         }
 
         /// <summary>
-        /// Prüft, ob Zugriffsrechte vorhanden sind
+        /// Checks for access rights.
         /// </summary>
         /// <param name="identiy">Returns or sets the id.entität</param>
-        /// <param name="mode">Der Zugriffsmodus Read|Write|Execute</param>
+        /// <param name="mode">The access mode (read | write | execute).</param>
         public static void CheckAccess(IIdentity identiy, string mode)
         {
 

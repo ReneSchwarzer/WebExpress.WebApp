@@ -3,17 +3,17 @@
     public class Pagination
     {
         /// <summary>
-        /// Liefert oder setzt die Anzahl der Einträge pro Seiten
+        /// Returns or sets the number of entries per page.
         /// </summary>
         public int Count { get; set; } = 50;
 
         /// <summary>
-        /// Liefert oder setzt die Gesamtanzahl der Seiten
+        /// Returns or sets the total number of pages.
         /// </summary>
         public int Total { get; set; } = 1;
 
         /// <summary>
-        /// Liefert oder setzt die Seitennummer der aktuellen Seite
+        /// Returns or sets the page number of the current page.
         /// </summary>
         public int Current { get; set; } = 0;
     }

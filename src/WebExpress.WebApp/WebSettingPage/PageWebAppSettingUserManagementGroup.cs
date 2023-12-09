@@ -1,14 +1,14 @@
 ﻿using System.Linq;
-using WebExpress.WebUI.WebAttribute;
-using WebExpress.WebUI.WebControl;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebResource;
+using WebExpress.WebCore.WebScope;
+using WebExpress.WebCore.WebUri;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebApp.WebScope;
 using WebExpress.WebApp.WebUser;
-using WebExpress.WebAttribute;
-using WebExpress.WebResource;
-using WebExpress.WebScope;
-using WebExpress.WebUri;
+using WebExpress.WebUI.WebAttribute;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebSettingPage
 {

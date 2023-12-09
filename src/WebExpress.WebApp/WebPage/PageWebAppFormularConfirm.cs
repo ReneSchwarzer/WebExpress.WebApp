@@ -1,6 +1,6 @@
-﻿using WebExpress.WebUI.WebControl;
+﻿using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebControl;
-using WebExpress.WebResource;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebPage
 {

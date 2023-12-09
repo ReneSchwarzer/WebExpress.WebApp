@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using WebExpress.WebHtml;
-using WebExpress.WebPage;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebApiControl
@@ -12,24 +12,24 @@ namespace WebExpress.WebApp.WebApiControl
     public class ControlApiTable : ControlPanel, IControlApi
     {
         /// <summary>
-        /// Liefert oder setzt die Uri, welche die Daten ermittelt
+        /// Returns or sets the uri that determines the data.
         /// </summary>
         public string RestUri { get; set; }
 
         /// <summary>
-        /// Setzt oder liefert die Einstellungen für die Bearbeitungsoptionen (z.B. Edit, Delete, ...)
+        /// Returns or sets the settings for the editing options (e.g. Edit, Delete, ...).
         /// </summary>
         public ControlApiTableOption OptionSettings { get; private set; } = new ControlApiTableOption();
 
         /// <summary>
-        /// Setzt oder liefert die Bearbeitungsoptionen (z.B. Edit, Delete, ...)
+        /// Returns or sets the editing options (e.g. Edit, Delete, ...).
         /// </summary>
         public ICollection<ControlApiTableOptionItem> OptionItems { get; private set; } = new List<ControlApiTableOptionItem>();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlApiTable(string id = null)
             : base(id ?? Guid.NewGuid().ToString())
         {

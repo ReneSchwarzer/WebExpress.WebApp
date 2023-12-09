@@ -34,7 +34,7 @@ namespace WebExpress.WebApp.WebResource
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="label">Die Beschriftung der Splalte</param>
+        /// <param name="label">The label of the column.</param>
         public ResourceRestCrudColumn(string label)
         {
             Label = label;

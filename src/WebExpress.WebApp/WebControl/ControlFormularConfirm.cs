@@ -1,8 +1,8 @@
 ﻿using System;
-using WebExpress.WebHtml;
-using WebExpress.Internationalization;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
-using WebExpress.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -38,7 +38,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlFormularConfirm(string id = null)
             : base(id, null)
         {

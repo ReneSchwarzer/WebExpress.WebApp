@@ -1,35 +1,35 @@
 ﻿using System.Collections.Generic;
-using WebExpress.WebHtml;
-using WebExpress.WebUI.WebControl;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebApp.WebPage;
-using WebExpress.WebPage;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Header für eine WebApp
+    /// Header for a web app.
     /// </summary>
     public class ControlWebAppHeaderAppNavigation : ControlPanelFlexbox
     {
         /// <summary>
-        /// Liefert oder setzt den den Bereich für die App-Navigation
+        /// Returns or sets the preferences area.
         /// </summary>
         public List<IControlNavigationItem> Preferences { get; protected set; } = new List<IControlNavigationItem>();
 
         /// <summary>
-        /// Liefert oder setzt den den Bereich für die App-Navigation
+        /// Returns or sets the primary area.
         /// </summary>
         public List<IControlNavigationItem> Primary { get; protected set; } = new List<IControlNavigationItem>();
 
         /// <summary>
-        /// Liefert oder setzt den den Bereich für die App-Navigation
+        /// Returns or sets the secondary area.
         /// </summary>
         public List<IControlNavigationItem> Secondary { get; protected set; } = new List<IControlNavigationItem>();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlWebAppHeaderAppNavigation(string id = null)
             : base(id)
         {

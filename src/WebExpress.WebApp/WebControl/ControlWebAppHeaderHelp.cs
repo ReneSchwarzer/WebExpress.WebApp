@@ -1,35 +1,35 @@
 ﻿using System.Collections.Generic;
-using WebExpress.WebHtml;
-using WebExpress.Internationalization;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
-using WebExpress.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Header für eine WebApp
+    /// Help control for a WebApp.
     /// </summary>
     public class ControlWebAppHeaderHelp : Control
     {
         /// <summary>
-        /// Liefert oder setzt den den Bereich für die App-Navigation
+        /// Returns or sets the preferences area.
         /// </summary>
         public List<IControlDropdownItem> Preferences { get; protected set; } = new List<IControlDropdownItem>();
 
         /// <summary>
-        /// Liefert oder setzt den den Bereich für die App-Navigation
+        /// Returns or sets the primary area.
         /// </summary>
         public List<IControlDropdownItem> Primary { get; protected set; } = new List<IControlDropdownItem>();
 
         /// <summary>
-        /// Liefert oder setzt den den Bereich für die App-Navigation
+        /// Returns or sets the secondary area.
         /// </summary>
         public List<IControlDropdownItem> Secondary { get; protected set; } = new List<IControlDropdownItem>();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The controls id.</param>
         public ControlWebAppHeaderHelp(string id = null)
             : base(id)
         {

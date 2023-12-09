@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.WebHtml;
-using WebExpress.WebUI.WebControl;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebApp.WebPage;
-using WebExpress.WebPage;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Inhalt einer WebApp-Seite
+    /// Content of a web app page.
     /// </summary>
     public class ControlWebAppContent : ControlPanel
     {
         /// <summary>
-        /// Liefert das Mainpanel
+        /// Returns the main panel.
         /// </summary>
         private ControlPanelMain MainPanel { get; } = new ControlPanelMain("webexpress.webapp.content.main")
         {
@@ -24,7 +24,7 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert die Flexbox
+        /// Returns the flexbox.
         /// </summary>
         private ControlPanelFlexbox Flexbox { get; } = new ControlPanelFlexbox()
         {
@@ -33,39 +33,39 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert oder setzt den Seiteneigenschaften
+        /// Returns the page properties.
         /// </summary>
         public ControlWebAppProperty Property { get; } = new ControlWebAppProperty("webexpress.webapp.content.property");
 
         /// <summary>
-        /// Liefert oder setzt den Werkzeugleiste
+        /// Returns the toolbar.
         /// </summary>
         public ControlToolbar Toolbar { get; } = new ControlToolbar("webexpress.webapp.content.toolbar");
 
         /// <summary>
-        /// Liefert oder setzt das Überschriftssteuerelement
+        /// Returns the headline control.
         /// </summary>
         public ControlWebAppHeadline Headline { get; } = new ControlWebAppHeadline("webexpress.webapp.content.main.headline");
 
         /// <summary>
-        /// Liefert oder setzt den den Bereich für Präferenzen
+        /// Returns the preferences area.
         /// </summary>
         public List<IControl> Preferences { get; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den den Primärbereich für die Steuerelemente
+        /// Returns the primary area.
         /// </summary>
         public List<IControl> Primary { get; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den den sekundären Bereich für die Steuerelemente
+        /// Returns the secondary area.
         /// </summary>
         public List<IControl> Secondary { get; } = new List<IControl>();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlWebAppContent(string id = null)
             : base(id)
         {

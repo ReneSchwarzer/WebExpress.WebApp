@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Linq;
-using WebExpress.WebAttribute;
-using WebExpress.WebComponent;
-using WebExpress.WebMessage;
-using WebExpress.WebResource;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebResource;
 
 namespace WebExpress.WebApp.WebAPI.V1
 {

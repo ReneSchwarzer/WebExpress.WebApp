@@ -1,10 +1,10 @@
 ﻿using System;
-using WebExpress.Internationalization;
-using WebExpress.WebUI.WebControl;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebNotificaation;
 using WebExpress.WebApp.WebSettingPage;
-using WebExpress.WebComponent;
-using WebExpress.WebResource;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebPage
 {
@@ -14,7 +14,7 @@ namespace WebExpress.WebApp.WebPage
     public abstract class PageWebAppSettingFormular<T> : PageWebAppSetting where T : ControlForm, new()
     {
         /// <summary>
-        /// Returns the form
+        /// Returns the form.
         /// </summary>
         protected T Form { get; private set; }
 
@@ -29,7 +29,7 @@ namespace WebExpress.WebApp.WebPage
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The page id.</param>
         public PageWebAppSettingFormular(string id)
         {
             Form = Activator.CreateInstance(typeof(T), id) as T;

@@ -1,9 +1,9 @@
 ﻿using System;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebApp.WebUser;
-using WebExpress.WebHtml;
-using WebExpress.WebPage;
 using WebExpress.WebUI.WebControl;
-using static WebExpress.Internationalization.InternationalizationManager;
+using static WebExpress.WebCore.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -22,7 +22,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlModalFormularGroupDelete(string id = null)
             : base("delete_" + id)
         {

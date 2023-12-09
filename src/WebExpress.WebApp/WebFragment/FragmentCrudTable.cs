@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.WebHtml;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebFragment;
-using WebExpress.WebPage;
-using static WebExpress.Internationalization.InternationalizationManager;
+using static WebExpress.WebCore.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebFragment
 {
@@ -22,7 +22,7 @@ namespace WebExpress.WebApp.WebFragment
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The fragment id.</param>
         public FragmentCrudTable(string id = null)
             : base(id)
         {

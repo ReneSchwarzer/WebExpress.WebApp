@@ -1,6 +1,6 @@
-﻿using WebExpress.WebUI.WebControl;
+﻿using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebControl;
-using WebExpress.WebResource;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebPage
 {
@@ -12,7 +12,7 @@ namespace WebExpress.WebApp.WebPage
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The page id.</param>
         public PageWebAppSettingFormularConfirm()
         {
         }
@@ -20,7 +20,7 @@ namespace WebExpress.WebApp.WebPage
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The page id.</param>
         public PageWebAppSettingFormularConfirm(string id)
             : base(id)
         {

@@ -8,14 +8,14 @@ namespace WebExpress.WebApp.WebApiControl;
 public class ControlApiFormularItemInputSelection : ControlFormItemInputSelection, IControlApi
 {
     /// <summary>
-    /// Liefert oder setzt die Uri, welche die Optionen ermittelt
+    /// Returns or sets the uri that determines the options.
     /// </summary>
     public string RestUri { get; set; }
 
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="id">The id.</param>
+    /// <param name="id">The control id.</param>
     public ControlApiFormularItemInputSelection(string id = null)
         : base(id)
     {
@@ -25,7 +25,7 @@ public class ControlApiFormularItemInputSelection : ControlFormItemInputSelectio
     /// Generates the javascript to control the control.
     /// </summary>
     /// <param name="context">The context in which the control is rendered.</param>
-    /// <param name="id">The ID of the control.</param>
+    /// <param name="id">The id of the control.</param>
     /// <param name="css">The CSS classes that are assigned to the control.</param>
     /// <returns>The javascript code.</returns>
     protected override string GetScript(RenderContextFormular context, string id, string css)

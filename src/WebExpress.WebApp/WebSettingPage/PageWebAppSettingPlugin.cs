@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
-using WebExpress.Internationalization;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebPage;
+using WebExpress.WebCore.WebResource;
+using WebExpress.WebCore.WebScope;
+using WebExpress.WebCore.WebTask;
 using WebExpress.WebApp.WebApiControl;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebApp.WebScope;
-using WebExpress.WebAttribute;
-using WebExpress.WebComponent;
-using WebExpress.WebMessage;
-using WebExpress.WebPage;
-using WebExpress.WebResource;
-using WebExpress.WebScope;
-using WebExpress.WebTask;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 

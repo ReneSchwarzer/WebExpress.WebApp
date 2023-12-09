@@ -1,36 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.WebHtml;
-using WebExpress.WebUI.WebControl;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebApp.WebPage;
-using WebExpress.WebPage;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Properties für eine WebApp
+    /// Properties for a web app.
     /// </summary>
     public class ControlWebAppProperty : Control
     {
         /// <summary>
-        /// Liefert oder setzt den den Bereich für Präferenzen
+        /// Returns or sets the preferences area.
         /// </summary>
         public List<IControl> Preferences { get; protected set; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den den Primärbereich für die Steuerelemente
+        /// Returns or sets the primary area.
         /// </summary>
         public List<IControl> Primary { get; protected set; } = new List<IControl>();
 
         /// <summary>
-        /// Liefert oder setzt den den sekundären Bereich für die Steuerelemente
+        /// Returns or sets the secondary area.
         /// </summary>
         public List<IControl> Secondary { get; protected set; } = new List<IControl>();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="id">The control id.</param>
         public ControlWebAppProperty(string id = null)
             : base(id)
         {
