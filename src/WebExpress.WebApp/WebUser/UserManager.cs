@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using WebExpress.Core;
-using static WebExpress.Core.Internationalization.InternationalizationManager;
+using WebExpress.WebCore;
+using static WebExpress.WebCore.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebUser
 {

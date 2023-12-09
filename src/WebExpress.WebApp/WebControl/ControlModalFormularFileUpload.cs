@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebExpress.Core.WebHtml;
-using WebExpress.Core.WebMessage;
-using WebExpress.Core.WebPage;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
-using static WebExpress.Core.Internationalization.InternationalizationManager;
+using static WebExpress.WebCore.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebControl
 {

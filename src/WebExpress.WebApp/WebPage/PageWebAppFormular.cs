@@ -1,7 +1,7 @@
 ﻿using System;
-using WebExpress.Core.Internationalization;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebResource;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebNotificaation;
 using WebExpress.WebUI.WebControl;
 

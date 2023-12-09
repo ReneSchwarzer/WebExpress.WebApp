@@ -1,7 +1,7 @@
-﻿using WebExpress.Core.WebMessage;
-using WebExpress.Core.WebResource;
-using WebExpress.Core.WebStatusPage;
-using WebExpress.Core.WebUri;
+﻿using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebResource;
+using WebExpress.WebCore.WebStatusPage;
+using WebExpress.WebCore.WebUri;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.WebControl;

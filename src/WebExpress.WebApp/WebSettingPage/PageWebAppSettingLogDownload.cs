@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebMessage;
-using WebExpress.Core.WebResource;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebScope;
 
 namespace WebExpress.WebApp.WebSettingPage

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebResource;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.SettingPage;
 using WebExpress.WebUI.WebAttribute;

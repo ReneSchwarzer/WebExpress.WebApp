@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebMessage;
-using WebExpress.Core.WebResource;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebNotificaation;
 
 namespace WebExpress.WebApp.WebAPI.V1

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.Core.WebHtml;
-using WebExpress.Core.WebPage;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebFragment;
-using static WebExpress.Core.Internationalization.InternationalizationManager;
+using static WebExpress.WebCore.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebFragment
 {

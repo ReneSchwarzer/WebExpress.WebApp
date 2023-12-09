@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebHtml;
-using WebExpress.Core.WebResource;
-using WebExpress.Core.WebUri;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebResource;
+using WebExpress.WebCore.WebUri;
 using WebExpress.WebApp.WebApiControl;
 using WebExpress.WebApp.WebFragment;
 using WebExpress.WebUI.WebControl;

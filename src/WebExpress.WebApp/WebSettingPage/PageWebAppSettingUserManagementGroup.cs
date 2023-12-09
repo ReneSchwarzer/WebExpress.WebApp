@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebResource;
-using WebExpress.Core.WebScope;
-using WebExpress.Core.WebUri;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebResource;
+using WebExpress.WebCore.WebScope;
+using WebExpress.WebCore.WebUri;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebApp.WebScope;

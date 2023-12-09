@@ -1,4 +1,4 @@
-﻿using WebExpress.Core.WebPage;
+﻿using WebExpress.WebCore.WebPage;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebUI.WebFragment;
 

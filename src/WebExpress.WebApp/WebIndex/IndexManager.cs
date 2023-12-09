@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebExpress.Core;
-using WebExpress.Core.Internationalization;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebPlugin;
+using WebExpress.WebCore;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebPlugin;
 using WebExpress.WebIndex;
 
 namespace WebExpress.WebApp.WebIndex

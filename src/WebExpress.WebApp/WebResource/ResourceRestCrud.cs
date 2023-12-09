@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebMessage;
-using WebExpress.Core.WebResource;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebIndex;
 using WebExpress.WebIndex.Wql;
 

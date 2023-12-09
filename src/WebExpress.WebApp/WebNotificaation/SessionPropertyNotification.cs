@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebExpress.Core.WebSession;
+using WebExpress.WebCore.WebSession;
 
 namespace WebExpress.WebApp.WebNotificaation
 {

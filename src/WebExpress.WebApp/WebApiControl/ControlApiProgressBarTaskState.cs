@@ -1,7 +1,7 @@
 ﻿using System;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebHtml;
-using WebExpress.Core.WebPage;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebApiControl

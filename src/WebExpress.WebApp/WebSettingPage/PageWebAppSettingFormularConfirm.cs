@@ -1,4 +1,4 @@
-﻿using WebExpress.Core.WebResource;
+﻿using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebUI.WebControl;
 

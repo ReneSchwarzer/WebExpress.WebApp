@@ -1,4 +1,4 @@
-﻿using WebExpress.Core.WebScope;
+﻿using WebExpress.WebCore.WebScope;
 
 namespace WebExpress.WebApp.WebScope
 {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebJob;
-using WebExpress.Core.WebPage;
-using WebExpress.Core.WebPlugin;
-using WebExpress.Core.WebResource;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebJob;
+using WebExpress.WebCore.WebPage;
+using WebExpress.WebCore.WebPlugin;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebApp.WebJob;
 using WebExpress.WebApp.WebScope;
 using WebExpress.WebUI.WebSettingPage;

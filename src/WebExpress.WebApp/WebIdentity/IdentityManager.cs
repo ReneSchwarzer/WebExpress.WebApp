@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Security;
-using WebExpress.Core;
-using WebExpress.Core.Internationalization;
-using WebExpress.Core.WebApplication;
-using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebModule;
-using WebExpress.Core.WebPlugin;
+using WebExpress.WebCore;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebApplication;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebModule;
+using WebExpress.WebCore.WebPlugin;
 
 namespace WebExpress.WebApp.WebIdentity
 {

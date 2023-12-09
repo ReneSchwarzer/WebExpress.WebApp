@@ -1,7 +1,7 @@
-﻿using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebComponent;
-using WebExpress.Core.WebHtml;
-using WebExpress.Core.WebPage;
+﻿using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;

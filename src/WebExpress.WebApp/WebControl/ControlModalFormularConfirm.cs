@@ -1,7 +1,7 @@
 ﻿using System;
-using WebExpress.Core.Internationalization;
-using WebExpress.Core.WebHtml;
-using WebExpress.Core.WebPage;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl

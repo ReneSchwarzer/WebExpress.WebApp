@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using WebExpress.Core;
-using WebExpress.Core.Internationalization;
-using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebResource;
-using WebExpress.Core.WebScope;
+using WebExpress.WebCore;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebResource;
+using WebExpress.WebCore.WebScope;
 using WebExpress.WebApp.WebPage;
 using WebExpress.WebApp.WebScope;
 using WebExpress.WebUI.WebAttribute;

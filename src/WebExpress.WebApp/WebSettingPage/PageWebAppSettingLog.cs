@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using WebExpress.Core;
-using WebExpress.Core.Internationalization;
-using WebExpress.Core.WebAttribute;
-using WebExpress.Core.WebMessage;
-using WebExpress.Core.WebScope;
+using WebExpress.WebCore;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebScope;
 using WebExpress.Internationalization;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebPage;

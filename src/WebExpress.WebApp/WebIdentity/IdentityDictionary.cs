@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebExpress.Core.WebModule;
+using WebExpress.WebCore.WebModule;
 
 namespace WebExpress.WebApp.WebIdentity
 {
