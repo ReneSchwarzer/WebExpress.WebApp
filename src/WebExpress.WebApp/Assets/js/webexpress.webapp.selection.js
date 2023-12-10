@@ -1,5 +1,5 @@
 /**
- * Eine Dopdown-Box mit Funktionen für Create, Read, Update und Delate
+ * A dopdown box with features for create, read, update, and delete.
  */
 webexpress.webapp.selectionCtrl = class extends webexpress.webui.selectionCtrl {
     _optionUri = "";
@@ -7,11 +7,11 @@ webexpress.webapp.selectionCtrl = class extends webexpress.webui.selectionCtrl {
 
     /**
      * Constructor
-     * @param settings Optionen zur Gestaltung des Steuerelementes
-     *        - Id Returns or sets the id. des Steuerelements
-     *        - CSS CSS-Klasse zur Gestaltung des Steuerelementes
-     *        - Placeholder Der Platzhaltertext
-     *        - OptionUri Die Uri der REST-API-Schnittstelle, welche die Optionen ermittelt
+     * @param settings Options for styling the control:
+     *        - Id Sets the id of the control.
+     *        - CSS The css class used to design the control.
+     *        - Placeholder The placeholder text.
+     *        - OptionUri The uri of the rest api interface that collects the options.
      */
     constructor(settings) {
         super(settings);
@@ -25,7 +25,7 @@ webexpress.webapp.selectionCtrl = class extends webexpress.webui.selectionCtrl {
     }
 
      /**
-      * Daten aus REST-Schnitstelle abrufen
+      * Retrieve data from rest api.
       * @param filter Die Filtereinstellungen
       */
     receiveData(filter) {

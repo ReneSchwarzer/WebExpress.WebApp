@@ -1,5 +1,5 @@
 /**
- * Eine Tabelle mit Funktionen für Create, Read, Update und Delate
+ * A table with functions for create, read, update, and delete.
  */
 webexpress.webapp.tableCtrl = class extends webexpress.webui.tableCtrl {
     _restUri = "";
@@ -10,11 +10,11 @@ webexpress.webapp.tableCtrl = class extends webexpress.webui.tableCtrl {
 
     /**
      * Constructor
-     * @param settings Optionen zur Gestaltung des Steuerelementes
-     *        - id Returns or sets the id. des Steuerelements
-     *        - css CSS-Klasse zur Gestaltung des Steuerelementes
-     *        - placeholder Der Platzhaltertext
-     *        - resturi Die Uri der REST-API-Schnittstelle, welche die Daten ermittelt
+     * @param settings Options for styling the control:
+     *        - id Sets the id of the control.
+     *        - css The css class used to design the control.
+     *        - placeholder The placeholder text.
+     *        - resturi The uri of the rest api interface that collects the data.
      */
     constructor(settings) {
         super(settings);
@@ -33,8 +33,8 @@ webexpress.webapp.tableCtrl = class extends webexpress.webui.tableCtrl {
     }
 
     /**
-      * Daten aus REST-Schnitstelle abrufen
-      */
+     * Retrieve data from rest api.
+     */
     receiveData() {
         if (this._filter === undefined || this._filter == null) { this._filter = ""; }
         if (this._page === undefined || this._page == null) { this._page = 0; }
@@ -49,7 +49,7 @@ webexpress.webapp.tableCtrl = class extends webexpress.webui.tableCtrl {
     }
 
     /**
-    * Gibt das Steuerelement zurück
+    * Returns the control.
     */
     get getCtrl() {
         let div = $("<div/>")

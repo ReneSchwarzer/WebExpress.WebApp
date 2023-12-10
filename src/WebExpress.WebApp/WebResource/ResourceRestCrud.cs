@@ -12,9 +12,9 @@ namespace WebExpress.WebApp.WebResource
     public abstract class ResourceRestCrud<T> : ResourceRest where T : IIndexItem
     {
         /// <summary>
-        /// Returns or sets the lock object.
+        /// Returns the lock object.
         /// </summary>
-        protected object Guard { get; set; }
+        protected object Guard { get; } = new object();
 
         /// <summary>
         /// Processing of the resource that was called via the get request.
@@ -49,7 +49,7 @@ namespace WebExpress.WebApp.WebResource
                 return new { Columns = GetColumns(request) };
             }
 
-            lock (Guard ?? new object())
+            lock (Guard)
             {
                 var wqlStatement = ComponentManager.GetComponent<WebIndex.IndexManager>().ExecuteWql<T>(wql);
                 var data = GetData(wqlStatement, request);

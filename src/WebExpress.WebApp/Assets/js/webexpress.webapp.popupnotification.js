@@ -1,7 +1,7 @@
 /**
  * Popup-Benachrichtigungen
- * Folgende Events werden ausgelöst:
- * - webexpress.webapp.close mit Parameter id
+ * The following events are triggered:
+ * - webexpress.webapp.close with parameter id.
  */
 webexpress.webapp.popupNotificationCtrl = class extends webexpress.webui.events {
     _restUri = "";
@@ -10,10 +10,10 @@ webexpress.webapp.popupNotificationCtrl = class extends webexpress.webui.events 
 
     /**
      * Constructor
-     * @param settings Optionen zur Gestaltung des Steuerelementes
-     *        - id Returns or sets the id. des Steuerelements
-     *        - resturi Die Uri der REST-API-Schnittstelle, welche die Daten ermittelt
-     *        - intervall Das Intervall bestimmt den Zeitpunkt der REST-API-Anfragen
+     * @param settings Options for styling the control:
+     *        - id Sets the id of the control.
+     *        - resturi The uri of the rest api interface that collects the data.
+     *        - intervall The interval determines the timing of the rest api requests.
      */
     constructor(settings) {
         super();
@@ -33,8 +33,8 @@ webexpress.webapp.popupNotificationCtrl = class extends webexpress.webui.events 
     }
 
     /**
-      * Daten aus REST-Schnitstelle abrufen
-      */
+     * Retrieve data from rest api.
+     */
     receiveData() {
         let interval = null;
         
@@ -161,7 +161,7 @@ webexpress.webapp.popupNotificationCtrl = class extends webexpress.webui.events 
     }
 
     /**
-    * Gibt das Steuerelement zurück
+    * Returns the control.
     */
     get getCtrl() {
         return this._container;
