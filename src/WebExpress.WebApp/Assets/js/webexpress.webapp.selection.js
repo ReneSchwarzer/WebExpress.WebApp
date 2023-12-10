@@ -8,10 +8,12 @@ webexpress.webapp.selectionCtrl = class extends webexpress.webui.selectionCtrl {
     /**
      * Constructor
      * @param settings Options for styling the control:
-     *        - Id Sets the id of the control.
-     *        - CSS The css class used to design the control.
-     *        - Placeholder The placeholder text.
-     *        - OptionUri The uri of the rest api interface that collects the options.
+     *        - id Sets the id of the control.
+     *        - css The css class used to design the control.
+     *        - placeholder The placeholder text.
+     *        - hidedescription Disabled the description.
+     *        - multiselect Allows you to select multiple items.
+     *        - optionuri The uri of the rest api interface that collects the options.
      */
     constructor(settings) {
         super(settings);

@@ -36,6 +36,7 @@ public class ControlApiFormularItemInputSelection : ControlFormItemInputSelectio
             name = Name,
             css = css,
             placeholder = Placeholder,
+            hidedescription = HideDescription,
             multiSelect = MultiSelect,
             optionuri = RestUri?.ToString()
         };
