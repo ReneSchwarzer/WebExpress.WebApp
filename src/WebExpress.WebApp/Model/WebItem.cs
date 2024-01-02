@@ -1,42 +1,39 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 using WebExpress.WebIndex;
+using WebExpress.WebIndex.WebAttribute;
 
 namespace WebExpress.WebApp.Model
 {
     public class WebItem : IIndexItem
     {
         /// <summary>
-        /// Returns or sets the guid. des Objektes
+        /// Returns or sets the id.
         /// </summary>
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        [IndexIgnore]
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         /// <summary>
-        /// Returns or sets the guid. des Objektes
-        /// </summary>
-        [JsonPropertyName("guid")]
-        public string Guid { get; set; } = System.Guid.NewGuid().ToString();
-
-        /// <summary>
-        /// Die Uri
+        /// Returns or sets the uri of the web item.
         /// </summary>
         [JsonPropertyName("uri")]
         public virtual string Uri { get; set; }
 
         /// <summary>
-        /// Die Bezeichnung des Objektes
+        /// Returns or sets the label of the web item.
         /// </summary>
         [JsonPropertyName("label")]
         public virtual string Label { get; set; }
 
         /// <summary>
-        /// Die Name des Objektes
+        /// Returns or sets the name of the web item.
         /// </summary>
         [JsonPropertyName("name")]
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// Das Bild des Objektes
+        /// Returns or sets the image uri of the web item.
         /// </summary>
         [JsonPropertyName("image")]
         public virtual string Image { get; set; }
@@ -50,9 +47,9 @@ namespace WebExpress.WebApp.Model
 
         /// <summary>
         /// Copy-Constructor
-        /// Erstellt eine Tiefenkopie.
+        /// Creates a deep copy.
         /// </summary>
-        /// <param name="item">Das zu kopierende Objekt</param>
+        /// <param name="item">The web item to be copied.</param>
         public WebItem(WebItem item)
         {
             Id = item.Id;
@@ -63,9 +60,9 @@ namespace WebExpress.WebApp.Model
         }
 
         /// <summary>
-        /// Conversion to string.form
+        /// Conversion to string.
         /// </summary>
-        /// <returns>Das Objekt in seiner Stringrepräsentation</returns>
+        /// <returns>The object in its string representation.</returns>
         public override string ToString()
         {
             return $"{Name} ({Id})";

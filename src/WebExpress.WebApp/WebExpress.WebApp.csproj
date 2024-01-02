@@ -24,6 +24,12 @@
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="WebAttribute\**" />
+    <EmbeddedResource Remove="WebAttribute\**" />
+    <None Remove="WebAttribute\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\css\webexpress.webapp.css" />
 		<EmbeddedResource Include="Assets\css\webexpress.webapp.popupnotification.css" />
@@ -42,10 +48,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="WebAttribute\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Include="..\..\icon.png" Link="icon.png">
 	    <PackagePath>\</PackagePath>
 	    <Pack>True</Pack>
@@ -57,7 +59,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="WebExpress.WebCore" Version="0.0.7-alpha" />
 		<PackageReference Include="WebExpress.WebIndex" Version="0.0.7-alpha" />
 		<PackageReference Include="WebExpress.WebUI" Version="0.0.7-alpha" />
 	</ItemGroup>

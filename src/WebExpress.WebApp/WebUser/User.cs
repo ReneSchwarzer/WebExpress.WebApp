@@ -12,7 +12,7 @@ namespace WebExpress.WebApp.WebUser
         /// Returns or sets the id.
         /// </summary>
         [XmlAttribute("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Returns or sets the login id.
