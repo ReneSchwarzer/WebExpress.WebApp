@@ -2,40 +2,43 @@
 
 namespace WebExpress.WebApp.Model
 {
+    /// <summary>
+    /// Represents a user in the web item context.
+    /// </summary>
     public class WebItemUser : WebItem
     {
         /// <summary>
-        /// Die Bezeichnung des Objektes
+        /// Returns the label of the object.
         /// </summary>
         public override string Label => !string.IsNullOrWhiteSpace(Firstname) ? $"{Lastname}, {Firstname}" : Lastname;
 
         /// <summary>
-        /// Die Name des Objektes
+        /// Returns the name of the object.
         /// </summary>
         public override string Name => Label;
 
         /// <summary>
-        /// Liefert oder setzt den Loginnamen
+        /// Returns or sets the login name.
         /// </summary>
         public string Login { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Vornamen
+        /// Returns or sets the first name.
         /// </summary>
         public string Firstname { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Nachnamen
+        /// Returns or sets the last name.
         /// </summary>
         public string Lastname { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die Emailadresse
+        /// Returns or sets the email address.
         /// </summary>
         public string Email { get; set; }
 
         /// <summary>
-        /// Returns or sets the group.n
+        /// Returns or sets the groups.
         /// </summary>
         public IEnumerable<WebItemGroup> Groups { get; set; }
     }

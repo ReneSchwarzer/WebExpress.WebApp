@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/src/WebExpress.WebApp/WebExpress - Backup.WebApp.csproj

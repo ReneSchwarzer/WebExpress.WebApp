@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using WebExpress.WebCore;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebComponent;
@@ -14,11 +14,6 @@ namespace WebExpress.WebApp.WebIndex
         /// Returns the reference to the context of the host.
         /// </summary>
         public IHttpServerContext HttpServerContext { get; private set; }
-
-        /// <summary>
-        /// Returns an enumeration of the existing index documents.
-        /// </summary>
-        public Dictionary<Type, IIndexDocument> Documents { get; } = new Dictionary<Type, IIndexDocument>();
 
         /// <summary>
         /// Constructor
@@ -48,6 +43,8 @@ namespace WebExpress.WebApp.WebIndex
             (
                 InternationalizationManager.I18N("webexpress.webapp:indexmanager.initialization")
             );
+
+            Initialization(new IndexContext() { IndexDirectory = Path.Combine(context.DataPath, "index") });
         }
 
         /// <summary>

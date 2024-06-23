@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using WebExpress.WebUI.WebControl;
 using WebExpress.WebApp.WebUser;
+using WebExpress.WebUI.WebControl;
 
 
 namespace WebExpress.WebApp.WebControl
@@ -174,7 +174,7 @@ namespace WebExpress.WebApp.WebControl
         {
             var user = new User()
             {
-                Id = 0,
+                Id = Guid.NewGuid(),
                 Login = Login.Value,
                 Firstname = Firstname.Value,
                 Lastname = Lastname.Value,

@@ -3,8 +3,8 @@
   <PropertyGroup>
 		<OutputType>Library</OutputType>
 		<Title>WebExpress.WebApp</Title>
-		<Version>0.0.5.0</Version>
-		<AssemblyVersion>0.0.5.0</AssemblyVersion>
+		<Version>0.0.7.0</Version>
+		<AssemblyVersion>0.0.7.0</AssemblyVersion>
 		<TargetFramework>net8.0</TargetFramework>
 		<RuntimeIdentifiers>any</RuntimeIdentifiers>
 		<RepositoryUrl>https://github.com/ReneSchwarzer/WebExpress.WebApp</RepositoryUrl>
@@ -14,7 +14,7 @@
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Description>Provide a business application template for the WebExpress web server.</Description>
-		<PackageVersion>0.0.5-alpha</PackageVersion>
+		<PackageVersion>0.0.7-alpha</PackageVersion>
 		<PackageProjectUrl>https://github.com/ReneSchwarzer/WebExpress</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -23,6 +23,12 @@
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="WebAttribute\**" />
+    <EmbeddedResource Remove="WebAttribute\**" />
+    <None Remove="WebAttribute\**" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\css\webexpress.webapp.css" />
@@ -42,10 +48,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="WebAttribute\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Include="..\..\icon.png" Link="icon.png">
 	    <PackagePath>\</PackagePath>
 	    <Pack>True</Pack>
@@ -56,10 +58,18 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(SolutionName)' != 'WebExpress.Deploy'">
+		<PackageReference Include="WebExpress.WebUI" Version="0.0.7-alpha" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(SolutionName)' == 'WebExpress.Deploy'">
+	  <ProjectReference Include="..\..\..\WebExpress.WebCore\src\WebExpress.WebCore\WebExpress.WebCore.csproj" />
+	  <ProjectReference Include="..\..\..\WebExpress.WebIndex\src\WebExpress.WebIndex\WebExpress.WebIndex.csproj" />
+	  <ProjectReference Include="..\..\..\WebExpress.WebUI\src\WebExpress.WebUI\WebExpress.WebUI.csproj" />
+	</ItemGroup>
+
 	<ItemGroup>
-	  <PackageReference Include="WebExpress.WebCore" Version="0.0.5-alpha" />
-	  <PackageReference Include="WebExpress.WebIndex" Version="0.0.5-alpha" />
-	  <PackageReference Include="WebExpress.WebUI" Version="0.0.5-alpha" />
+	  <PackageReference Include="WebExpress.WebIndex" Version="0.0.7-alpha" />
 	</ItemGroup>
 
 </Project>
