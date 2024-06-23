@@ -58,9 +58,18 @@
 	  </None>
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="WebExpress.WebIndex" Version="0.0.7-alpha" />
+	<ItemGroup Condition="'$(SolutionName)' != 'WebExpress.Deploy'">
 		<PackageReference Include="WebExpress.WebUI" Version="0.0.7-alpha" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(SolutionName)' == 'WebExpress.Deploy'">
+	  <ProjectReference Include="..\..\..\WebExpress.WebCore\src\WebExpress.WebCore\WebExpress.WebCore.csproj" />
+	  <ProjectReference Include="..\..\..\WebExpress.WebIndex\src\WebExpress.WebIndex\WebExpress.WebIndex.csproj" />
+	  <ProjectReference Include="..\..\..\WebExpress.WebUI\src\WebExpress.WebUI\WebExpress.WebUI.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="WebExpress.WebIndex" Version="0.0.7-alpha" />
 	</ItemGroup>
 
 </Project>

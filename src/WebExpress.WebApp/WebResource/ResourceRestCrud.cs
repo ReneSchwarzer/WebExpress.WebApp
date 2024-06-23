@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebMessage;
 using WebExpress.WebCore.WebResource;
 using WebExpress.WebIndex;
+using WebExpress.WebIndex.WebAttribute;
 using WebExpress.WebIndex.Wql;
 
 namespace WebExpress.WebApp.WebResource
@@ -39,7 +41,8 @@ namespace WebExpress.WebApp.WebResource
         public override object GetData(Request request)
         {
             var itemCount = 50;
-            var wql = request.HasParameter("wql") ? request.GetParameter("wql").Value : string.Empty;
+            var search = request.HasParameter("search") ? request.GetParameter("search").Value : string.Empty;
+            var wql = request.HasParameter("wql") ? request.GetParameter("wql").Value : null;
             var page = request.GetParameter("page");
             var columns = request.HasParameter("columns");
             var pagenumber = !string.IsNullOrWhiteSpace(page?.Value) ? Convert.ToInt32(page?.Value) : 0;
@@ -51,7 +54,7 @@ namespace WebExpress.WebApp.WebResource
 
             lock (Guard)
             {
-                var wqlStatement = ComponentManager.GetComponent<WebIndex.IndexManager>().ExecuteWql<T>(wql);
+                var wqlStatement = ComponentManager.GetComponent<WebIndex.IndexManager>().Retrieve<T>(wql ?? $"{GetDefaultSearchAttribute()}='{search}'");
                 var data = GetData(wqlStatement, request);
 
                 var count = data.Count();
@@ -64,6 +67,19 @@ namespace WebExpress.WebApp.WebResource
 
                 return new { data = data.Skip(itemCount * pagenumber).Take(itemCount), pagination = new { pagenumber = pagenumber, totalpage = totalpage } };
             }
+        }
+
+        /// <summary>
+        /// Returns the attribute name that has been set as for search queries.
+        /// </summary>
+        /// <returns>The name of the default attribute.</returns>
+        protected virtual string GetDefaultSearchAttribute()
+        {
+            return typeof(T).GetProperties()
+                //.Where(x => x.GetCustomAttribute<IndexDefaultSearchAttribute>() != null)
+                .Where(x => x.GetCustomAttribute<IndexIgnoreAttribute>() == null)
+                .Select(x => x.Name)
+                .FirstOrDefault();
         }
     }
 }

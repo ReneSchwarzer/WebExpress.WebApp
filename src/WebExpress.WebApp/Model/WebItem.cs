@@ -15,6 +15,13 @@ namespace WebExpress.WebApp.Model
         public Guid Id { get; set; } = Guid.NewGuid();
 
         /// <summary>
+        /// Returns or sets the name.
+        /// </summary>
+        [JsonPropertyName("name")]
+        [IndexIgnore]
+        public virtual string Name { get; set; }
+
+        /// <summary>
         /// Returns or sets the uri of the web item.
         /// </summary>
         [JsonPropertyName("uri")]
@@ -25,18 +32,6 @@ namespace WebExpress.WebApp.Model
         /// </summary>
         [JsonPropertyName("label")]
         public virtual string Label { get; set; }
-
-        /// <summary>
-        /// Returns or sets the name of the web item.
-        /// </summary>
-        [JsonPropertyName("name")]
-        public virtual string Name { get; set; }
-
-        /// <summary>
-        /// Returns or sets the image uri of the web item.
-        /// </summary>
-        [JsonPropertyName("image")]
-        public virtual string Image { get; set; }
 
         /// <summary>
         /// Constructor
@@ -53,10 +48,9 @@ namespace WebExpress.WebApp.Model
         public WebItem(WebItem item)
         {
             Id = item.Id;
+            Name = item.Name;
             Uri = item.Uri;
             Label = item.Label;
-            Name = item.Name;
-            Image = item.Image;
         }
 
         /// <summary>
@@ -65,7 +59,7 @@ namespace WebExpress.WebApp.Model
         /// <returns>The object in its string representation.</returns>
         public override string ToString()
         {
-            return $"{Name} ({Id})";
+            return $"{Label} ({Id})";
         }
     }
 }
