@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebExpress.WebApp.WebPage;
 using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebResource;
-using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.SettingPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
@@ -130,23 +130,26 @@ namespace WebExpress.WebApp.WebSettingPage
                 .Select(x => new { Name = x.Key, Pages = x.Value })
                 .OrderBy(x => x.Name))
             {
-                control.Items.Add(new ControlNavigationItemHeader() { Text = group.Name });
-
-                foreach (var page in group.Pages
+                var pages = group.Pages
                     .Select(x => new { Item = x, ResourceContext = GetResourceContext(x) })
-                    .Where(x => x.ResourceContext != null))
+                    .Where(x => x.ResourceContext != null)
+                    .Where(x => !x.Item.Hide && (!x.ResourceContext.Conditions.Any() || x.ResourceContext.Conditions.All(y => y.Fulfillment(context.Request))));
+
+                if (pages.Any())
                 {
-                    if (!page.Item.Hide && (!page.ResourceContext.Conditions.Any() || page.ResourceContext.Conditions.All(x => x.Fulfillment(context.Request))))
+                    control.Items.Add(new ControlNavigationItemHeader() { Text = group.Name });
+                }
+
+                foreach (var page in pages)
+                {
+                    control.Items.Add(new ControlNavigationItemLink()
                     {
-                        control.Items.Add(new ControlNavigationItemLink()
-                        {
-                            Text = page.ResourceContext?.ResourceTitle,
-                            Icon = page.Item.Icon,
-                            Uri = page?.ResourceContext.Uri,
-                            Active = page.Item.Id.Equals(Id, System.StringComparison.OrdinalIgnoreCase) ? TypeActive.Active : TypeActive.None,
-                            NoWrap = true
-                        });
-                    }
+                        Text = page.ResourceContext?.ResourceTitle,
+                        Icon = page.Item.Icon,
+                        Uri = page?.ResourceContext.Uri,
+                        Active = page.Item.Id.Equals(Id, System.StringComparison.OrdinalIgnoreCase) ? TypeActive.Active : TypeActive.None,
+                        NoWrap = true
+                    });
                 }
             }
         }
