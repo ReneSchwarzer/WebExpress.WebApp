@@ -19,12 +19,12 @@ namespace WebExpress.WebApp.WebControl
         public PropertyIcon ButtonIcon { get => SubmitButton.Icon; set => SubmitButton.Icon = value; }
 
         /// <summary>
-        /// Returns or sets the color. der Schaltfläche
+        /// Returns or sets the button color.
         /// </summary>
         public PropertyColorButton ButtonColor { get => SubmitButton.Color; set => SubmitButton.Color = value; }
 
         /// <summary>
-        /// Returns or sets the label. der Schaltfläche
+        /// Returns or sets the button label. 
         /// </summary>
         public string ButtonLabel { get => SubmitButton.Text; set => SubmitButton.Text = value; }
 
@@ -64,6 +64,8 @@ namespace WebExpress.WebApp.WebControl
 
             ButtonLabel = context.Page.I18N("webexpress.webapp", "confirm.label");
             Content.Text = context.Page.I18N("webexpress.webapp", "confirm.description");
+
+            Add(Content);
         }
 
         /// <summary>
@@ -84,9 +86,6 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>The control as html.</returns>
         public override IHtmlNode Render(RenderContext context)
         {
-            Items.Clear();
-            Items.Add(Content);
-
             return base.Render(context);
         }
     }

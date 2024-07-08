@@ -87,7 +87,7 @@ namespace WebExpress.WebApp.WebSettingPage
 
             switchOnForm.Confirm += (s, e) =>
             {
-                context.Host.Log.LogMode = Log.Mode.Override;
+                context.Host.Log.LogMode = LogMode.Override;
                 context.Host.Log.Info(this.I18N("webexpress.webapp", "setting.logfile.switchon.success"));
             };
 
@@ -143,7 +143,7 @@ namespace WebExpress.WebApp.WebSettingPage
                     Text = context.Host.Log.LogMode.ToString(),
                     Format = TypeFormatText.Code
                 },
-                context.Host.Log.LogMode == Log.Mode.Off ? new ControlButton()
+                context.Host.Log.LogMode == LogMode.Off ? new ControlButton()
                 {
                     Text = this.I18N("webexpress.webapp", "setting.logfile.switchon.label"),
                     Modal = new PropertyModal(TypeModal.Modal, switchOnForm),

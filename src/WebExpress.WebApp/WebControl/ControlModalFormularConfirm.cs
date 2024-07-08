@@ -86,6 +86,22 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>The control as html.</returns>
         public override IHtmlNode Render(RenderContext context)
         {
+            var content = Content ?? new ControlFormItemStaticText()
+            {
+                Text = context.Page.I18N("webexpress.webapp", "confirm.description")
+            };
+
+            return Render(context, content);
+        }
+
+        /// <summary>
+        /// Convert to html.
+        /// </summary>
+        /// <param name="context">The context in which the control is rendered.</param>
+        /// <param name="items">The formular items.</param>
+        /// <returns>The control as html.</returns>
+        public override IHtmlNode Render(RenderContext context, params ControlFormItem[] items)
+        {
             if (string.IsNullOrWhiteSpace(Header))
             {
                 Header = context.Page.I18N("webexpress.webapp", "confirm.header");
@@ -94,11 +110,6 @@ namespace WebExpress.WebApp.WebControl
             if (string.IsNullOrWhiteSpace(ButtonLabel))
             {
                 ButtonLabel = context.Page.I18N("webexpress.webapp", "confirm.label");
-            }
-
-            if (Content == null)
-            {
-                Content = new ControlFormItemStaticText() { Text = context.Page.I18N("webexpress.webapp", "confirm.description") };
             }
 
             if (ButtonColor == null)
@@ -110,10 +121,8 @@ namespace WebExpress.WebApp.WebControl
             Formular.SubmitButton.Text = ButtonLabel;
             Formular.SubmitButton.Icon = ButtonIcon;
             Formular.SubmitButton.Color = ButtonColor;
-            Formular.Items.Clear();
-            Formular.Add(Content);
 
-            return base.Render(context);
+            return base.Render(context, items);
         }
     }
 }

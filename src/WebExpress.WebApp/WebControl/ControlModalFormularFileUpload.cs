@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebMessage;
 using WebExpress.WebCore.WebPage;
@@ -48,33 +49,14 @@ namespace WebExpress.WebApp.WebControl
         public string ButtonLabel { get; set; }
 
         /// <summary>
-        /// Teh prologue.
-        /// </summary>
-        private ControlFormItem prologue;
-
-        /// <summary>
         /// Returns or sets the prologue area.
         /// </summary>
-        public ControlFormItem Prologue
-        {
-            get => prologue;
-            set { Formular.Items.Remove(prologue); prologue = value; Formular.Items.Insert(0, prologue); }
-        }
-
-        /// <summary>
-        /// The epilogue.
-        /// </summary>
-        private ControlFormItem epilogue;
-
+        public ControlFormItem Prologue { get; set; }
 
         /// <summary>
         /// Returns or sets the epilogue area.
         /// </summary>
-        public ControlFormItem Epilogue
-        {
-            get => epilogue;
-            set { Formular.Items.Remove(epilogue); epilogue = value; Formular.Items.Add(epilogue); }
-        }
+        public ControlFormItem Epilogue { get; set; }
 
         /// <summary>
         /// Returns or sets the redirect uri.
@@ -164,7 +146,11 @@ namespace WebExpress.WebApp.WebControl
             Formular.SubmitButton.Icon = ButtonIcon;
             Formular.SubmitButton.Color = ButtonColor;
 
-            return base.Render(context);
+            var list = new[] { Epilogue }
+                .Concat(Formular.Items)
+                .Concat([Prologue]);
+
+            return base.Render(context, list);
         }
     }
 }
