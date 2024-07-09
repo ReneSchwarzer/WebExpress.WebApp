@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
@@ -91,7 +92,7 @@ namespace WebExpress.WebApp.WebControl
                 Text = context.Page.I18N("webexpress.webapp", "confirm.description")
             };
 
-            return Render(context, content);
+            return Render(context, [content]);
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace WebExpress.WebApp.WebControl
         /// <param name="context">The context in which the control is rendered.</param>
         /// <param name="items">The formular items.</param>
         /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context, params ControlFormItem[] items)
+        public override IHtmlNode Render(RenderContext context, IEnumerable<ControlFormItem> items)
         {
             if (string.IsNullOrWhiteSpace(Header))
             {
@@ -112,10 +113,7 @@ namespace WebExpress.WebApp.WebControl
                 ButtonLabel = context.Page.I18N("webexpress.webapp", "confirm.label");
             }
 
-            if (ButtonColor == null)
-            {
-                ButtonColor = new PropertyColorButton(TypeColorButton.Primary);
-            }
+            ButtonColor ??= new PropertyColorButton(TypeColorButton.Primary);
 
             Formular.RedirectUri = RedirectUri ?? context.Uri;
             Formular.SubmitButton.Text = ButtonLabel;
