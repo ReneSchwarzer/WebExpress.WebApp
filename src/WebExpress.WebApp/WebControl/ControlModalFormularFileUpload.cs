@@ -150,7 +150,7 @@ namespace WebExpress.WebApp.WebControl
                 .Concat(Formular.Items)
                 .Concat([Prologue]);
 
-            return base.Render(context, list);
+            return base.Render(context, list.Where(x => x != null));
         }
     }
 }

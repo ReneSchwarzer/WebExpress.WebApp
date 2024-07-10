@@ -58,7 +58,7 @@ namespace WebExpress.WebApp.WebSettingPage
             SettingTab.Items.Clear();
 
             var settinPageManager = ComponentManager.GetComponent<SettingPageManager>();
-            var searchResult = settinPageManager?.FindPage(ApplicationContext, ModuleContext, Id);
+            var searchResult = settinPageManager?.FindPage(ApplicationContext, ModuleContext, context.Page?.ResourceContext.ResourceId);
             if (searchResult != null)
             {
                 var contexts = settinPageManager.GetContexts(ApplicationContext);
@@ -147,7 +147,7 @@ namespace WebExpress.WebApp.WebSettingPage
                         Text = page.ResourceContext?.ResourceTitle,
                         Icon = page.Item.Icon,
                         Uri = page?.ResourceContext.Uri,
-                        Active = page.Item.Id.Equals(Id, System.StringComparison.OrdinalIgnoreCase) ? TypeActive.Active : TypeActive.None,
+                        Active = page.Item.Id.Equals(ResourceContext.ResourceId, System.StringComparison.OrdinalIgnoreCase) ? TypeActive.Active : TypeActive.None,
                         NoWrap = true
                     });
                 }

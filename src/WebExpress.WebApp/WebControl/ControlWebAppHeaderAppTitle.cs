@@ -1,7 +1,7 @@
-﻿using WebExpress.WebCore.Internationalization;
+﻿using WebExpress.WebApp.WebPage;
+using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
@@ -48,7 +48,7 @@ namespace WebExpress.WebApp.WebControl
             return new HtmlElementTextSemanticsA(apptitle.Render(context))
             {
                 Id = Id,
-                Href = context?.Page?.ApplicationContext?.ContextPath?.ToString(),
+                Href = context?.Page?.ResourceContext.ApplicationContext?.ContextPath?.ToString(),
                 Class = Css.Concatenate("", GetClasses()),
                 Style = Style.Concatenate("", GetStyles()),
                 Role = Role

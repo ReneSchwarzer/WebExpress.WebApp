@@ -52,11 +52,11 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>The control as html.</returns>
         public override IHtmlNode Render(RenderContext context)
         {
-            var application = ComponentManager.ApplicationManager.GetApplcation(context.Page.ApplicationContext?.ApplicationId);
+            var application = ComponentManager.ApplicationManager.GetApplcation(context.Page?.ResourceContext.ApplicationContext?.ApplicationId);
 
             var hamburger = new List<IControlDropdownItem>
             {
-                new ControlDropdownItemHeader() { Text = context.I18N(context.Page.ApplicationContext, context.Page.ApplicationContext?.ApplicationName) }
+                new ControlDropdownItemHeader() { Text = context.I18N(context.Page?.ResourceContext.ApplicationContext, context.Page?.ResourceContext.ApplicationContext?.ApplicationName) }
             };
 
             hamburger.AddRange(Primary);

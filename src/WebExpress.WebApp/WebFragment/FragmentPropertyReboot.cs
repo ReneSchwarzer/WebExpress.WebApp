@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using WebExpress.WebCore.WebAttribute;
-using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
 using WebExpress.WebApp.WebCondition;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebSettingPage;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
@@ -89,7 +89,7 @@ namespace WebExpress.WebApp.WebFragment
                 }
                 catch (Exception ex)
                 {
-                    e.Context.Log.Exception(ex);
+                    e.Context.ApplicationContext.PluginContext.Host.Log.Exception(ex);
                 }
             });
         }

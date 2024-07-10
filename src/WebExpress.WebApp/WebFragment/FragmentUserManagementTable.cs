@@ -1,8 +1,8 @@
-﻿using WebExpress.WebCore.WebAttribute;
+﻿using WebExpress.WebApp.WebSettingPage;
+using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
@@ -32,7 +32,7 @@ namespace WebExpress.WebApp.WebFragment
         {
             base.Initialization(context, page);
 
-            var module = ComponentManager.ModuleManager.GetModule(page.ApplicationContext, typeof(Module));
+            var module = ComponentManager.ModuleManager.GetModule(page?.ResourceContext.ApplicationContext, typeof(Module));
 
             RestApiUri = module.ContextPath.Append("/api/v1/user");
 
