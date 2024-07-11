@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using WebExpress.WebApp.WebJob;
+using WebExpress.WebApp.WebScope;
 using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebJob;
 using WebExpress.WebCore.WebPage;
 using WebExpress.WebCore.WebPlugin;
 using WebExpress.WebCore.WebResource;
-using WebExpress.WebApp.WebJob;
-using WebExpress.WebApp.WebScope;
 using WebExpress.WebUI.WebSettingPage;
 
 [assembly: SystemPlugin()]
@@ -17,7 +17,7 @@ namespace WebExpress.WebApp
     [Description("plugin.description")]
     [Icon("/assets/img/Logo.png")]
     [Dependency("webexpress.webui")]
-    public sealed class Plugin : IPlugin
+    public sealed class Plugin : WebCore.WebPlugin.Plugin
     {
         /// <summary>
         /// Constructor
@@ -31,23 +31,28 @@ namespace WebExpress.WebApp
         /// Initialization of the plugin. Here, for example, managed resources can be loaded. 
         /// </summary>
         /// <param name="context">The context of the plugin that applies to the execution of the plugin.</param>
-        public void Initialization(IPluginContext context)
+        public override void Initialization(IPluginContext context)
         {
+            base.Initialization(context);
+
             ComponentManager.JobManager.Register<JobSessionCleaning>(context, new Cron(context.Host, "30", "0", "1", "*", "*"));
         }
 
         /// <summary>
         /// Called when the plugin starts working. Run is called concurrently.
         /// </summary>
-        public void Run()
+        public override void Run()
         {
+            base.Run();
         }
 
         /// <summary>
         /// Release of unmanaged resources reserved during use.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
+
             ComponentManager.ResourceManager.AddResource -= AddResource;
         }
 
