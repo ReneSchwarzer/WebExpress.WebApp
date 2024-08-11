@@ -1,15 +1,16 @@
-﻿using WebExpress.WebCore.WebAttribute;
+﻿using WebExpress.WebApp.WebControl;
+using WebExpress.WebApp.WebSection;
+using WebExpress.WebApp.WebSettingPage;
+using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebControl;
-using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
 
 namespace WebExpress.WebApp.WebFragment
 {
-    [Section(Section.HeadlineSecondary)]
+    [Section(SectionWebApp.HeadlineSecondary)]
     [Module<Module>]
     [Scope<PageWebAppSettingUserManagementGroup>]
     public sealed class FragmentUserManagementAddGroup : FragmentControlButtonLink
@@ -17,13 +18,13 @@ namespace WebExpress.WebApp.WebFragment
         /// <summary>
         /// Provides the modal dialog for adding a group.
         /// </summary>
-        private ControlModalFormularGoupNew ModalDlg = new ControlModalFormularGoupNew("add_group")
+        private ControlModalFormGoupNew ModalDlg = new ControlModalFormGoupNew("add_group")
         {
 
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public FragmentUserManagementAddGroup()
             : base("add_group")

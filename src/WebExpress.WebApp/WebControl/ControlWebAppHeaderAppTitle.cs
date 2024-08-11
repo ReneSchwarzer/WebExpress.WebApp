@@ -12,7 +12,7 @@ namespace WebExpress.WebApp.WebControl
     public class ControlWebAppHeaderAppTitle : ControlLink
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeaderAppTitle(string id = null)

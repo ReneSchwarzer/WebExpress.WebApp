@@ -1,4 +1,5 @@
-﻿using WebExpress.WebApp.WebSettingPage;
+﻿using WebExpress.WebApp.WebSection;
+using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebHtml;
@@ -9,14 +10,14 @@ using WebExpress.WebUI.WebFragment;
 
 namespace WebExpress.WebApp.WebFragment
 {
-    [Section(Section.ContentPrimary)]
+    [Section(SectionWebApp.ContentPrimary)]
     [Module<Module>]
     [Scope<PageWebAppSettingUserManagementUser>]
     [Cache()]
     public sealed class FragmentUserManagementTable : FragmentCrudTable
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public FragmentUserManagementTable()
             : base("4fd155dd-f6e2-4411-b6ed-14ee78713272")

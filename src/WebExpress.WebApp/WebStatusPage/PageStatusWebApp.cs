@@ -40,7 +40,7 @@ namespace WebExpress.WebApp.WebStatusPage
         public ControlWebAppHeader Header { get; protected set; } = new ControlWebAppHeader("header");
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageStatusWebApp()
         {

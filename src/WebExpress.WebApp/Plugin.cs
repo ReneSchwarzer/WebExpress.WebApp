@@ -20,7 +20,7 @@ namespace WebExpress.WebApp
     public sealed class Plugin : WebCore.WebPlugin.Plugin
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public Plugin()
         {

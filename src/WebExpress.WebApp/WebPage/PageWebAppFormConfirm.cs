@@ -1,5 +1,5 @@
-﻿using WebExpress.WebCore.WebResource;
-using WebExpress.WebApp.WebControl;
+﻿using WebExpress.WebApp.WebControl;
+using WebExpress.WebCore.WebResource;
 using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebPage
@@ -7,21 +7,21 @@ namespace WebExpress.WebApp.WebPage
     /// <summary>
     /// A form based page.
     /// </summary>
-    public abstract class PageWebAppFormularConfirm<T> : PageWebAppFormular<T> where T : ControlFormularConfirm, new()
+    public abstract class PageWebAppFormConfirm<T> : PageWebAppForm<T> where T : ControlFormConfirm, new()
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The id.</param>
-        public PageWebAppFormularConfirm()
+        public PageWebAppFormConfirm()
         {
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The id.</param>
-        public PageWebAppFormularConfirm(string id)
+        public PageWebAppFormConfirm(string id)
             : base(id)
         {
         }
@@ -34,7 +34,7 @@ namespace WebExpress.WebApp.WebPage
         {
             base.Initialization(context);
 
-            Form.Confirm += OnConfirmFormular;
+            Form.Confirm += OnConfirmForm;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace WebExpress.WebApp.WebPage
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument./param>
-        protected virtual void OnConfirmFormular(object sender, FormularEventArgs e)
+        protected virtual void OnConfirmForm(object sender, FormEventArgs e)
         {
         }
 

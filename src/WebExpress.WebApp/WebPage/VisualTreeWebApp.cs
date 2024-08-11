@@ -48,7 +48,7 @@ namespace WebExpress.WebApp.WebPage
         public ControlWebAppSidebar Sidebar { get; protected set; } = new ControlWebAppSidebar("webexpress.webapp.sidebar");
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public VisualTreeWebApp()
         {

@@ -27,7 +27,7 @@ namespace WebExpress.WebApp.WebApiControl
         public ICollection<ControlApiTableOptionItem> OptionItems { get; private set; } = new List<ControlApiTableOptionItem>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlApiTable(string id = null)

@@ -72,7 +72,7 @@ namespace WebExpress.WebApp.WebSettingPage
         /// <summary>
         /// Form for uploading a plugin.
         /// </summary>
-        private ControlModalFormularFileUpload ModalUploadForm { get; } = new ControlModalFormularFileUpload("plugin_upload")
+        private ControlModalFormFileUpload ModalUploadForm { get; } = new ControlModalFormFileUpload("plugin_upload")
         {
             Header = "webexpress.webapp:setting.plugin.upload.header"
         };
@@ -86,7 +86,7 @@ namespace WebExpress.WebApp.WebSettingPage
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageWebAppSettingPlugin()
         {
@@ -112,7 +112,7 @@ namespace WebExpress.WebApp.WebSettingPage
         /// </summary>
         /// <param name="sender">The trigger.</param>
         /// <param name="e">The event argument.</param>
-        private void OnUpload(object sender, FormularUploadEventArgs e)
+        private void OnUpload(object sender, FormUploadEventArgs e)
         {
             var task = ComponentManager.TaskManager.CreateTask(TaskId, OnTaskProcess, e);
             task.Run();
@@ -126,8 +126,8 @@ namespace WebExpress.WebApp.WebSettingPage
         private void OnTaskProcess(object sender, EventArgs e)
         {
             var task = sender as Task;
-            var file = (task.Arguments.FirstOrDefault() as FormularUploadEventArgs)?.File as ParameterFile;
-            var context = (task.Arguments.FirstOrDefault() as FormularUploadEventArgs)?.Context as RenderContext;
+            var file = (task.Arguments.FirstOrDefault() as FormUploadEventArgs)?.File as ParameterFile;
+            var context = (task.Arguments.FirstOrDefault() as FormUploadEventArgs)?.Context as RenderContext;
 
             // determine any installed package
 

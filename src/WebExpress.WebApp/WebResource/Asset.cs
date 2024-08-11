@@ -12,7 +12,7 @@ namespace WebExpress.WebApp.WebResource
     public sealed class Asset : WebExpress.WebCore.WebResource.ResourceAsset
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public Asset()
         {

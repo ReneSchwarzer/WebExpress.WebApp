@@ -32,7 +32,7 @@ namespace WebExpress.WebApp.WebResource
         public string Render { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="label">The label of the column.</param>
         public ResourceRestCrudColumn(string label)

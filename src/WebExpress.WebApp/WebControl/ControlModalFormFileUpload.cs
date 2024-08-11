@@ -9,7 +9,7 @@ using static WebExpress.WebCore.Internationalization.InternationalizationManager
 
 namespace WebExpress.WebApp.WebControl
 {
-    public class ControlModalFormularFileUpload : ControlModalFormular
+    public class ControlModalFormFileUpload : ControlModalForm
     {
         /// <summary>
         /// Returns or sets the files that are accepted.
@@ -19,7 +19,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Event is triggered when the upload is confirmed.
         /// </summary>
-        public event EventHandler<FormularUploadEventArgs> Upload;
+        public event EventHandler<FormUploadEventArgs> Upload;
 
         /// <summary>
         /// Returns or sets the document.
@@ -34,19 +34,19 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Returns or sets the icon.
+        /// Returns or sets the submit button icon.
         /// </summary>
-        public PropertyIcon ButtonIcon { get; set; }
+        public PropertyIcon SubmitButtonIcon { get { return SubmitButton?.Icon; } set { SubmitButton.Icon = value; } }
 
         /// <summary>
-        /// Returns or sets the button color.
+        /// Returns or sets the submit button color.
         /// </summary>
-        public PropertyColorButton ButtonColor { get; set; }
+        public PropertyColorButton SubmitButtonColor { get { return SubmitButton?.Color; } set { SubmitButton.Color = value; } }
 
         /// <summary>
-        /// Returns or sets the button label.
+        /// Returns or sets the submit button label.
         /// </summary>
-        public string ButtonLabel { get; set; }
+        public string SubmitButtonLabel { get { return SubmitButton?.Text; } set { SubmitButton.Text = value; } }
 
         /// <summary>
         /// Returns or sets the prologue area.
@@ -61,23 +61,28 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns or sets the redirect uri.
         /// </summary>
-        public string RedirectUri { get { return Formular?.RedirectUri; } set { Formular.RedirectUri = value; } }
+        public string RedirectUri { get { return Form?.RedirectUri; } set { Form.RedirectUri = value; } }
 
         /// <summary>
-        /// Constructor
+        /// Returns or sets the submit button.
+        /// </summary>
+        private ControlFormItemButtonSubmit SubmitButton { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlModalFormularFileUpload(string id = null)
+        public ControlModalFormFileUpload(string id = null)
             : this(id, null)
         {
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        /// <param name="content">Die Formularsteuerelemente</param>
-        public ControlModalFormularFileUpload(string id, params ControlFormItem[] content)
+        /// <param name="content">The form controls.</param>
+        public ControlModalFormFileUpload(string id, params ControlFormItem[] content)
             : base(id, string.Empty, content)
         {
             Init();
@@ -88,15 +93,18 @@ namespace WebExpress.WebApp.WebControl
         /// </summary>
         private void Init()
         {
+            SubmitButton = new ControlFormItemButtonSubmit("submit");
             Header = I18N("webexpress.webapp:fileupload.header");
-            ButtonLabel = I18N("webexpress.webapp:fileupload.label");
-            ButtonIcon = new PropertyIcon(TypeIcon.Upload);
-            ButtonColor = new PropertyColorButton(TypeColorButton.Primary);
+            SubmitButtonLabel = I18N("webexpress.webapp:fileupload.label");
+            SubmitButtonIcon = new PropertyIcon(TypeIcon.Upload);
+            SubmitButtonColor = new PropertyColorButton(TypeColorButton.Primary);
 
             File.Validation += OnValidationFile;
-            Formular.ProcessFormular += OnProcessFormular;
+            Form.ProcessForm += OnProcessForm;
 
-            Formular.Add(File);
+            Form.Add(File);
+            Form.AddPrimaryButton(SubmitButton);
+
         }
 
         /// <summary>
@@ -113,15 +121,15 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Processing of the resource. des Formulares
+        /// Processing of the form.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        private void OnProcessFormular(object sender, FormularEventArgs e)
+        private void OnProcessForm(object sender, FormEventArgs e)
         {
             if (e.Context.Request.GetParameter(File.Name) is ParameterFile file)
             {
-                OnUpload(new FormularUploadEventArgs(e) { File = file });
+                OnUpload(new FormUploadEventArgs(e) { File = file });
             }
         }
 
@@ -129,7 +137,7 @@ namespace WebExpress.WebApp.WebControl
         /// Löst das Upload-Event aus
         /// </summary>
         /// <param name="args">The event argument.</param>
-        protected virtual void OnUpload(FormularUploadEventArgs args)
+        protected virtual void OnUpload(FormUploadEventArgs args)
         {
             Upload?.Invoke(this, args);
         }
@@ -141,13 +149,10 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>The control as html.</returns>
         public override IHtmlNode Render(RenderContext context)
         {
-            Formular.RedirectUri = RedirectUri ?? context.Uri;
-            Formular.SubmitButton.Text = ButtonLabel;
-            Formular.SubmitButton.Icon = ButtonIcon;
-            Formular.SubmitButton.Color = ButtonColor;
+            Form.RedirectUri = RedirectUri ?? context.Uri;
 
             var list = new[] { Epilogue }
-                .Concat(Formular.Items)
+                .Concat(Form.Items)
                 .Concat([Prologue]);
 
             return base.Render(context, list.Where(x => x != null));

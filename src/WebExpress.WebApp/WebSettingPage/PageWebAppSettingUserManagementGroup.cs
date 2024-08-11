@@ -47,7 +47,7 @@ namespace WebExpress.WebApp.WebSettingPage
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageWebAppSettingUserManagementGroup()
         {
@@ -90,7 +90,7 @@ namespace WebExpress.WebApp.WebSettingPage
                             Text = "webexpress.webapp:setting.usermanager.group.edit.label",
                             Uri = new UriFragment(),
                             Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.Null),
-                            Modal = new PropertyModal(TypeModal.Modal, new ControlModalFormularGoupEdit(group.Id) { Item = group })
+                            Modal = new PropertyModal(TypeModal.Modal, new ControlModalFormGoupEdit(group.Id) { Item = group })
                         },
                         new ControlText()
                         {
@@ -103,7 +103,7 @@ namespace WebExpress.WebApp.WebSettingPage
                             TextColor = new PropertyColorText(TypeColorText.Danger),
                             Uri = new UriFragment(),
                             Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.Null),
-                            Modal = new PropertyModal(TypeModal.Modal, new ControlModalFormularGroupDelete(group.Id) { Item = group })
+                            Modal = new PropertyModal(TypeModal.Modal, new ControlModalFormGroupDelete(group.Id) { Item = group })
                         }
                     )
                     {

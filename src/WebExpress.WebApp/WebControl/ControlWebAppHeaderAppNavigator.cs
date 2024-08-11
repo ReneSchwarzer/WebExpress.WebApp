@@ -28,7 +28,7 @@ namespace WebExpress.WebApp.WebControl
         public List<IControlDropdownItem> Secondary { get; protected set; } = new List<IControlDropdownItem>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeaderAppNavigator(string id = null)

@@ -1,10 +1,10 @@
-﻿using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebControl;
+﻿using WebExpress.WebApp.WebControl;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebFragment;
 
 namespace WebExpress.WebApp.WebFragment
 {
-    public class FragmentControlModalFormConfirmDelete : ControlModalFormularConfirmDelete, IFragment
+    public class FragmentControlModalFormConfirmDelete : ControlModalFormConfirmDelete, IFragment
     {
         /// <summary>
         /// Returns the context.
@@ -12,7 +12,7 @@ namespace WebExpress.WebApp.WebFragment
         public IFragmentContext FragmentContext { get; private set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The id of the fragment or null.</param>
         public FragmentControlModalFormConfirmDelete(string id = null)

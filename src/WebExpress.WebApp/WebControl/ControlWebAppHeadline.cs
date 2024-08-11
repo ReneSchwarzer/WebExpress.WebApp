@@ -54,7 +54,7 @@ namespace WebExpress.WebApp.WebControl
         public List<IControl> Metadata { get; protected set; } = new List<IControl>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeadline(string id = null)

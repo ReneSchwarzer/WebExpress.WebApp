@@ -1,9 +1,9 @@
 ﻿using System;
+using WebExpress.WebApp.WebNotificaation;
+using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebResource;
-using WebExpress.WebApp.WebNotificaation;
-using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebPage
@@ -11,7 +11,7 @@ namespace WebExpress.WebApp.WebPage
     /// <summary>
     /// A form based page.
     /// </summary>
-    public abstract class PageWebAppSettingFormular<T> : PageWebAppSetting where T : ControlForm, new()
+    public abstract class PageWebAppSettingForm<T> : PageWebAppSetting where T : ControlForm, new()
     {
         /// <summary>
         /// Returns the form.
@@ -19,18 +19,18 @@ namespace WebExpress.WebApp.WebPage
         protected T Form { get; private set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
-        public PageWebAppSettingFormular()
+        public PageWebAppSettingForm()
         {
             Form = new T();
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The page id.</param>
-        public PageWebAppSettingFormular(string id)
+        public PageWebAppSettingForm(string id)
         {
             Form = Activator.CreateInstance(typeof(T), id) as T;
         }
@@ -43,9 +43,9 @@ namespace WebExpress.WebApp.WebPage
         {
             base.Initialization(context);
 
-            Form.InitializeFormular += OnInitializeFormular;
-            Form.FillFormular += OnFillFormular;
-            Form.ProcessFormular += OnProcessFormular;
+            Form.InitializeForm += OnInitializeForm;
+            Form.FillForm += OnFillForm;
+            Form.ProcessForm += OnProcessForm;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace WebExpress.WebApp.WebPage
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        protected virtual void OnInitializeFormular(object sender, FormularEventArgs e)
+        protected virtual void OnInitializeForm(object sender, FormEventArgs e)
         {
         }
 
@@ -62,7 +62,7 @@ namespace WebExpress.WebApp.WebPage
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        protected virtual void OnFillFormular(object sender, FormularEventArgs e)
+        protected virtual void OnFillForm(object sender, FormEventArgs e)
         {
         }
 
@@ -71,7 +71,7 @@ namespace WebExpress.WebApp.WebPage
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument./param>
-        protected virtual void OnProcessFormular(object sender, FormularEventArgs e)
+        protected virtual void OnProcessForm(object sender, FormEventArgs e)
         {
         }
 
@@ -101,7 +101,7 @@ namespace WebExpress.WebApp.WebPage
         /// <param name="text">The notification message.</param>
         /// <param name="color">The notification color.</param>
         /// <param name="image">The image.</param>
-        protected void AddNotification(RenderContextFormular context, string title, string text, PropertyColorText color, string image)
+        protected void AddNotification(RenderContextForm context, string title, string text, PropertyColorText color, string image)
         {
             ComponentManager.GetComponent<NotificationManager>()?.AddNotification
             (

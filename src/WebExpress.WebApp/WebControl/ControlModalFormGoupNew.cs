@@ -5,19 +5,14 @@ using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
-    internal sealed class ControlModalFormularGoupEdit : ControlModalFormular
+    internal sealed class ControlModalFormGoupNew : ControlModalForm
     {
-        /// <summary>
-        /// Returns or sets the group to be deleted.
-        /// </summary>
-        public Group Item { get; set; }
-
         /// <summary>
         /// Returns the description of the form.
         /// </summary>
         private ControlFormItemStaticText Description { get; } = new ControlFormItemStaticText()
         {
-            Text = "webexpress.webapp:setting.usermanager.group.edit.description",
+            Text = "webexpress.webapp:setting.usermanager.group.add.description",
             TextColor = new PropertyColorText(TypeColorText.Secondary)
         };
 
@@ -26,36 +21,25 @@ namespace WebExpress.WebApp.WebControl
         /// </summary>
         private ControlFormItemInputTextBox GroupName { get; } = new ControlFormItemInputTextBox()
         {
-            Label = "webexpress.webapp:setting.usermanager.group.edit.name.label",
+            Label = "webexpress.webapp:setting.usermanager.group.add.name.label",
             Name = "groupname"
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlModalFormularGoupEdit(string id = null)
+        public ControlModalFormGoupNew(string id = null)
             : base(id)
         {
             Add(Description);
             Add(GroupName);
 
-            Header = "webexpress.webapp:setting.usermanager.group.edit.header";
+            Header = "webexpress.webapp:setting.usermanager.group.add.header";
 
             GroupName.Validation += OnGroupNameValidation;
-            Formular.SubmitButton.Text = "webexpress.webapp:setting.usermanager.group.edit.confirm";
-            Formular.FillFormular += OnFillFormular;
-            Formular.ProcessFormular += OnConfirm;
-        }
-
-        /// <summary>
-        /// Invoked when the form is to be filled with initial values.
-        /// </summary>
-        /// <param name="sender">The trigger of the event.</param>
-        /// <param name="e">The event argument.</param>
-        private void OnFillFormular(object sender, FormularEventArgs e)
-        {
-            GroupName.Value = Item?.Name;
+            //Form.SubmitButton.Text = "webexpress.webapp:setting.usermanager.group.add.confirm";
+            Form.ProcessForm += OnConfirm;
         }
 
         /// <summary>
@@ -67,12 +51,12 @@ namespace WebExpress.WebApp.WebControl
         {
             if (string.IsNullOrWhiteSpace(GroupName.Value))
             {
-                e.Results.Add(new ValidationResult(TypesInputValidity.Error, "webexpress.webapp:setting.usermanager.group.edit.name.error.empty"));
+                e.Results.Add(new ValidationResult(TypesInputValidity.Error, "webexpress.webapp:setting.usermanager.group.add.name.error.empty"));
             }
 
-            if (UserManager.Groups.Where(x => x != Item && x.Name.Equals(GroupName.Value, StringComparison.OrdinalIgnoreCase)).Any())
+            if (UserManager.Groups.Where(x => x.Name.Equals(GroupName.Value, StringComparison.OrdinalIgnoreCase)).Any())
             {
-                e.Results.Add(new ValidationResult(TypesInputValidity.Error, "webexpress.webapp:setting.usermanager.group.edit.name.error.duplicate"));
+                e.Results.Add(new ValidationResult(TypesInputValidity.Error, "webexpress.webapp:setting.usermanager.group.add.name.error.duplicate"));
             }
         }
 
@@ -81,11 +65,17 @@ namespace WebExpress.WebApp.WebControl
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        private void OnConfirm(object sender, FormularEventArgs e)
+        private void OnConfirm(object sender, FormEventArgs e)
         {
-            Item.Name = GroupName.Value;
+            var group = new Group()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = GroupName.Value,
+                Created = DateTime.Now,
+                Updated = DateTime.Now
+            };
 
-            UserManager.UpdateGroup(Item);
+            UserManager.AddGroup(group);
 
             e.Context.Page.Redirecting(e.Context.Uri);
         }

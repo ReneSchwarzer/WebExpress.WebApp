@@ -32,7 +32,7 @@ namespace WebExpress.WebApp.WebNotificaation
         private static IDictionary<string, Notification> GlobalNotifications { get; } = new Dictionary<string, Notification>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         internal NotificationManager()
         {

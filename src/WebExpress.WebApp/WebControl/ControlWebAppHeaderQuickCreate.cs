@@ -29,7 +29,7 @@ namespace WebExpress.WebApp.WebControl
         public List<IControlSplitButtonItem> Secondary { get; protected set; } = new List<IControlSplitButtonItem>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeaderQuickCreate(string id = null)

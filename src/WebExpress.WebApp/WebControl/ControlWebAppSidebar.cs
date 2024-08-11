@@ -38,7 +38,7 @@ namespace WebExpress.WebApp.WebControl
         public bool HasContent => Header.Any() || Preferences.Any() || Primary.Any() || Secondary.Any();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppSidebar(string id = null)

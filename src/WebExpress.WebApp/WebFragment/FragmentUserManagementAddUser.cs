@@ -1,15 +1,16 @@
-﻿using WebExpress.WebCore.WebAttribute;
+﻿using WebExpress.WebApp.WebControl;
+using WebExpress.WebApp.WebSection;
+using WebExpress.WebApp.WebSettingPage;
+using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebControl;
-using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
 
 namespace WebExpress.WebApp.WebFragment
 {
-    [Section(Section.HeadlineSecondary)]
+    [Section(SectionWebApp.HeadlineSecondary)]
     [Module<Module>]
     [Scope<PageWebAppSettingUserManagementUser>]
     public sealed class FragmentUserManagementAddUser : FragmentControlButtonLink
@@ -17,10 +18,10 @@ namespace WebExpress.WebApp.WebFragment
         /// <summary>
         /// Returns the modal dialog for adding a user.
         /// </summary>
-        private ControlModalFormularUserNew ModalDlg = new ControlModalFormularUserNew("add_user");
+        private ControlModalFormUserNew ModalDlg = new ControlModalFormUserNew("add_user");
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public FragmentUserManagementAddUser()
             : base("add_user")

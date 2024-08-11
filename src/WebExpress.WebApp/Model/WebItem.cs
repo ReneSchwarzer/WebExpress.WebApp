@@ -34,7 +34,7 @@ namespace WebExpress.WebApp.Model
         public virtual string Label { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public WebItem()
         {

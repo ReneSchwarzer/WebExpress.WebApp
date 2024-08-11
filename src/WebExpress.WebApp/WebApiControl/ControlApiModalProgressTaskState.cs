@@ -22,7 +22,7 @@ namespace WebExpress.WebApp.WebApiControl
         private ControlText Message { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlApiModalProgressTaskState(string id)

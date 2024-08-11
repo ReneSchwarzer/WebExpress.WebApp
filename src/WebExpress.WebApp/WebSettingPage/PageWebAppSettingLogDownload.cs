@@ -18,7 +18,7 @@ namespace WebExpress.WebApp.WebSettingPage
     public sealed class PageWebAppSettingLogDownload : ResourceBinary
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageWebAppSettingLogDownload()
         {

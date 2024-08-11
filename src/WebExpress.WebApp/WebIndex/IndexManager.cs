@@ -16,7 +16,7 @@ namespace WebExpress.WebApp.WebIndex
         public IHttpServerContext HttpServerContext { get; private set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         internal IndexManager()
         {

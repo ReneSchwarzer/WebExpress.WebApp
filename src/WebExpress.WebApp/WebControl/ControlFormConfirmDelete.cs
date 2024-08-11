@@ -5,37 +5,37 @@ using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
-    public class ControlFormularConfirmDelete : ControlFormularConfirm
+    public class ControlFormConfirmDelete : ControlFormConfirm
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlFormularConfirmDelete()
+        public ControlFormConfirmDelete()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlFormularConfirmDelete(string id = null)
+        public ControlFormConfirmDelete(string id = null)
             : base(id)
         {
-            ButtonIcon = new PropertyIcon(TypeIcon.TrashAlt);
-            ButtonColor = new PropertyColorButton(TypeColorButton.Danger);
+            SubmitButtonIcon = new PropertyIcon(TypeIcon.TrashAlt);
+            SubmitButtonColor = new PropertyColorButton(TypeColorButton.Danger);
         }
 
         /// <summary>
         /// Initializes the form.
         /// </summary>
         /// <param name="context">The context in which the control is rendered.</param>
-        public override void Initialize(RenderContextFormular context)
+        public override void Initialize(RenderContextForm context)
         {
             base.Initialize(context);
 
-            ButtonLabel = context.Page.I18N("webexpress.webapp", "delete.label");
+            SubmitButtonLabel = context.Page.I18N("webexpress.webapp", "delete.label");
             Content.Text = context.Page.I18N("webexpress.webapp", "delete.description");
         }
 
@@ -46,7 +46,7 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>The control as html.</returns>
         public override IHtmlNode Render(RenderContext context)
         {
-            ButtonLabel = context.Page.I18N("webexpress.webapp", "delete.label");
+            SubmitButtonLabel = context.Page.I18N("webexpress.webapp", "delete.label");
 
             return base.Render(context);
         }

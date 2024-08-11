@@ -7,27 +7,30 @@ using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
-    public class ControlModalFormularConfirm : ControlModalFormular
+    /// <summary>
+    /// Represents a modal confirmation form.
+    /// </summary>
+    public class ControlModalFormConfirm : ControlModalForm
     {
         /// <summary>
         /// Event is triggered when deletion is confirmed.
         /// </summary>
-        public event EventHandler<FormularEventArgs> Confirm;
+        public event EventHandler<FormEventArgs> Confirm;
 
         /// <summary>
-        /// Returns or sets the icon.
+        /// Returns or sets the submit button icon.
         /// </summary>
-        public PropertyIcon ButtonIcon { get; set; }
+        public PropertyIcon SubmitButtonIcon { get { return SubmitButton?.Icon; } set { SubmitButton.Icon = value; } }
 
         /// <summary>
-        /// Returns or sets the color. der Schaltfläche
+        /// Returns or sets the submit button color.
         /// </summary>
-        public PropertyColorButton ButtonColor { get; set; }
+        public PropertyColorButton SubmitButtonColor { get { return SubmitButton?.Color; } set { SubmitButton.Color = value; } }
 
         /// <summary>
-        /// Returns or sets the label. der Schaltfläche
+        /// Returns or sets the submit button label.
         /// </summary>
-        public string ButtonLabel { get; set; }
+        public string SubmitButtonLabel { get; set; }
 
         /// <summary>
         /// Returns or sets the content.
@@ -35,26 +38,31 @@ namespace WebExpress.WebApp.WebControl
         public new ControlFormItem Content { get; set; }
 
         /// <summary>
-        /// Returns or sets the redirect uri.
+        /// Returns or sets the submit button.
         /// </summary>
-        public string RedirectUri { get { return Formular?.RedirectUri; } set { Formular.RedirectUri = value; } }
+        private ControlFormItemButtonSubmit SubmitButton { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Returns or sets the redirect uri.
+        /// </summary>
+        public string RedirectUri { get { return Form?.RedirectUri; } set { Form.RedirectUri = value; } }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The id.</param>
-        public ControlModalFormularConfirm(string id = null)
+        public ControlModalFormConfirm(string id = null)
             : this(id, null)
         {
 
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The id.</param>
-        /// <param name="content">Die Formularsteuerelemente</param>
-        public ControlModalFormularConfirm(string id, params ControlFormItem[] content)
+        /// <param name="content">The form controls.</param>
+        public ControlModalFormConfirm(string id, params ControlFormItem[] content)
             : base(id, string.Empty, content)
         {
             Init();
@@ -65,19 +73,23 @@ namespace WebExpress.WebApp.WebControl
         /// </summary>
         private void Init()
         {
-            Formular.ProcessFormular += (s, e) =>
+            SubmitButton = new ControlFormItemButtonSubmit("submit");
+
+            Form.ProcessForm += (s, e) =>
             {
                 OnConfirm(e.Context);
             };
+
+            Form.AddPrimaryButton(SubmitButton);
         }
 
         /// <summary>
         /// Triggers the Confirm event.
         /// </summary>
         /// <param name="context">The context in which the control is rendered.</param>
-        protected virtual void OnConfirm(RenderContextFormular context)
+        protected virtual void OnConfirm(RenderContextForm context)
         {
-            Confirm?.Invoke(this, new FormularEventArgs() { Context = context });
+            Confirm?.Invoke(this, new FormEventArgs() { Context = context });
         }
 
         /// <summary>
@@ -99,7 +111,7 @@ namespace WebExpress.WebApp.WebControl
         /// Convert to html.
         /// </summary>
         /// <param name="context">The context in which the control is rendered.</param>
-        /// <param name="items">The formular items.</param>
+        /// <param name="items">The form items.</param>
         /// <returns>The control as html.</returns>
         public override IHtmlNode Render(RenderContext context, IEnumerable<ControlFormItem> items)
         {
@@ -108,17 +120,12 @@ namespace WebExpress.WebApp.WebControl
                 Header = context.Page.I18N("webexpress.webapp", "confirm.header");
             }
 
-            if (string.IsNullOrWhiteSpace(ButtonLabel))
+            if (string.IsNullOrWhiteSpace(SubmitButtonLabel))
             {
-                ButtonLabel = context.Page.I18N("webexpress.webapp", "confirm.label");
+                SubmitButtonLabel = context.Page.I18N("webexpress.webapp", "confirm.label");
             }
 
-            ButtonColor ??= new PropertyColorButton(TypeColorButton.Primary);
-
-            Formular.RedirectUri = RedirectUri ?? context.Uri;
-            Formular.SubmitButton.Text = ButtonLabel;
-            Formular.SubmitButton.Icon = ButtonIcon;
-            Formular.SubmitButton.Color = ButtonColor;
+            Form.RedirectUri = RedirectUri ?? context.Uri;
 
             return base.Render(context, items);
         }

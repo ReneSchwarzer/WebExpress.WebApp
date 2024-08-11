@@ -9,7 +9,7 @@ namespace WebExpress.WebApp.WebFragment
     public abstract class FragmentHeaderSettingsSystemInformation : FragmentControlDropdownItemLink
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public FragmentHeaderSettingsSystemInformation()
             : base()

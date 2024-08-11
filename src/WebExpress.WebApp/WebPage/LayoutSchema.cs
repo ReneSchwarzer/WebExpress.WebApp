@@ -140,9 +140,9 @@ namespace WebExpress.WebApp.WebPage
         public static PropertyColorBackground ContentBackground => new();
 
         /// <summary>
-        /// The background color of the formular area.
+        /// The background color of the form area.
         /// </summary>
-        public static PropertyColorBackground FormularBackground => new(TypeColorBackground.Light);
+        public static PropertyColorBackground FormBackground => new(TypeColorBackground.Light);
 
         /// <summary>
         /// The background color of a button.

@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebExpress.WebUI.WebControl;
 using WebExpress.WebApp.WebUser;
+using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
-    internal sealed class ControlModalFormularUserEdit : ControlModalFormular
+    internal sealed class ControlModalFormUserEdit : ControlModalForm
     {
         /// <summary>
-        /// Der zu bearbeitende Benutzer
+        /// Returns or sets the user to edit.
         /// </summary>
         public User Item { get; set; }
 
         /// <summary>
-        /// Liefert die Beschreibung des Formulars
+        /// Returns the description of the form.
         /// </summary>
         private ControlFormItemStaticText Description { get; } = new ControlFormItemStaticText()
         {
@@ -23,7 +23,7 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert das Steuerlement zur Eingabe der Loginkennung
+        /// Returns the control for entering the login id.
         /// </summary>
         private ControlFormItemInputTextBox Login { get; } = new ControlFormItemInputTextBox()
         {
@@ -32,7 +32,7 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert das Steuerlement zur Eingabe des Vornamens
+        /// Returns the control for entering the first name.
         /// </summary>
         private ControlFormItemInputTextBox Firstname { get; } = new ControlFormItemInputTextBox()
         {
@@ -41,7 +41,7 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert das Steuerlement zur Eingabe des Nachnamens
+        /// Returns the control for entering the last name.
         /// </summary>
         private ControlFormItemInputTextBox Lastname { get; } = new ControlFormItemInputTextBox()
         {
@@ -50,7 +50,7 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert das Steuerlement zur Eingabe der Email-Adresse
+        /// Returns the control for entering the email address.
         /// </summary>
         private ControlFormItemInputTextBox Email { get; } = new ControlFormItemInputTextBox()
         {
@@ -60,15 +60,15 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Liefert die Gruppen
+        /// Returns or sets the groups.
         /// </summary>
         private ControlFormItemInputMove Groups { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The id.</param>
-        public ControlModalFormularUserEdit(string id = null)
+        public ControlModalFormUserEdit(string id = null)
             : base(id)
         {
             Groups = new ControlFormItemInputMove(id)
@@ -91,9 +91,9 @@ namespace WebExpress.WebApp.WebControl
             Add(new ControlFormItemGroupColumnVertical(Firstname, Lastname) { Distribution = new int[] { 50 } });
             Add(Email);
             Add(Groups);
-            Formular.SubmitButton.Text = "webexpress.webapp:setting.usermanager.user.edit.confirm";
-            Formular.FillFormular += OnFillFormular;
-            Formular.ProcessFormular += OnConfirm;
+            //Form.SubmitButton.Text = "webexpress.webapp:setting.usermanager.user.edit.confirm";
+            Form.FillForm += OnFillForm;
+            Form.ProcessForm += OnConfirm;
 
             Header = "webexpress.webapp:setting.usermanager.user.edit.header";
         }
@@ -103,7 +103,7 @@ namespace WebExpress.WebApp.WebControl
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        private void OnFillFormular(object sender, FormularEventArgs e)
+        private void OnFillForm(object sender, FormEventArgs e)
         {
             Login.Value = Item?.Login;
             Firstname.Value = Item?.Firstname;
@@ -123,7 +123,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn die eingegebene Loginkennung überprüft werden soll
+        /// Called when the entered login id is to be checked.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
@@ -141,7 +141,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn der eingegebene Vorname überprüft werden soll
+        /// Called when the entered first name is to be checked.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
@@ -154,7 +154,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn der eingegebene Nachname überprüft werden soll
+        /// Called when the entered last name is to be checked.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
@@ -167,7 +167,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn die eingegebene E-Mail-Adresse überprüft werden soll
+        /// Invoked when the entered email address is to be verified.
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
@@ -184,7 +184,7 @@ namespace WebExpress.WebApp.WebControl
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        private void OnConfirm(object sender, FormularEventArgs e)
+        private void OnConfirm(object sender, FormEventArgs e)
         {
             Item.Login = Login.Value;
             Item.Firstname = Firstname.Value;

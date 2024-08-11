@@ -13,7 +13,7 @@ namespace WebExpress.WebApp.WebStatusPage
     public sealed class PageStatusWebAppNotFound : PageStatusWebApp<ResponseNotFound>
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageStatusWebAppNotFound()
         {

@@ -21,7 +21,7 @@ namespace WebExpress.WebAPI.V1
     public sealed class RestUserManagement : ResourceRestCrud<WebItemUser>
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public RestUserManagement()
         {

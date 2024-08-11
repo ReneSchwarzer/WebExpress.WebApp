@@ -5,24 +5,24 @@ using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
-    public class ControlModalFormularConfirmDelete : ControlModalFormularConfirm
+    public class ControlModalFormConfirmDelete : ControlModalFormConfirm
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlModalFormularConfirmDelete(string id = null)
+        public ControlModalFormConfirmDelete(string id = null)
             : this(id, null)
         {
 
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        /// <param name="content">Die Formularsteuerelemente</param>
-        public ControlModalFormularConfirmDelete(string id, params ControlFormItem[] content)
+        /// <param name="content">The form controls.</param>
+        public ControlModalFormConfirmDelete(string id, params ControlFormItem[] content)
             : base(id, content)
         {
         }
@@ -39,9 +39,9 @@ namespace WebExpress.WebApp.WebControl
                 Header = context.Page.I18N("webexpress.webapp", "delete.header");
             }
 
-            if (string.IsNullOrWhiteSpace(ButtonLabel))
+            if (string.IsNullOrWhiteSpace(SubmitButtonLabel))
             {
-                ButtonLabel = context.Page.I18N("webexpress.webapp", "delete.label");
+                SubmitButtonLabel = context.Page.I18N("webexpress.webapp", "delete.label");
             }
 
             if (Content == null)
@@ -49,14 +49,14 @@ namespace WebExpress.WebApp.WebControl
                 Content = new ControlFormItemStaticText() { Text = context.Page.I18N("webexpress.webapp", "delete.description") };
             }
 
-            if (ButtonIcon == null)
+            if (SubmitButtonIcon == null)
             {
-                ButtonIcon = new PropertyIcon(TypeIcon.TrashAlt);
+                SubmitButtonIcon = new PropertyIcon(TypeIcon.TrashAlt);
             }
 
-            if (ButtonColor == null)
+            if (SubmitButtonColor == null)
             {
-                ButtonColor = new PropertyColorButton(TypeColorButton.Danger);
+                SubmitButtonColor = new PropertyColorButton(TypeColorButton.Danger);
             }
 
             return base.Render(context);

@@ -36,7 +36,7 @@ namespace WebExpress.WebApp.WebSettingPage
         public string DownloadUri { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageWebAppSettingLog()
         {
@@ -62,10 +62,10 @@ namespace WebExpress.WebApp.WebSettingPage
         {
             base.Process(context);
 
-            var file = new FileInfo(context.Host.Log.Filename);
+            var file = new FileInfo(context.PluginContext.Host.Log.Filename);
             var fileSize = string.Format(new FileSizeFormatProvider() { Culture = Culture }, "{0:fs}", file.Exists ? file.Length : 0);
 
-            var deleteForm = new ControlModalFormularConfirmDelete("delte_log")
+            var deleteForm = new ControlModalFormConfirmDelete("delte_log")
             {
                 Header = this.I18N("webexpress.webapp", "setting.logfile.delete.header"),
                 Content = new ControlFormItemStaticText() { Text = this.I18N("webexpress.webapp", "setting.logfile.delete.description") }
@@ -73,22 +73,22 @@ namespace WebExpress.WebApp.WebSettingPage
 
             deleteForm.Confirm += (s, e) =>
             {
-                File.Delete(context.Host.Log.Filename);
+                File.Delete(context.PluginContext.Host.Log.Filename);
             };
 
-            var switchOnForm = new ControlModalFormularConfirm("swichon_log")
+            var switchOnForm = new ControlModalFormConfirm("swichon_log")
             {
                 Header = this.I18N("webexpress.webapp", "setting.logfile.switchon.header"),
                 Content = new ControlFormItemStaticText() { Text = this.I18N("webexpress.webapp", "setting.logfile.switchon.description") },
-                ButtonIcon = new PropertyIcon(TypeIcon.PowerOff),
-                ButtonColor = new PropertyColorButton(TypeColorButton.Success),
-                ButtonLabel = this.I18N("webexpress.webapp", "setting.logfile.switchon.label")
+                SubmitButtonIcon = new PropertyIcon(TypeIcon.PowerOff),
+                SubmitButtonColor = new PropertyColorButton(TypeColorButton.Success),
+                SubmitButtonLabel = this.I18N("webexpress.webapp", "setting.logfile.switchon.label")
             };
 
             switchOnForm.Confirm += (s, e) =>
             {
-                context.Host.Log.LogMode = LogMode.Override;
-                context.Host.Log.Info(this.I18N("webexpress.webapp", "setting.logfile.switchon.success"));
+                context.PluginContext.Host.Log.LogMode = LogMode.Override;
+                context.PluginContext.Host.Log.Info(this.I18N("webexpress.webapp", "setting.logfile.switchon.success"));
             };
 
             var info = new ControlTable() { Striped = false };
@@ -100,7 +100,7 @@ namespace WebExpress.WebApp.WebSettingPage
                 },
                 new ControlText()
                 {
-                    Text = context.Host.Log.Filename,
+                    Text = context.PluginContext.Host.Log.Filename,
                     Format = TypeFormatText.Code
                 },
                 DownloadUri != null && file.Exists ? new ControlButtonLink()
@@ -140,10 +140,10 @@ namespace WebExpress.WebApp.WebSettingPage
                 },
                 new ControlText()
                 {
-                    Text = context.Host.Log.LogMode.ToString(),
+                    Text = context.PluginContext.Host.Log.LogMode.ToString(),
                     Format = TypeFormatText.Code
                 },
-                context.Host.Log.LogMode == LogMode.Off ? new ControlButton()
+                context.PluginContext.Host.Log.LogMode == LogMode.Off ? new ControlButton()
                 {
                     Text = this.I18N("webexpress.webapp", "setting.logfile.switchon.label"),
                     Modal = new PropertyModal(TypeModal.Modal, switchOnForm),
@@ -157,7 +157,7 @@ namespace WebExpress.WebApp.WebSettingPage
 
             if (file.Exists)
             {
-                var content = File.ReadLines(context.Host.Log.Filename).TakeLast(100);
+                var content = File.ReadLines(context.PluginContext.Host.Log.Filename).TakeLast(100);
 
                 context.VisualTree.Content.Primary.Add(new ControlText()
                 {

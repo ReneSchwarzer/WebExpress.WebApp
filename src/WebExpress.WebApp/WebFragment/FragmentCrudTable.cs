@@ -20,7 +20,7 @@ namespace WebExpress.WebApp.WebFragment
         public ICollection<FragmentCrudTableEditorItem> Editors { get; } = new List<FragmentCrudTableEditorItem>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The fragment id.</param>
         public FragmentCrudTable(string id = null)

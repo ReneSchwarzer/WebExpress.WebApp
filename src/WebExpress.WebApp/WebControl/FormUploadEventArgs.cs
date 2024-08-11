@@ -3,7 +3,7 @@ using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
-    public class FormularUploadEventArgs : FormularEventArgs
+    public class FormUploadEventArgs : FormEventArgs
     {
         /// <summary>
         /// Returns or sets the file.
@@ -11,10 +11,10 @@ namespace WebExpress.WebApp.WebControl
         public ParameterFile File { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="args">The event argument.</param>
-        public FormularUploadEventArgs(FormularEventArgs args)
+        public FormUploadEventArgs(FormEventArgs args)
         {
             Context = args.Context;
         }

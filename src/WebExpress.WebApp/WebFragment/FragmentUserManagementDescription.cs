@@ -1,14 +1,15 @@
-﻿using WebExpress.WebCore.WebAttribute;
+﻿using WebExpress.WebApp.WebSection;
+using WebExpress.WebApp.WebSettingPage;
+using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebUI.WebAttribute;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
 
 namespace WebExpress.WebApp.WebFragment
 {
-    [Section(Section.ContentPreferences)]
+    [Section(SectionWebApp.ContentPreferences)]
     [Module<Module>]
     [Scope<PageWebAppSettingUserManagementUser>]
     [Cache()]
@@ -34,7 +35,7 @@ namespace WebExpress.WebApp.WebFragment
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public FragmentUserManagementDescription()
         {

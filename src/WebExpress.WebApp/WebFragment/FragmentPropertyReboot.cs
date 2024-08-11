@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using WebExpress.WebApp.WebCondition;
 using WebExpress.WebApp.WebControl;
+using WebExpress.WebApp.WebSection;
 using WebExpress.WebApp.WebSettingPage;
 using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebHtml;
@@ -13,7 +14,7 @@ using WebExpress.WebUI.WebFragment;
 
 namespace WebExpress.WebApp.WebFragment
 {
-    [Section(Section.HeadlineSecondary)]
+    [Section(SectionWebApp.HeadlineSecondary)]
     [Module<Module>]
     [Scope<PageWebAppSettingSystemInformation>]
     [Condition<ConditionUnix>]
@@ -22,14 +23,14 @@ namespace WebExpress.WebApp.WebFragment
         /// <summary>
         /// Returns the modal dialog to confirm the delete action.
         /// </summary>
-        private ControlModalFormularConfirm ModalDlg = new ControlModalFormularConfirm("archive_btn")
+        private ControlModalFormConfirm ModalDlg = new ControlModalFormConfirm("archive_btn")
         {
             Header = "webexpress.webapp:setting.systeminformation.reboot.header",
             Content = new ControlFormItemStaticText() { Text = "webexpress.webapp:setting.systeminformation.reboot.description" }
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public FragmentPropertyReboot()
             : base("archive_btn")
@@ -51,9 +52,9 @@ namespace WebExpress.WebApp.WebFragment
             Icon = new PropertyIcon(TypeIcon.PowerOff);
             TextColor = new PropertyColorText(TypeColorText.Light);
 
-            ModalDlg.ButtonIcon = Icon;
-            ModalDlg.ButtonLabel = Text;
-            ModalDlg.ButtonColor = new PropertyColorButton(TypeColorButton.Danger);
+            ModalDlg.SubmitButtonIcon = Icon;
+            ModalDlg.SubmitButtonLabel = Text;
+            ModalDlg.SubmitButtonColor = new PropertyColorButton(TypeColorButton.Danger);
             ModalDlg.Confirm += OnConfirm;
 
             Modal = new PropertyModal(TypeModal.Modal, ModalDlg);
@@ -64,7 +65,7 @@ namespace WebExpress.WebApp.WebFragment
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        private void OnConfirm(object sender, FormularEventArgs e)
+        private void OnConfirm(object sender, FormEventArgs e)
         {
             var process = new Process()
             {

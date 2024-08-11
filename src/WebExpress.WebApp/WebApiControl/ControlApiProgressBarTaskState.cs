@@ -17,7 +17,7 @@ namespace WebExpress.WebApp.WebApiControl
         public string OnFinishScript { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlApiProgressBarTaskState(string id)

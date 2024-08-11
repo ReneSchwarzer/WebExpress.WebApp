@@ -29,7 +29,7 @@ namespace WebExpress.WebApp.WebSettingPage
     public sealed class PageWebAppSettingSystemInformation : PageWebAppSetting, IScope
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageWebAppSettingSystemInformation()
         {

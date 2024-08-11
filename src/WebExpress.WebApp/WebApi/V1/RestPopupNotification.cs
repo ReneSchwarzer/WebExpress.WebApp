@@ -18,7 +18,7 @@ namespace WebExpress.WebApp.WebAPI.V1
     public sealed class RestPopupNotification : ResourceRest
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public RestPopupNotification()
         {

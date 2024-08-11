@@ -12,7 +12,7 @@ namespace WebExpress.WebApp
     public sealed class Module : WebCore.WebModule.Module
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public Module()
         {

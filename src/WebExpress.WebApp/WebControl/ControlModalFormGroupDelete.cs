@@ -1,17 +1,18 @@
-﻿using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
+﻿using System;
 using WebExpress.WebApp.WebUser;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
 using static WebExpress.WebCore.Internationalization.InternationalizationManager;
 
 namespace WebExpress.WebApp.WebControl
 {
-    internal sealed class ControlModalFormularUserDelete : ControlModalFormularConfirmDelete
+    internal sealed class ControlModalFormGroupDelete : ControlModalFormConfirmDelete
     {
         /// <summary>
-        /// Returns or sets the user to be deleted.
+        /// Returns or sets the group to be edited.
         /// </summary>
-        public User Item { get; set; }
+        public Group Item { get; set; }
 
         /// <summary>
         /// Returns the description.
@@ -19,15 +20,15 @@ namespace WebExpress.WebApp.WebControl
         private ControlFormItemStaticText Description { get; } = new ControlFormItemStaticText();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlModalFormularUserDelete(string id = null)
+        public ControlModalFormGroupDelete(string id = null)
             : base("delete_" + id)
         {
             Confirm += OnConfirm;
 
-            Header = "webexpress.webapp:setting.usermanager.user.delete.header";
+            Header = "webexpress.webapp:setting.usermanager.group.delete.header";
             Content = Description;
         }
 
@@ -36,9 +37,10 @@ namespace WebExpress.WebApp.WebControl
         /// </summary>
         /// <param name="sender">The trigger of the event.</param>
         /// <param name="e">The event argument.</param>
-        private void OnConfirm(object sender, FormularEventArgs e)
+        /// <exception cref="NotImplementedException"></exception>
+        private void OnConfirm(object sender, FormEventArgs e)
         {
-            UserManager.RemoveUser(Item);
+            UserManager.RemoveGroup(Item);
 
             e.Context.Page.Redirecting(e.Context.Uri);
         }
@@ -50,7 +52,7 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>The control as html.</returns>
         public override IHtmlNode Render(RenderContext context)
         {
-            Description.Text = string.Format(I18N(context.Culture, "webexpress.webapp:setting.usermanager.user.delete.description"), Item.Login);
+            Description.Text = string.Format(I18N(context.Culture, "webexpress.webapp:setting.usermanager.group.delete.description"), Item.Name);
 
             return base.Render(context);
         }

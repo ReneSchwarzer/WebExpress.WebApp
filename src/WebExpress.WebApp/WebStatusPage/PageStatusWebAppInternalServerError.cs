@@ -13,7 +13,7 @@ namespace WebExpress.WebApp.WebStatusPage
     public sealed class PageStatusWebAppInternalServerError : PageStatusWebApp<ResponseInternalServerError>
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageStatusWebAppInternalServerError()
         {

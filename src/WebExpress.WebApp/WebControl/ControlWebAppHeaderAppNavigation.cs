@@ -27,7 +27,7 @@ namespace WebExpress.WebApp.WebControl
         public List<IControlNavigationItem> Secondary { get; protected set; } = new List<IControlNavigationItem>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeaderAppNavigation(string id = null)

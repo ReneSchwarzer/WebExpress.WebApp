@@ -6,27 +6,32 @@ using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebControl
 {
-    public class ControlFormularConfirm : ControlForm
+    public class ControlFormConfirm : ControlForm
     {
         /// <summary>
         /// Event is triggered when deletion is confirmed.
         /// </summary>
-        public event EventHandler<FormularEventArgs> Confirm;
+        public event EventHandler<FormEventArgs> Confirm;
 
         /// <summary>
-        /// Returns or sets the icon.
+        /// Returns or sets the submit button icon.
         /// </summary>
-        public PropertyIcon ButtonIcon { get => SubmitButton.Icon; set => SubmitButton.Icon = value; }
+        public PropertyIcon SubmitButtonIcon { get => SubmitButton.Icon; set => SubmitButton.Icon = value; }
 
         /// <summary>
-        /// Returns or sets the button color.
+        /// Returns or sets the submit button color.
         /// </summary>
-        public PropertyColorButton ButtonColor { get => SubmitButton.Color; set => SubmitButton.Color = value; }
+        public PropertyColorButton SubmitButtonColor { get => SubmitButton.Color; set => SubmitButton.Color = value; }
 
         /// <summary>
-        /// Returns or sets the button label. 
+        /// Returns or sets the submit button label.
         /// </summary>
-        public string ButtonLabel { get => SubmitButton.Text; set => SubmitButton.Text = value; }
+        public string SubmitButtonLabel { get => SubmitButton.Text; set => SubmitButton.Text = value; }
+
+        /// <summary>
+        /// Returns or sets the submit button.
+        /// </summary>
+        private ControlFormItemButtonSubmit SubmitButton { get; set; }
 
         /// <summary>
         /// Returns or sets the content.
@@ -36,33 +41,34 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlFormularConfirm(string id = null)
+        public ControlFormConfirm(string id = null)
             : base(id, null)
         {
-            ButtonColor = new PropertyColorButton(TypeColorButton.Primary);
+            SubmitButton = new ControlFormItemButtonSubmit("submit");
+            SubmitButtonColor = new PropertyColorButton(TypeColorButton.Primary);
         }
 
         /// <summary>
         /// Triggers the confirm event.
         /// </summary>
         /// <param name="context">The context in which the control is rendered.</param>
-        protected virtual void OnConfirm(RenderContextFormular context)
+        protected virtual void OnConfirm(RenderContextForm context)
         {
-            Confirm?.Invoke(this, new FormularEventArgs() { Context = context });
+            Confirm?.Invoke(this, new FormEventArgs() { Context = context });
         }
 
         /// <summary>
         /// Initializes the form.
         /// </summary>
         /// <param name="context">The context in which the control is rendered.</param>
-        public override void Initialize(RenderContextFormular context)
+        public override void Initialize(RenderContextForm context)
         {
             base.Initialize(context);
 
-            ButtonLabel = context.Page.I18N("webexpress.webapp", "confirm.label");
+            SubmitButtonLabel = context.Page.I18N("webexpress.webapp", "confirm.label");
             Content.Text = context.Page.I18N("webexpress.webapp", "confirm.description");
 
             Add(Content);
@@ -71,8 +77,8 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Triggers the crocess event.
         /// </summary>
-        /// <param name="context"></param>
-        protected override void OnProcess(RenderContextFormular context)
+        /// <param name="context">The render context.</param>
+        protected override void OnProcess(RenderContextForm context)
         {
             base.OnProcess(context);
 

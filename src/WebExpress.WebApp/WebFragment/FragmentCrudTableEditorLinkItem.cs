@@ -23,7 +23,7 @@ namespace WebExpress.WebApp.WebFragment
         public PropertyColorText Color { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="label">The label of the column.</param>
         public FragmentCrudTableEditorLinkItem(string label)

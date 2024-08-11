@@ -63,7 +63,7 @@ namespace WebExpress.WebApp.WebControl
         public List<IControl> Secondary { get; } = new List<IControl>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppContent(string id = null)

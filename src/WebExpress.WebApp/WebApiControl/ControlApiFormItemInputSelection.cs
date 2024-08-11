@@ -5,7 +5,7 @@ using WebExpress.WebUI.WebControl;
 
 namespace WebExpress.WebApp.WebApiControl;
 
-public class ControlApiFormularItemInputSelection : ControlFormItemInputSelection, IControlApi
+public class ControlApiFormItemInputSelection : ControlFormItemInputSelection, IControlApi
 {
     /// <summary>
     /// Returns or sets the uri that determines the options.
@@ -13,10 +13,10 @@ public class ControlApiFormularItemInputSelection : ControlFormItemInputSelectio
     public string RestUri { get; set; }
 
     /// <summary>
-    /// Constructor
+    /// Initializes a new instance of the class.
     /// </summary>
     /// <param name="id">The control id.</param>
-    public ControlApiFormularItemInputSelection(string id = null)
+    public ControlApiFormItemInputSelection(string id = null)
         : base(id)
     {
     }
@@ -28,7 +28,7 @@ public class ControlApiFormularItemInputSelection : ControlFormItemInputSelectio
     /// <param name="id">The id of the control.</param>
     /// <param name="css">The CSS classes that are assigned to the control.</param>
     /// <returns>The javascript code.</returns>
-    protected override string GetScript(RenderContextFormular context, string id, string css)
+    protected override string GetScript(RenderContextForm context, string id, string css)
     {
         var settings = new
         {

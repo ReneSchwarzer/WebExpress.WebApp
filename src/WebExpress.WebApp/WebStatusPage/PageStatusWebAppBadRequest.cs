@@ -13,7 +13,7 @@ namespace WebExpress.WebApp.WebStatusPage
     public sealed class PageStatusWebAppBadRequest : PageStatusWebApp<ResponseBadRequest>
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public PageStatusWebAppBadRequest()
         {

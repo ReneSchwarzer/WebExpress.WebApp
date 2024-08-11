@@ -83,7 +83,7 @@ namespace WebExpress.WebApp.WebControl
         };
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeader(string id = null)
