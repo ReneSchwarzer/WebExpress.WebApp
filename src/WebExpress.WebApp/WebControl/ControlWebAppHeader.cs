@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -52,35 +51,35 @@ namespace WebExpress.WebApp.WebControl
         {
         };
 
-        /// <summary>
-        /// Returns or sets the navigation of the application.
-        /// </summary>
-        public ControlWebAppHeaderAppNavigation AppNavigation { get; } = new ControlWebAppHeaderAppNavigation("webexpress.webapp.header.appnavigation")
-        {
-            Layout = TypeLayoutFlexbox.Inline,
-            Justify = TypeJustifiedFlexbox.Start
-        };
+        ///// <summary>
+        ///// Returns or sets the navigation of the application.
+        ///// </summary>
+        //public ControlWebAppHeaderAppNavigation AppNavigation { get; } = new ControlWebAppHeaderAppNavigation("webexpress.webapp.header.appnavigation")
+        //{
+        //    Layout = TypeLayoutFlexbox.Inline,
+        //    Justify = TypeJustifiedFlexbox.Start
+        //};
 
-        /// <summary>
-        /// Returns or sets the quick create.
-        /// </summary>
-        public ControlWebAppHeaderQuickCreate QuickCreate { get; } = new ControlWebAppHeaderQuickCreate("webexpress.webapp.header.quickcreate")
-        {
-        };
+        ///// <summary>
+        ///// Returns or sets the quick create.
+        ///// </summary>
+        //public ControlWebAppHeaderQuickCreate QuickCreate { get; } = new ControlWebAppHeaderQuickCreate("webexpress.webapp.header.quickcreate")
+        //{
+        //};
 
-        /// <summary>
-        /// Returns or sets the navigation of the application helpers.
-        /// </summary>
-        public ControlWebAppHeaderHelp Help { get; } = new ControlWebAppHeaderHelp("webexpress.webapp.header.help")
-        {
-        };
+        ///// <summary>
+        ///// Returns or sets the navigation of the application helpers.
+        ///// </summary>
+        //public ControlWebAppHeaderHelp Help { get; } = new ControlWebAppHeaderHelp("webexpress.webapp.header.help")
+        //{
+        //};
 
-        /// <summary>
-        /// Returns or sets the navigation of the application settings.
-        /// </summary>
-        public ControlWebAppHeaderSettings Settings { get; } = new ControlWebAppHeaderSettings("webexpress.webapp.header.settings")
-        {
-        };
+        ///// <summary>
+        ///// Returns or sets the navigation of the application settings.
+        ///// </summary>
+        //public ControlWebAppHeaderSettings Settings { get; } = new ControlWebAppHeaderSettings("webexpress.webapp.header.settings")
+        //{
+        //};
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -89,43 +88,36 @@ namespace WebExpress.WebApp.WebControl
         public ControlWebAppHeader(string id = null)
             : base(id)
         {
-            Init();
-        }
-
-        /// <summary>
-        /// Initialization
-        /// </summary>
-        private void Init()
-        {
             Fixed = TypeFixed.Top;
-            Styles = new List<string>(new[] { "position: sticky; top: 0; z-index: 99;" });
+            Styles = new List<string>(["position: sticky; top: 0; z-index: 99;"]);
             Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
-            BackgroundColor = LayoutSchema.HeaderBackground;
+            //BackgroundColor = LayoutSchema.HeaderBackground;
         }
 
         /// <summary>
-        /// Convert to html.
+        /// Convert the control to HTML.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
-        /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context)
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext)
         {
             var content = new ControlPanelFlexbox
             (
+                null,
                 AppNavigator,
-                AppTitle,
-                AppNavigation,
-                QuickCreate,
-                new ControlPanel() { Margin = new PropertySpacingMargin(PropertySpacing.Space.Auto, PropertySpacing.Space.None) },
-                Help,
-                Settings
+                AppTitle//,
+            //AppNavigation,
+            //QuickCreate,
+            //new ControlPanel() { Margin = new PropertySpacingMargin(PropertySpacing.Space.Auto, PropertySpacing.Space.None) },
+            //Help,
+            //Settings
             )
             {
                 Layout = TypeLayoutFlexbox.Default,
                 Align = TypeAlignFlexbox.Center
             };
 
-            return new HtmlElementSectionHeader(content.Render(context))
+            return new HtmlElementSectionHeader(content.Render(renderContext))
             {
                 Id = Id,
                 Class = Css.Concatenate("navbar", GetClasses()),

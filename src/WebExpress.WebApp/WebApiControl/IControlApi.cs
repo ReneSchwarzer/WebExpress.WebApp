@@ -1,6 +1,9 @@
 ﻿namespace WebExpress.WebApp.WebApiControl
 {
-    internal interface IControlApi
+    /// <summary>
+    /// Interface for controlling API interactions.
+    /// </summary>
+    public interface IControlApi
     {
         /// <summary>
         /// Returns or sets the uri that determines the data.

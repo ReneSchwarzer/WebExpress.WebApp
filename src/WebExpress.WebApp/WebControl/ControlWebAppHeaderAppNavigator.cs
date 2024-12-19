@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WebExpress.WebCore.Internationalization;
-using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -15,17 +15,17 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns or sets the preferences area.
         /// </summary>
-        public List<IControlDropdownItem> Preferences { get; protected set; } = new List<IControlDropdownItem>();
+        public IEnumerable<IControlDropdownItem> Preferences { get; protected set; } = [];
 
         /// <summary>
         /// Returns or sets the primary area.
         /// </summary>
-        public List<IControlDropdownItem> Primary { get; protected set; } = new List<IControlDropdownItem>();
+        public IEnumerable<IControlDropdownItem> Primary { get; protected set; } = [];
 
         /// <summary>
         /// Returns or sets the secondary area.
         /// </summary>
-        public List<IControlDropdownItem> Secondary { get; protected set; } = new List<IControlDropdownItem>();
+        public IEnumerable<IControlDropdownItem> Secondary { get; protected set; } = [];
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -34,34 +34,26 @@ namespace WebExpress.WebApp.WebControl
         public ControlWebAppHeaderAppNavigator(string id = null)
             : base(id)
         {
-            Init();
-        }
-
-        /// <summary>
-        /// Initialization
-        /// </summary>
-        private void Init()
-        {
             Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
         }
 
         /// <summary>
-        /// Convert to html.
+        /// Convert the control to HTML.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
-        /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context)
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext)
         {
-            var application = ComponentManager.ApplicationManager.GetApplcation(context.Page?.ResourceContext.ApplicationContext?.ApplicationId);
+            var application = renderContext?.PageContext?.ApplicationContext;
 
             var hamburger = new List<IControlDropdownItem>
             {
-                new ControlDropdownItemHeader() { Text = context.I18N(context.Page?.ResourceContext.ApplicationContext, context.Page?.ResourceContext.ApplicationContext?.ApplicationName) }
+                new ControlDropdownItemHeader() { Text = I18N.Translate(renderContext.Request.Culture, application?.ApplicationName) }
             };
 
             hamburger.AddRange(Primary);
 
-            if (Primary.Count > 0 && Secondary.Count > 0)
+            if (Primary.Count() > 0 && Secondary.Count() > 0)
             {
                 hamburger.Add(new ControlDropdownItemDivider());
             }
@@ -69,14 +61,14 @@ namespace WebExpress.WebApp.WebControl
             hamburger.AddRange(Secondary);
 
             var logo = (hamburger.Count > 1) ?
-            (IControl)new ControlDropdown("webexpress.webapp.header.icon", hamburger)
+            (IControl)new ControlDropdown(Id, hamburger.ToArray())
             {
                 Image = application?.Icon,
                 Height = 50,
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None),
-                Styles = new List<string>() { "padding: 0.5em;" }
+                Styles = ["padding: 0.5em;"]
             } :
-            new ControlImage("webexpress.webapp.header.icon")
+            new ControlImage(Id)
             {
                 Uri = application?.Icon,
                 Height = 50,
@@ -84,7 +76,7 @@ namespace WebExpress.WebApp.WebControl
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None)
             };
 
-            return logo?.Render(context);
+            return logo?.Render(renderContext);
         }
     }
 }
