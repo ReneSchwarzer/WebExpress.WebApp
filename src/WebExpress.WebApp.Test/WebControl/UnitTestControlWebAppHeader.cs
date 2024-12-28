@@ -28,7 +28,7 @@ namespace WebExpress.WebApp.Test.WebControl
             // test execution
             var html = control.Render(context);
 
-            AssertEqualWithPlaceholders(expected, UnitTestControlFixture.RemoveLineBreaks(html.ToString()));
+            AssertExtensions.EqualWithPlaceholders(expected, html);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace WebExpress.WebApp.Test.WebControl
             // test execution
             var html = control.Render(context);
 
-            AssertEqualWithPlaceholders(expected, UnitTestControlFixture.RemoveLineBreaks(html.ToString()));
+            AssertExtensions.EqualWithPlaceholders(expected, html);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace WebExpress.WebApp.Test.WebControl
             // test execution
             var html = control.Render(context);
 
-            AssertEqualWithPlaceholders(expected, UnitTestControlFixture.RemoveLineBreaks(html.ToString()));
+            AssertExtensions.EqualWithPlaceholders(expected, html);
         }
 
         /// <summary>
@@ -103,17 +103,7 @@ namespace WebExpress.WebApp.Test.WebControl
             // test execution
             var html = control.Render(context);
 
-            AssertEqualWithPlaceholders(expected, UnitTestControlFixture.RemoveLineBreaks(html.ToString()));
-        }
-
-        /// <summary>
-        /// Asserts that the actual string is equal to the expected string, allowing for placeholders.
-        /// </summary>
-        /// <param name="expected">The expected string with placeholders.</param>
-        /// <param name="actual">The actual string to compare.</param>
-        private void AssertEqualWithPlaceholders(string expected, string actual)
-        {
-            Assert.True(UnitTestControlFixture.AreEqualWithPlaceholders(expected, actual), $"Expected: {expected}, Actual: {actual}");
+            AssertExtensions.EqualWithPlaceholders(expected, html);
         }
     }
 }

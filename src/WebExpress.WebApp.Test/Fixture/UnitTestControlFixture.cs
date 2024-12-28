@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using WebExpress.WebCore;
 using WebExpress.WebCore.WebApplication;
 using WebExpress.WebCore.WebComponent;
@@ -14,7 +13,6 @@ using WebExpress.WebCore.WebMessage;
 using WebExpress.WebCore.WebPage;
 using WebExpress.WebCore.WebPlugin;
 using WebExpress.WebCore.WebUri;
-using WebExpress.WebUI.WebComponent;
 using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.Test.Fixture
@@ -25,9 +23,6 @@ namespace WebExpress.WebApp.Test.Fixture
     public partial class UnitTestControlFixture : IDisposable
     {
         private static readonly string[] _separator = ["\r\n", "\r", "\n"];
-
-        [GeneratedRegex(@">\s+<")]
-        private static partial Regex WhitespaceRegex();
 
         /// <summary>
         /// Initializes a new instance of the class and boot the component manager.
@@ -63,7 +58,7 @@ namespace WebExpress.WebApp.Test.Fixture
         /// <returns>The component hub.</returns>
         public static ComponentHub CreateComponentHubMock()
         {
-            var ctorComponentHub = typeof(ComponentHubUI).GetConstructor
+            var ctorComponentHub = typeof(ComponentHub).GetConstructor
             (
                 BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
@@ -74,7 +69,7 @@ namespace WebExpress.WebApp.Test.Fixture
             var componentHub = (ComponentHub)ctorComponentHub.Invoke([CreateHttpServerContextMock()]);
 
             // set static field in the webex class
-            var type = typeof(WebEx<IComponentHub>);
+            var type = typeof(WebEx);
             var field = type.GetField("_componentHub", BindingFlags.Static | BindingFlags.NonPublic);
 
             field.SetValue(null, componentHub);
@@ -184,7 +179,6 @@ namespace WebExpress.WebApp.Test.Fixture
             featureCollection.Set<IHttpRequestIdentifierFeature>(requestIdentifierFeature);
             featureCollection.Set<IHttpConnectionFeature>(connectionFeature);
 
-            var componentManager = CreateComponentHubMock();
             var context = new WebCore.WebMessage.HttpContext(featureCollection, CreateHttpServerContextMock());
 
             return context;
@@ -200,7 +194,7 @@ namespace WebExpress.WebApp.Test.Fixture
         {
             var request = CrerateRequestMock();
 
-            return new RenderControlContext(CreratePageContextMock(applicationContext, scopes), request);
+            return new RenderControlContext(null, CreratePageContextMock(applicationContext, scopes), request);
         }
 
         /// <summary>
@@ -240,39 +234,6 @@ namespace WebExpress.WebApp.Test.Fixture
             var data = memoryStream.ToArray();
 
             return Encoding.UTF8.GetString(data);
-        }
-
-        /// <summary>
-        /// Removes all line breaks from the input string.
-        /// </summary>
-        /// <param name="input">The input string from which to remove line breaks.</param>
-        /// <returns>A string with all line breaks removed.</returns>
-        public static string RemoveLineBreaks(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                return input;
-            }
-
-            // remove all line breaks
-            string result = input.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
-
-            // remove whitespace of any length between '>' and '<'
-            result = WhitespaceRegex().Replace(result, "><");
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two strings, allowing for placeholders in the expected string.
-        /// </summary>
-        /// <param name="expected">The expected string, which may contain '*' as a wildcard character.</param>
-        /// <param name="actual">The actual string to compare against the expected string.</param>
-        /// <returns>True if the actual string matches the expected string with placeholders; otherwise, false.</returns>
-        public static bool AreEqualWithPlaceholders(string expected, string actual)
-        {
-            var pattern = "^" + Regex.Escape(expected).Replace(@"\*", ".*") + "$";
-            return Regex.IsMatch(actual, pattern);
         }
 
         /// <summary>

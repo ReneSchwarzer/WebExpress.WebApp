@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebExpress.WebApp.WebSection;
+using WebExpress.WebCore;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebFragment;
 using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
@@ -12,20 +15,24 @@ namespace WebExpress.WebApp.WebControl
     /// </summary>
     public class ControlWebAppHeaderAppNavigator : Control
     {
+        private readonly List<IControlDropdownItem> _preferences = [];
+        private readonly List<IControlDropdownItem> _primary = [];
+        private readonly List<IControlDropdownItem> _secondary = [];
+
         /// <summary>
         /// Returns or sets the preferences area.
         /// </summary>
-        public IEnumerable<IControlDropdownItem> Preferences { get; protected set; } = [];
+        public IEnumerable<IControlDropdownItem> Preferences => _preferences;
 
         /// <summary>
         /// Returns or sets the primary area.
         /// </summary>
-        public IEnumerable<IControlDropdownItem> Primary { get; protected set; } = [];
+        public IEnumerable<IControlDropdownItem> Primary => _primary;
 
         /// <summary>
         /// Returns or sets the secondary area.
         /// </summary>
-        public IEnumerable<IControlDropdownItem> Secondary { get; protected set; } = [];
+        public IEnumerable<IControlDropdownItem> Secondary => _secondary;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -38,11 +45,87 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
+        /// Adds items to the preferences area.
+        /// </summary>
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControlDropdownItem[] items)
+        {
+            _preferences.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the preferences area.
+        /// </summary>
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControlDropdownItem item)
+        {
+            _preferences.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControlDropdownItem[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControlDropdownItem item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControlDropdownItem[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControlDropdownItem item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
         public override IHtmlNode Render(IRenderControlContext renderContext)
+        {
+            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppPreferences>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            );
+
+            return Render(renderContext, _preferences.Union(preferences), _primary, _secondary);
+        }
+
+        /// <summary>
+        /// Convert the control to HTML.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public virtual IHtmlNode Render
+        (
+            IRenderControlContext renderContext,
+            IEnumerable<IControlDropdownItem> preferences,
+            IEnumerable<IControlDropdownItem> primary,
+            IEnumerable<IControlDropdownItem> secondary
+        )
         {
             var application = renderContext?.PageContext?.ApplicationContext;
 
@@ -51,14 +134,21 @@ namespace WebExpress.WebApp.WebControl
                 new ControlDropdownItemHeader() { Text = I18N.Translate(renderContext.Request.Culture, application?.ApplicationName) }
             };
 
-            hamburger.AddRange(Primary);
+            hamburger.AddRange(preferences);
 
-            if (Primary.Count() > 0 && Secondary.Count() > 0)
+            if (preferences.Any() && primary.Any())
             {
                 hamburger.Add(new ControlDropdownItemDivider());
             }
 
-            hamburger.AddRange(Secondary);
+            hamburger.AddRange(primary);
+
+            if (primary.Any() && secondary.Any())
+            {
+                hamburger.Add(new ControlDropdownItemDivider());
+            }
+
+            hamburger.AddRange(secondary);
 
             var logo = (hamburger.Count > 1) ?
             (IControl)new ControlDropdown(Id, hamburger.ToArray())

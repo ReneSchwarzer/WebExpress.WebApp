@@ -1,4 +1,5 @@
 ﻿using WebExpress.WebApp.Test.Fixture;
+using WebExpress.WebCore.WebSitemap;
 
 namespace WebExpress.WebApp.Test.WebPage
 {
@@ -29,6 +30,31 @@ namespace WebExpress.WebApp.Test.WebPage
             }
 
             Assert.Contains(id, page.Select(x => x.EndpointId?.ToString()));
+        }
+
+        /// <summary>
+        /// Test the process function of the page manager.
+        /// </summary>
+        [Theory]
+        [InlineData("http://localhost:8080/server/app/page", "webexpress.webapp.test.testpage")]
+        public void SearchResource(string uri, string id)
+        {
+            // preconditions
+            var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
+            var context = UnitTestControlFixture.CreateHttpContextMock();
+            var httpServerContext = UnitTestControlFixture.CreateHttpServerContextMock();
+            var searchContext = Activator.CreateInstance<SearchContext>();
+            componentHub.SitemapManager.Refresh();
+            typeof(SearchContext).GetProperty("HttpServerContext").SetValue(searchContext, httpServerContext);
+            typeof(SearchContext).GetProperty("Culture").SetValue(searchContext, httpServerContext.Culture);
+            typeof(SearchContext).GetProperty("HttpContext").SetValue(searchContext, context);
+
+            // test execution
+            var searchResult = componentHub.SitemapManager.SearchResource(new Uri(uri), searchContext);
+
+            var response = componentHub.EndpointManager.HandleRequest(UnitTestControlFixture.CrerateRequestMock(), searchResult.EndpointContext);
+
+            Assert.Equal(id, searchResult?.EndpointContext?.EndpointId.ToString());
         }
     }
 }

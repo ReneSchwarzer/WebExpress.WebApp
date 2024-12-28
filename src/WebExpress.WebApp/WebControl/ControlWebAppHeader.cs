@@ -51,35 +51,35 @@ namespace WebExpress.WebApp.WebControl
         {
         };
 
-        ///// <summary>
-        ///// Returns or sets the navigation of the application.
-        ///// </summary>
-        //public ControlWebAppHeaderAppNavigation AppNavigation { get; } = new ControlWebAppHeaderAppNavigation("webexpress.webapp.header.appnavigation")
-        //{
-        //    Layout = TypeLayoutFlexbox.Inline,
-        //    Justify = TypeJustifiedFlexbox.Start
-        //};
+        /// <summary>
+        /// Returns or sets the navigation of the application.
+        /// </summary>
+        public ControlWebAppHeaderAppNavigation AppNavigation { get; } = new ControlWebAppHeaderAppNavigation("webexpress.webapp.header.appnavigation")
+        {
+            Layout = TypeLayoutFlexbox.Inline,
+            Justify = TypeJustifiedFlexbox.Start
+        };
 
-        ///// <summary>
-        ///// Returns or sets the quick create.
-        ///// </summary>
-        //public ControlWebAppHeaderQuickCreate QuickCreate { get; } = new ControlWebAppHeaderQuickCreate("webexpress.webapp.header.quickcreate")
-        //{
-        //};
+        /// <summary>
+        /// Returns or sets the quick create.
+        /// </summary>
+        public ControlWebAppHeaderQuickCreate QuickCreate { get; } = new ControlWebAppHeaderQuickCreate("webexpress.webapp.header.quickcreate")
+        {
+        };
 
-        ///// <summary>
-        ///// Returns or sets the navigation of the application helpers.
-        ///// </summary>
-        //public ControlWebAppHeaderHelp Help { get; } = new ControlWebAppHeaderHelp("webexpress.webapp.header.help")
-        //{
-        //};
+        /// <summary>
+        /// Returns or sets the navigation of the application helpers.
+        /// </summary>
+        public ControlWebAppHeaderHelp Help { get; } = new ControlWebAppHeaderHelp("webexpress.webapp.header.help")
+        {
+        };
 
-        ///// <summary>
-        ///// Returns or sets the navigation of the application settings.
-        ///// </summary>
-        //public ControlWebAppHeaderSettings Settings { get; } = new ControlWebAppHeaderSettings("webexpress.webapp.header.settings")
-        //{
-        //};
+        /// <summary>
+        /// Returns or sets the navigation of the application settings.
+        /// </summary>
+        public ControlWebAppHeaderSettings Settings { get; } = new ControlWebAppHeaderSettings("webexpress.webapp.header.settings")
+        {
+        };
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -105,12 +105,12 @@ namespace WebExpress.WebApp.WebControl
             (
                 null,
                 AppNavigator,
-                AppTitle//,
-            //AppNavigation,
-            //QuickCreate,
-            //new ControlPanel() { Margin = new PropertySpacingMargin(PropertySpacing.Space.Auto, PropertySpacing.Space.None) },
-            //Help,
-            //Settings
+                AppTitle,
+                AppNavigation,
+                QuickCreate,
+                new ControlPanel() { Margin = new PropertySpacingMargin(PropertySpacing.Space.Auto, PropertySpacing.Space.None) },
+                Help,
+                Settings
             )
             {
                 Layout = TypeLayoutFlexbox.Default,

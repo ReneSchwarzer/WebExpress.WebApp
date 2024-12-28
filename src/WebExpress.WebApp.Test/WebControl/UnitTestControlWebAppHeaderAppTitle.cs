@@ -27,7 +27,7 @@ namespace WebExpress.WebApp.Test.WebControl
             // test execution
             var html = control.Render(context);
 
-            Assert.Equal(expected, UnitTestControlFixture.RemoveLineBreaks(html.ToString()));
+            AssertExtensions.EqualWithPlaceholders(expected, html);
         }
     }
 }

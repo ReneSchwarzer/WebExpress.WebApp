@@ -8,7 +8,7 @@ namespace WebExpress.WebApp.Test
     /// A dummy class for testing purposes.
     /// </summary>
     [Title("webindex:pagea.label")]
-    [Segment("pagea", "webindex:homepage.label")]
+    [Segment("page", "webindex:homepage.label")]
     [ContextPath(null)]
     public sealed class TestPage : IPage<VisualTreeWebApp>
     {

@@ -64,4 +64,8 @@
 	  <PackageReference Include="WebExpress.WebIndex" Version="0.0.8-alpha" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="WebComponent\" />
+	</ItemGroup>
+
 </Project>
