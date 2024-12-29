@@ -1,91 +1,77 @@
-﻿//using System.Collections.Generic;
-//using System.IO;
-//using WebExpress.WebCore;
-//using WebExpress.WebCore.Internationalization;
-//using WebExpress.WebCore.WebComponent;
-//using WebExpress.WebCore.WebPlugin;
-//using WebExpress.WebIndex;
+﻿using System.Collections.Generic;
+using System.IO;
+using WebExpress.WebCore;
+using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebPlugin;
+using WebExpress.WebIndex;
 
-//namespace WebExpress.WebApp.WebIndex
-//{
-//    public sealed class IndexManager : WebExpress.WebIndex.IndexManager, IComponentPlugin
-//    {
-//        /// <summary>
-//        /// Returns the reference to the context of the host.
-//        /// </summary>
-//        public IHttpServerContext HttpServerContext { get; private set; }
+namespace WebExpress.WebApp.WebIndex
+{
+    /// <summary>
+    /// Manages the index for the web application and handles component registration and removal.
+    /// </summary>
+    public sealed class IndexManager : WebExpress.WebIndex.IndexManager, IComponentManager
+    {
+        private readonly IHttpServerContext _httpServerContext;
+        private readonly IComponentHub _componentHub;
 
-//        /// <summary>
-//        /// Initializes a new instance of the class.
-//        /// </summary>
-//        internal IndexManager()
-//        {
-//            ComponentManager.PluginManager.AddPlugin += (s, pluginContext) =>
-//            {
-//                Register(pluginContext);
-//            };
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        /// <param name="httpServerContext">The reference to the context of the host.</param>
+        /// <param name="componentHub">The component hub.</param>
+        internal IndexManager(IHttpServerContext httpServerContext, IComponentHub componentHub)
+        {
+            _httpServerContext = httpServerContext;
+            _componentHub = componentHub;
 
-//            ComponentManager.PluginManager.RemovePlugin += (s, pluginContext) =>
-//            {
-//                Remove(pluginContext);
-//            };
-//        }
+            _componentHub.PluginManager.AddPlugin += (s, pluginContext) =>
+            {
+                Register(pluginContext);
+            };
 
-//        /// <summary>
-//        /// Initialization
-//        /// </summary>
-//        /// <param name="context">The reference to the context of the host.</param>
-//        public void Initialization(IHttpServerContext context)
-//        {
-//            HttpServerContext = context;
+            _componentHub.PluginManager.RemovePlugin += (s, pluginContext) =>
+            {
+                Remove(pluginContext);
+            };
 
-//            HttpServerContext.Log.Debug
-//            (
-//                InternationalizationManager.I18N("webexpress.webapp:indexmanager.initialization")
-//            );
+            _httpServerContext.Log.Debug
+            (
+                I18N.Translate("webexpress.webapp:indexmanager.initialization")
+            );
 
-//            Initialization(new IndexContext() { IndexDirectory = Path.Combine(context.DataPath, "index") });
-//        }
+            Initialization(new IndexContext() { IndexDirectory = Path.Combine(httpServerContext.DataPath, "index") });
+        }
 
-//        /// <summary>
-//        /// Discovers and registers entries from the specified plugin.
-//        /// </summary>
-//        /// <param name="pluginContext">A context of a plugin whose elements are to be registered.</param>
-//        public void Register(IPluginContext pluginContext)
-//        {
+        /// <summary>
+        /// Discovers and registers entries from the specified plugin.
+        /// </summary>
+        /// <param name="pluginContext">A context of a plugin whose elements are to be registered.</param>
+        public void Register(IPluginContext pluginContext)
+        {
 
-//        }
+        }
 
-//        /// <summary>
-//        /// Discovers and registers entries from the specified plugin.
-//        /// </summary>
-//        /// <param name="pluginContexts">A list with plugin contexts that contain the components.</param>
-//        public void Register(IEnumerable<IPluginContext> pluginContexts)
-//        {
-//            foreach (var pluginContext in pluginContexts)
-//            {
-//                Register(pluginContext);
-//            }
-//        }
+        /// <summary>
+        /// Discovers and registers entries from the specified plugin.
+        /// </summary>
+        /// <param name="pluginContexts">A list with plugin contexts that contain the components.</param>
+        public void Register(IEnumerable<IPluginContext> pluginContexts)
+        {
+            foreach (var pluginContext in pluginContexts)
+            {
+                Register(pluginContext);
+            }
+        }
 
-//        /// <summary>
-//        /// Removes all components associated with the specified plugin context.
-//        /// </summary>
-//        /// <param name="pluginContext">The context of the plugin that contains the components to remove.</param>
-//        public void Remove(IPluginContext pluginContext)
-//        {
-//            //Dictionary.Remove(pluginContext);
-//        }
+        /// <summary>
+        /// Removes all components associated with the specified plugin context.
+        /// </summary>
+        /// <param name="pluginContext">The context of the plugin that contains the components to remove.</param>
+        public void Remove(IPluginContext pluginContext)
+        {
 
-//        /// <summary>
-//        /// Information about the component is collected and prepared for output in the log.
-//        /// </summary>
-//        /// <param name="pluginContext">The context of the plugin.</param>
-//        /// <param name="output">A list of log entries.</param>
-//        /// <param name="deep">The shaft deep.</param>
-//        public void PrepareForLog(IPluginContext pluginContext, IList<string> output, int deep)
-//        {
-
-//        }
-//    }
-//}
+        }
+    }
+}

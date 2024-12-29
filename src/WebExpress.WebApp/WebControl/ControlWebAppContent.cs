@@ -113,14 +113,14 @@ namespace WebExpress.WebApp.WebControl
             var primaryList = Primary.Union(primary).ToList();
             var secondaryList = Secondary.Union(secondary).ToList();
 
-            //MainPanel.Content.Clear();
+            MainPanel.Clear();
 
             MainPanel.Add(Headline);
             MainPanel.Add(new ControlPanel("webexpress.webapp.content.main.preferences", preferencesList.ToArray()));
             MainPanel.Add(new ControlPanel("webexpress.webapp.content.main.primary", primaryList.ToArray()));
             MainPanel.Add(new ControlPanel("webexpress.webapp.content.main.secondary", secondaryList.ToArray()));
 
-            //Content.Clear();
+            Clear();
 
             if (Toolbar.Items.Any())
             {

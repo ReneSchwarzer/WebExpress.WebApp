@@ -3,9 +3,9 @@
 namespace WebExpress.WebApp.WebScope
 {
     /// <summary>
-    /// A scope for setting pages.
+    /// A general scope.
     /// </summary>
-    public class ScopeSetting : IScope
+    public interface IScopeGeneral : IScope
     {
     }
 }

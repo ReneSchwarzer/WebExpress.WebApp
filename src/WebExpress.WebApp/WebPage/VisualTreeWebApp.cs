@@ -21,30 +21,30 @@ namespace WebExpress.WebApp.WebPage
         /// </summary>
         public ControlWebAppHeader Header { get; } = new ControlWebAppHeader("webexpress.webapp.header");
 
-        ///// <summary>
-        ///// Returns the area for the toast messages control.
-        ///// </summary>
-        //public ControlPanelToast Toast { get; protected set; } = new ControlPanelToast("webexpress.webapp.toast");
+        /// <summary>
+        /// Returns the area for the toast messages control.
+        /// </summary>
+        public ControlPanelToast Toast { get; protected set; } = new ControlPanelToast("webexpress.webapp.toast");
 
-        ///// <summary>
-        ///// Returns the range for the path specification.
-        ///// </summary>
-        //public ControlBreadcrumb Breadcrumb { get; protected set; } = new ControlBreadcrumb("webexpress.webapp.breadcrumb");
+        /// <summary>
+        /// Returns the range for the path specification.
+        /// </summary>
+        public ControlBreadcrumb Breadcrumb { get; protected set; } = new ControlBreadcrumb("webexpress.webapp.breadcrumb");
 
-        ///// <summary>
-        ///// Returns the area for prologue.
-        ///// </summary>
-        //public ControlPanel Prologue { get; protected set; } = new ControlPanel("webexpress.webapp.prologue");
+        /// <summary>
+        /// Returns the area for prologue.
+        /// </summary>
+        public ControlPanel Prologue { get; protected set; } = new ControlPanel("webexpress.webapp.prologue");
 
         ///// <summary>
         ///// Returns the range for the search options control.
         ///// </summary>
         //public ControlPanel SearchOptions { get; protected set; } = new ControlPanel("webexpress.webapp.searchoptions");
 
-        ///// <summary>
-        ///// Returns the sidebar control.
-        ///// </summary>
-        //public ControlWebAppSidebar Sidebar { get; protected set; } = new ControlWebAppSidebar("webexpress.webapp.sidebar");
+        /// <summary>
+        /// Returns the sidebar control.
+        /// </summary>
+        public ControlWebAppSidebar Sidebar { get; protected set; } = new ControlWebAppSidebar("webexpress.webapp.sidebar");
 
 
         /// <summary>
@@ -70,11 +70,10 @@ namespace WebExpress.WebApp.WebPage
             Header.Fixed = TypeFixed.Top;
             Header.Styles = new List<string>(["position: sticky; top: 0; z-index: 99;"]);
 
-            //Breadcrumb.Margin = new PropertySpacingMargin(PropertySpacing.Space.Null);
+            //Toast.BackgroundColor = LayoutSchema.ValidationWarningBackground;
+            Breadcrumb.Margin = new PropertySpacingMargin(PropertySpacing.Space.Null);
             //Breadcrumb.BackgroundColor = LayoutSchema.BreadcrumbBackground;
             //Breadcrumb.Size = LayoutSchema.BreadcrumbSize;
-
-            //Toast.BackgroundColor = LayoutSchema.ValidationWarningBackground;
 
             //Sidebar.BackgroundColor = LayoutSchema.SidebarBackground;
 
@@ -86,11 +85,11 @@ namespace WebExpress.WebApp.WebPage
             AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.css"));
             AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.popupnotification.css"));
             AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.taskprogressbar.css"));
-            AddHeaderScript(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.js"));
-            AddHeaderScript(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.popupnotification.js"));
-            AddHeaderScript(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.selection.js"));
-            AddHeaderScript(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.table.js"));
-            AddHeaderScript(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.taskprogressbar.js"));
+            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.js"));
+            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.popupnotification.js"));
+            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.selection.js"));
+            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.table.js"));
+            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.taskprogressbar.js"));
         }
 
         /// <summary>
@@ -114,6 +113,9 @@ namespace WebExpress.WebApp.WebPage
             // header
             Header.AppTitle.Text = html.Head.Title;
             html.Body.Add(Header.Render(renderContext));
+            html.Body.Add(Toast.Render(renderContext));
+            html.Body.Add(Breadcrumb.Render(renderContext));
+            html.Body.Add(Prologue.Render(renderContext));
             html.Body.Add(Content.Render(renderContext));
             html.Body.Add(Footer.Render(renderContext));
 

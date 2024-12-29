@@ -47,15 +47,15 @@ namespace WebExpress.WebApp.Test.Fixture
         /// <returns>True if the actual string matches the expected string with placeholders; otherwise, false.</returns>
         private static bool AreEqualWithPlaceholders(string expected, string actual)
         {
-            if (expected == null && actual == null)
+            if (string.IsNullOrWhiteSpace(expected) && string.IsNullOrWhiteSpace(actual))
             {
                 return true;
             }
-            else if (expected != null && actual == null)
+            else if (!string.IsNullOrWhiteSpace(expected) && string.IsNullOrWhiteSpace(actual))
             {
                 return false;
             }
-            else if (expected == null && actual != null)
+            else if (string.IsNullOrWhiteSpace(expected) && !string.IsNullOrWhiteSpace(actual))
             {
                 return false;
             }

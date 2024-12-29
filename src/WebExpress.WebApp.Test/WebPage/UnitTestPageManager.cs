@@ -13,7 +13,7 @@ namespace WebExpress.WebApp.Test.WebPage
         /// Test the id property of the page manager.
         /// </summary>
         [Theory]
-        [InlineData(typeof(TestApplication), typeof(TestPage), "webexpress.webapp.test.testpage")]
+        [InlineData(typeof(TestApplication), typeof(TestPageA), "webexpress.webapp.test.testpagea")]
         public void Id(Type applicationType, Type pageType, string id)
         {
             // preconditions
@@ -36,7 +36,7 @@ namespace WebExpress.WebApp.Test.WebPage
         /// Test the process function of the page manager.
         /// </summary>
         [Theory]
-        [InlineData("http://localhost:8080/server/app/page", "webexpress.webapp.test.testpage")]
+        [InlineData("http://localhost:8080/server/app/pagea", "webexpress.webapp.test.testpagea")]
         public void SearchResource(string uri, string id)
         {
             // preconditions

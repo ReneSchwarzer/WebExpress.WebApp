@@ -27,12 +27,5 @@ namespace WebExpress.WebApp.Test
         public void Run()
         {
         }
-
-        /// <summary>
-        /// Release of unmanaged resources reserved during use.
-        /// </summary>
-        public void Dispose()
-        {
-        }
     }
 }
