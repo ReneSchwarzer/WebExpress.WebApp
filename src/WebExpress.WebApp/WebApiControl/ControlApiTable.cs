@@ -84,7 +84,7 @@ namespace WebExpress.WebApp.WebApiControl
                 Style = GetStyles()
             };
 
-            renderContext.AddScript(Id, GetScript(Id, string.Join(" ", classes)));
+            visualTree.AddScript(Id, GetScript(Id, string.Join(" ", classes)));
 
             return html;
         }
