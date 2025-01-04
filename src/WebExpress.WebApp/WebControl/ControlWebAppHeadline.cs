@@ -69,8 +69,9 @@ namespace WebExpress.WebApp.WebControl
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
-        public override IHtmlNode Render(IRenderControlContext renderContext)
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionHeadlinePreferences>
             (
@@ -171,7 +172,7 @@ namespace WebExpress.WebApp.WebControl
 
             var metadata = new HtmlElementTextContentDiv
             (
-                Metadata.Select(x => x.Render(renderContext)).ToArray()
+                Metadata.Select(x => x.Render(renderContext, visualTree)).ToArray()
             )
             {
                 Class = Css.Concatenate("ms-2 me-2 mb-3 text-secondary"),
@@ -180,7 +181,7 @@ namespace WebExpress.WebApp.WebControl
 
             return new HtmlElementSectionHeader
             (
-                content.Render(renderContext),
+                content.Render(renderContext, visualTree),
                 Metadata.Count > 0 ? metadata : null
             )
             {

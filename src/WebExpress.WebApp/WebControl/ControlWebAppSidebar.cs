@@ -48,8 +48,9 @@ namespace WebExpress.WebApp.WebControl
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
-        public override IHtmlNode Render(IRenderControlContext renderContext)
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var header = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarHeader>
             (
@@ -91,10 +92,10 @@ namespace WebExpress.WebApp.WebControl
             }
 
             var elements = new List<IHtmlNode>();
-            elements.AddRange(headerList.Select(x => x.Render(renderContext)));
-            elements.AddRange(preferencesList.Select(x => x.Render(renderContext)));
-            elements.AddRange(primaryList.Select(x => x.Render(renderContext)));
-            elements.AddRange(secondaryList.Select(x => x.Render(renderContext)));
+            elements.AddRange(headerList.Select(x => x.Render(renderContext, visualTree)));
+            elements.AddRange(preferencesList.Select(x => x.Render(renderContext, visualTree)));
+            elements.AddRange(primaryList.Select(x => x.Render(renderContext, visualTree)));
+            elements.AddRange(secondaryList.Select(x => x.Render(renderContext, visualTree)));
 
             return new HtmlElementTextContentDiv(elements.ToArray())
             {

@@ -44,8 +44,9 @@ namespace WebExpress.WebApp.WebControl
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
-        public override IHtmlNode Render(IRenderControlContext renderContext)
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlSplitButtonItemLink, SectionAppQuickcreatePreferences>
             (
@@ -70,7 +71,7 @@ namespace WebExpress.WebApp.WebControl
             quickcreateList.AddRange(Secondary.Union(secondary));
 
             var firstQuickcreate = (quickcreateList.FirstOrDefault() as ControlLink);
-            firstQuickcreate?.Render(renderContext);
+            firstQuickcreate?.Render(renderContext, visualTree);
 
             var quickcreate = (quickcreateList.Count > 1) ?
             (IControl)new ControlSplitButtonLink(Id, quickcreateList.Skip(1).ToArray())
@@ -96,7 +97,7 @@ namespace WebExpress.WebApp.WebControl
             } :
             null;
 
-            return quickcreate?.Render(renderContext);
+            return quickcreate?.Render(renderContext, visualTree);
         }
     }
 }

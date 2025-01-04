@@ -7,6 +7,7 @@ using WebExpress.WebCore.WebFragment;
 using WebExpress.WebCore.WebScope;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.Test.WebFragment
 {
@@ -66,6 +67,7 @@ namespace WebExpress.WebApp.Test.WebFragment
             var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
             var application = componentHub.ApplicationManager.GetApplications(applicationType).FirstOrDefault();
             var renderContext = UnitTestControlFixture.CrerateRenderContextMock(application, [scopeType]);
+            var visualTree = new VisualTreeControl(componentHub, renderContext.PageContext);
 
             // reflection to get GetFragments method
             var fragmentManagerType = componentHub.FragmentManager.GetType();
@@ -92,7 +94,7 @@ namespace WebExpress.WebApp.Test.WebFragment
                 .Invoke(componentHub.FragmentManager, parameters);
             var castPreferences = Enumerable.Cast<IControl>(preferences);
 
-            var html = castPreferences.Select(x => x.Render(renderContext));
+            var html = castPreferences.Select(x => x.Render(renderContext, visualTree));
 
             Assert.Equal(count, html.Count());
             AssertExtensions.EqualWithPlaceholders(expected, string.Join("", html).Trim());
@@ -111,9 +113,10 @@ namespace WebExpress.WebApp.Test.WebFragment
             var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
             var application = componentHub.ApplicationManager.GetApplications(applicationType).FirstOrDefault();
             var renderContext = UnitTestControlFixture.CrerateRenderContextMock(application, [scopeType]);
+            var visualTree = new VisualTreeControl(componentHub, renderContext.PageContext);
 
             // test execution
-            var html = componentHub.FragmentManager.Render(renderContext, sectionType);
+            var html = componentHub.FragmentManager.Render(renderContext, visualTree, sectionType);
 
             Assert.NotNull(html);
             AssertExtensions.EqualWithPlaceholders(expected, html.FirstOrDefault()?.ToString());

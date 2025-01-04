@@ -102,8 +102,9 @@ namespace WebExpress.WebApp.WebControl
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
-        public override IHtmlNode Render(IRenderControlContext renderContext)
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppPreferences>
             (
@@ -111,17 +112,22 @@ namespace WebExpress.WebApp.WebControl
                 renderContext?.PageContext?.Scopes
             );
 
-            return Render(renderContext, _preferences.Union(preferences), _primary, _secondary);
+            return Render(renderContext, visualTree, _preferences.Union(preferences), _primary, _secondary);
         }
 
         /// <summary>
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
+        /// <param name="preferences">The preferences area items.</param>
+        /// <param name="primary">The primary area items.</param>
+        /// <param name="secondary">The secondary area items.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
         public virtual IHtmlNode Render
         (
             IRenderControlContext renderContext,
+            IVisualTreeControl visualTree,
             IEnumerable<IControlDropdownItem> preferences,
             IEnumerable<IControlDropdownItem> primary,
             IEnumerable<IControlDropdownItem> secondary
@@ -166,7 +172,7 @@ namespace WebExpress.WebApp.WebControl
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None)
             };
 
-            return logo?.Render(renderContext);
+            return logo?.Render(renderContext, visualTree);
         }
     }
 }

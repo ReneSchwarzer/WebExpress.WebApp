@@ -44,8 +44,9 @@ namespace WebExpress.WebApp.WebControl
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
-        public override IHtmlNode Render(IRenderControlContext renderContext)
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppHelpPreferences>
             (
@@ -98,7 +99,7 @@ namespace WebExpress.WebApp.WebControl
             } :
             null;
 
-            return help?.Render(renderContext);
+            return help?.Render(renderContext, visualTree);
         }
     }
 }

@@ -24,8 +24,9 @@ namespace WebExpress.WebApp.WebControl
         /// Convert the control to HTML.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
-        public override IHtmlNode Render(IRenderControlContext renderContext)
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var apptitle = new ControlText()
             {
@@ -36,7 +37,7 @@ namespace WebExpress.WebApp.WebControl
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.None, PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.Null)
             };
 
-            return new HtmlElementTextSemanticsA(apptitle.Render(renderContext))
+            return new HtmlElementTextSemanticsA(apptitle.Render(renderContext, visualTree))
             {
                 Id = Id,
                 Href = renderContext?.PageContext?.ApplicationContext?.ContextPath?.ToString(),

@@ -1,5 +1,6 @@
 ﻿using WebExpress.WebApp.Test.Fixture;
 using WebExpress.WebApp.WebControl;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.Test.WebControl
 {
@@ -20,12 +21,13 @@ namespace WebExpress.WebApp.Test.WebControl
             // preconditions
             var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
             var context = UnitTestControlFixture.CrerateRenderContextMock(componentHub?.ApplicationManager.Applications.FirstOrDefault());
+            var visualTree = new VisualTreeControl(componentHub, context.PageContext);
             var control = new ControlWebAppHeaderAppTitle(id)
             {
             };
 
             // test execution
-            var html = control.Render(context);
+            var html = control.Render(context, visualTree);
 
             AssertExtensions.EqualWithPlaceholders(expected, html);
         }

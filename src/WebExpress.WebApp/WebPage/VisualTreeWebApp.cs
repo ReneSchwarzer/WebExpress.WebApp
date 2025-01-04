@@ -71,6 +71,7 @@ namespace WebExpress.WebApp.WebPage
             Header.Styles = new List<string>(["position: sticky; top: 0; z-index: 99;"]);
 
             //Toast.BackgroundColor = LayoutSchema.ValidationWarningBackground;
+            Breadcrumb.Uri = pageContext?.Uri;
             Breadcrumb.Margin = new PropertySpacingMargin(PropertySpacing.Space.Null);
             //Breadcrumb.BackgroundColor = LayoutSchema.BreadcrumbBackground;
             //Breadcrumb.Size = LayoutSchema.BreadcrumbSize;
@@ -112,12 +113,12 @@ namespace WebExpress.WebApp.WebPage
 
             // header
             Header.AppTitle.Text = html.Head.Title;
-            html.Body.Add(Header.Render(renderContext));
-            html.Body.Add(Toast.Render(renderContext));
-            html.Body.Add(Breadcrumb.Render(renderContext));
-            html.Body.Add(Prologue.Render(renderContext));
-            html.Body.Add(Content.Render(renderContext));
-            html.Body.Add(Footer.Render(renderContext));
+            html.Body.Add(Header.Render(renderContext, this));
+            html.Body.Add(Toast.Render(renderContext, this));
+            html.Body.Add(Breadcrumb.Render(renderContext, this));
+            html.Body.Add(Prologue.Render(renderContext, this));
+            html.Body.Add(Content.Render(renderContext, this));
+            html.Body.Add(Footer.Render(renderContext, this));
 
             html.Body.Scripts = [.. Scripts.Values];
 
