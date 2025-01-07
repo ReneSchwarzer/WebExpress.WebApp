@@ -70,7 +70,7 @@ namespace WebExpress.WebApp.WebApiControl
         }
 
         /// <summary>
-        /// Convert the control to HTML.
+        /// Converts the control to an HTML representation.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
         /// <returns>An HTML node representing the rendered control.</returns>

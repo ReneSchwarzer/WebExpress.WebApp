@@ -37,7 +37,7 @@ namespace WebExpress.WebApp.WebControl
             Padding = new PropertySpacingPadding(PropertySpacing.Space.Two, PropertySpacing.Space.Null),
             Margin = new PropertySpacingMargin(PropertySpacing.Space.Null, PropertySpacing.Space.Two, PropertySpacing.Space.Null, PropertySpacing.Space.Null),
             //BackgroundColor = LayoutSchema.ContentBackground,
-            Classes = new() { "flex-grow-1" }
+            Classes = ["flex-grow-1"]
         };
 
         /// <summary>
@@ -81,61 +81,58 @@ namespace WebExpress.WebApp.WebControl
             Add(Toolbar);
             Add(Flexbox);
 
-            Classes.Add("content");
+            MainPanel.Add(Headline);
+            MainPanel.RetrieveVirtualItem += OnRetrieveVirtualMainPanelItems;
+
+            Classes = ["content"];
         }
 
         /// <summary>
-        /// Convert the control to HTML.
+        /// Handles the retrieval of virtual items for the main panel.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data containing the context for rendering and scopes.</param>
+        private void OnRetrieveVirtualMainPanelItems(object sender, RetrieveVirtualControlItemEventArgs e)
+        {
+            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentPreferences>
+            (
+                e.RenderContext?.PageContext?.ApplicationContext,
+                e.RenderContext?.PageContext?.Scopes
+            );
+
+            var primary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentPrimary>
+            (
+                e.RenderContext?.PageContext?.ApplicationContext,
+                e.RenderContext?.PageContext?.Scopes
+            );
+
+            var secondary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentSecondary>
+            (
+                e.RenderContext?.PageContext?.ApplicationContext,
+                e.RenderContext?.PageContext?.Scopes
+            );
+
+            var preferencesList = Preferences.Union(preferences);
+            var primaryList = Primary.Union(primary);
+            var secondaryList = Secondary.Union(secondary);
+
+            e.Items =
+            [
+                new ControlPanel("webexpress.webapp.content.main.preferences", preferencesList.ToArray()),
+                new ControlPanel("webexpress.webapp.content.main.primary", primaryList.ToArray()),
+                new ControlPanel("webexpress.webapp.content.main.secondary", secondaryList.ToArray())
+            ];
+        }
+
+        /// <summary>
+        /// Converts the control to an HTML representation.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
         /// <param name="visualTree">The visual tree representing the control's structure.</param>
         /// <returns>An HTML node representing the rendered control.</returns>
         public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
-            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentPreferences>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            );
-
-            var primary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentPrimary>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            );
-
-            var secondary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentSecondary>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            );
-
-            var preferencesList = Preferences.Union(preferences).ToList();
-            var primaryList = Primary.Union(primary).ToList();
-            var secondaryList = Secondary.Union(secondary).ToList();
-
-            MainPanel.Clear();
-
-            MainPanel.Add(Headline);
-            MainPanel.Add(new ControlPanel("webexpress.webapp.content.main.preferences", preferencesList.ToArray()));
-            MainPanel.Add(new ControlPanel("webexpress.webapp.content.main.primary", primaryList.ToArray()));
-            MainPanel.Add(new ControlPanel("webexpress.webapp.content.main.secondary", secondaryList.ToArray()));
-
-            Clear();
-
-            if (Toolbar.Items.Any())
-            {
-                Add(Toolbar);
-            }
-
-            if (Property.Preferences.Any() || Property.Primary.Any() || Property.Secondary.Any())
-            {
-                Add(Flexbox);
-            }
-            else
-            {
-                Add(MainPanel);
-            }
+            Toolbar.Enable = Toolbar.Items.Any();
 
             return base.Render(renderContext, visualTree);
         }

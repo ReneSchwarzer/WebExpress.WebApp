@@ -21,7 +21,7 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
-        /// Convert the control to HTML.
+        /// Converts the control to an HTML representation.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
         /// <param name="visualTree">The visual tree representing the control's structure.</param>
