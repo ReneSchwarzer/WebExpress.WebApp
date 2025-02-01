@@ -3,9 +3,9 @@
 namespace WebExpress.WebApp.WebSection
 {
     /// <summary>
-    /// Represents the section more.preferences.
+    /// Represents the section more.primary.
     /// </summary>
-    public class SectionMorePreferences : ISection
+    public class SectionToolbarMorePrimary : ISection
     {
     }
 }
