@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebExpress.WebApp.WebApiControl;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebComponent;
@@ -19,22 +20,22 @@ namespace WebExpress.WebApp.WebPage
         /// <summary>
         /// Returns header control.
         /// </summary>
-        public ControlWebAppHeader Header { get; } = new ControlWebAppHeader("webexpress.webapp.header");
+        public ControlWebAppHeader Header { get; } = new ControlWebAppHeader("webexpress-webapp-header");
 
         /// <summary>
         /// Returns the area for the toast messages control.
         /// </summary>
-        public ControlPanelToast Toast { get; protected set; } = new ControlPanelToast("webexpress.webapp.toast");
+        public ControlPanelToast Toast { get; protected set; } = new ControlPanelToast("webexpress-webapp-toast");
 
         /// <summary>
         /// Returns the range for the path specification.
         /// </summary>
-        public ControlBreadcrumb Breadcrumb { get; protected set; } = new ControlBreadcrumb("webexpress.webapp.breadcrumb");
+        public ControlBreadcrumb Breadcrumb { get; protected set; } = new ControlBreadcrumb("webexpress-webapp-breadcrumb");
 
         /// <summary>
         /// Returns the area for prologue.
         /// </summary>
-        public ControlPanel Prologue { get; protected set; } = new ControlPanel("webexpress.webapp.prologue");
+        public ControlPanel Prologue { get; protected set; } = new ControlPanel("webexpress-webapp-prologue");
 
         ///// <summary>
         ///// Returns the range for the search options control.
@@ -44,18 +45,23 @@ namespace WebExpress.WebApp.WebPage
         /// <summary>
         /// Returns the sidebar control.
         /// </summary>
-        public ControlWebAppSidebar Sidebar { get; protected set; } = new ControlWebAppSidebar("webexpress.webapp.sidebar");
+        public ControlWebAppSidebar Sidebar { get; protected set; } = new ControlWebAppSidebar("webexpress-webapp-sidebar");
 
 
         /// <summary>
         /// Returns the content control.
         /// </summary>
-        public new ControlWebAppContent Content { get; protected set; } = new ControlWebAppContent("webexpress.webapp.content");
+        public new ControlWebAppContent Content { get; protected set; } = new ControlWebAppContent("webexpress-webapp-content");
 
         /// <summary>
         /// Returns the footer control.
         /// </summary>
-        public ControlWebAppFooter Footer { get; protected set; } = new ControlWebAppFooter("webexpress.webapp.footer");
+        public ControlWebAppFooter Footer { get; protected set; } = new ControlWebAppFooter("webexpress-webapp-footer");
+
+        /// <summary>
+        /// Returns the control for displaying notification popups via API.
+        /// </summary>
+        public ControlApiNotificationPopup NotificationPopup { get; protected set; } = new ControlApiNotificationPopup("webexpress-webapp-notificationpopup");
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -117,8 +123,25 @@ namespace WebExpress.WebApp.WebPage
             html.Body.Add(Toast.Render(renderContext, this));
             html.Body.Add(Breadcrumb.Render(renderContext, this));
             html.Body.Add(Prologue.Render(renderContext, this));
-            html.Body.Add(Content.Render(renderContext, this));
+
+            var split = new ControlPanelSplit
+            (
+                "webexpress-webapp-split",
+                [Sidebar],
+                [Content]
+            )
+            {
+                Border = new PropertyBorder(true),
+                Orientation = TypeOrientationSplit.Horizontal,
+                //SplitterColor = LayoutSchema.SplitterColor,
+                Panel1InitialSize = 20,
+                Panel1MinSize = 150,
+                Styles = ["min-height: 85%;"]
+            };
+
+            html.Body.Add(split.Render(renderContext, this));
             html.Body.Add(Footer.Render(renderContext, this));
+            html.Body.Add(NotificationPopup.Render(renderContext, this));
 
             html.Body.Scripts = [.. Scripts.Values];
 

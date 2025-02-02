@@ -10,24 +10,28 @@ using WebExpress.WebUI.WebPage;
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Header for a web app.
+    /// Represents the header navigation control for the web application.
     /// </summary>
     public class ControlWebAppHeaderAppNavigation : ControlPanelFlexbox
     {
-        /// <summary>
-        /// Returns or sets the preferences area.
-        /// </summary>
-        public IEnumerable<IControlNavigationItem> Preferences { get; protected set; } = [];
+        private readonly List<IControlNavigationItem> _preferences = [];
+        private readonly List<IControlNavigationItem> _primary = [];
+        private readonly List<IControlNavigationItem> _secondary = [];
 
         /// <summary>
-        /// Returns or sets the primary area.
+        /// Returns the preferences area.
         /// </summary>
-        public IEnumerable<IControlNavigationItem> Primary { get; protected set; } = [];
+        public IEnumerable<IControlNavigationItem> Preferences => _preferences;
 
         /// <summary>
-        /// Returns or sets the secondary area.
+        /// Returns the primary area.
         /// </summary>
-        public IEnumerable<IControlNavigationItem> Secondary { get; protected set; } = [];
+        public IEnumerable<IControlNavigationItem> Primary => _primary;
+
+        /// <summary>
+        /// Returns the secondary area.
+        /// </summary>
+        public IEnumerable<IControlNavigationItem> Secondary => _secondary;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -40,6 +44,60 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
+        /// Adds items to the preferences area.
+        /// </summary>
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControlNavigationItem[] items)
+        {
+            _preferences.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the preferences area.
+        /// </summary>
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControlNavigationItem item)
+        {
+            _preferences.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControlNavigationItem[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControlNavigationItem item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControlNavigationItem[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControlNavigationItem item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
         /// Converts the control to an HTML representation.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
@@ -47,33 +105,17 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>An HTML node representing the rendered control.</returns>
         public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
-            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlNavigationItemLink, SectionAppNavigationPreferences>
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlNavigationItemLink, SectionAppNavigationPreferences>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
+            ));
 
-            var preferencesCtrl = new ControlNavigation("webexpress.webapp.header.appnavigation.preferences", Preferences.Union(preferences).ToArray())
-            {
-                Layout = TypeLayoutTab.Default,
-                //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
-                //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
-                //LinkColor = LayoutSchema.HeaderNavigationLink
-            };
-
-            var primary = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlNavigationItemLink, SectionAppNavigationPrimary>
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlNavigationItemLink, SectionAppNavigationPrimary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
-
-            var primaryCtrl = new ControlNavigation("webexpress.webapp.header.appnavigation.primary", Primary.Union(primary).ToArray())
-            {
-                Layout = TypeLayoutTab.Default,
-                //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
-                //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
-                //LinkColor = LayoutSchema.HeaderNavigationLink
-            };
+            ));
 
             var secondary = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlNavigationItemLink, SectionAppNavigationSecondary>
             (
@@ -81,15 +123,30 @@ namespace WebExpress.WebApp.WebControl
                 renderContext?.PageContext?.Scopes
             );
 
-            var secondaryCtrl = new ControlNavigation("webexpress.webapp.header.appnavigation.secondary", Secondary.Union(secondary).ToArray())
-            {
-                Layout = TypeLayoutTab.Default,
-                //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
-                //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
-                //LinkColor = LayoutSchema.HeaderNavigationLink
-            };
-
-            return new HtmlElementTextContentDiv(preferencesCtrl.Render(renderContext, visualTree), primaryCtrl.Render(renderContext, visualTree), secondaryCtrl.Render(renderContext, visualTree))
+            return new HtmlElementTextContentDiv
+            (
+                preferences.Any() ? new ControlNavigation("webexpress.webapp.header.appnavigation.preferences", [.. preferences])
+                {
+                    Layout = TypeLayoutTab.Default,
+                    //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
+                    //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
+                    //LinkColor = LayoutSchema.HeaderNavigationLink
+                }.Render(renderContext, visualTree) : null,
+                primary.Any() ? new ControlNavigation("webexpress.webapp.header.appnavigation.primary", [.. primary])
+                {
+                    Layout = TypeLayoutTab.Default,
+                    //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
+                    //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
+                    //LinkColor = LayoutSchema.HeaderNavigationLink
+                }.Render(renderContext, visualTree) : null,
+                secondary.Any() ? new ControlNavigation("webexpress.webapp.header.appnavigation.secondary", Secondary.Union(secondary).ToArray())
+                {
+                    Layout = TypeLayoutTab.Default,
+                    //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
+                    //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
+                    //LinkColor = LayoutSchema.HeaderNavigationLink
+                }.Render(renderContext, visualTree) : null
+            )
             {
                 Id = Id,
                 Class = Css.Concatenate("", GetClasses()),

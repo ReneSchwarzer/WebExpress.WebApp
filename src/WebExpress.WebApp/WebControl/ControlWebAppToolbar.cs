@@ -10,60 +10,45 @@ using WebExpress.WebUI.WebPage;
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Represents a sidebar control for the web application.
+    /// Represents a toolbar control for a web application.
     /// </summary>
-    public class ControlWebAppSidebar : Control
+    public class ControlWebAppToolbar : ControlToolbar
     {
-        private readonly List<IControl> _header = [];
-        private readonly List<IControl> _preferences = [];
-        private readonly List<IControl> _primary = [];
-        private readonly List<IControl> _secondary = [];
-
-        /// <summary>
-        /// Returns the header area.
-        /// </summary>
-        public IEnumerable<IControl> Header => _header;
+        private readonly List<IControlToolbarItem> _preferences = [];
+        private readonly List<IControlToolbarItem> _primary = [];
+        private readonly List<IControlToolbarItem> _secondary = [];
 
         /// <summary>
         /// Returns the preferences area.
         /// </summary>
-        public IEnumerable<IControl> Preferences => _preferences;
+        public IEnumerable<IControlToolbarItem> Preferences => _preferences;
 
         /// <summary>
         /// Returns the primary area.
         /// </summary>
-        public IEnumerable<IControl> Primary => _primary;
+        public IEnumerable<IControlToolbarItem> Primary => _primary;
 
         /// <summary>
         /// Returns the secondary area.
         /// </summary>
-        public IEnumerable<IControl> Secondary => _secondary;
+        public IEnumerable<IControlToolbarItem> Secondary => _secondary;
+
+        /// <summary>
+        /// Returns the quick create.
+        /// </summary>
+        public ControlWebAppToolbarMore More { get; } = new ControlWebAppToolbarMore("webexpress-webapp-toolbar-more")
+        {
+        };
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlWebAppSidebar(string id = null)
+        public ControlWebAppToolbar(string id = null)
             : base(id)
         {
-        }
-
-        /// <summary>
-        /// Adds items to the header area.
-        /// </summary>
-        /// <param name="items">The items to add to the header area.</param>
-        public void AddHeader(params IControlToolbarItem[] items)
-        {
-            _header.AddRange(items);
-        }
-
-        /// <summary>
-        /// Removes an item from the header area.
-        /// </summary>
-        /// <param name="item">The item to remove from the header area.</param>
-        public void RemoveHeader(IControlToolbarItem item)
-        {
-            _header.Remove(item);
+            Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
+            //BackgroundColor = LayoutSchema.HeaderBackground;
         }
 
         /// <summary>
@@ -130,62 +115,54 @@ namespace WebExpress.WebApp.WebControl
         {
             var items = GetItems(renderContext);
 
-            var sidebarCtlr = items.Any() ?
-            new ControlPanelFlexbox(Id, [.. items])
-            {
-                Classes = ["sidebar"],
-                //BackgroundColor = new PropertyColorButton(TypeColorButton.Dark),
-                Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.None, PropertySpacing.Space.None)
-            } :
-            null;
+            Enable = items.Any();
 
-            return sidebarCtlr?.Render(renderContext, visualTree);
+            return base.Render(renderContext, visualTree, items);
         }
 
         /// <summary>
-        /// Retrieves the items to be displayed in the control.
+        /// Retrieves the toolbar items from the preferences, primary, and secondary areas.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
-        /// <returns>A collection of dropdown items.</returns>
-        private IEnumerable<IControl> GetItems(IRenderControlContext renderContext)
+        /// <returns>A list of toolbar items.</returns>
+        private IEnumerable<IControlToolbarItem> GetItems(IRenderControlContext renderContext)
         {
-            var header = Header.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarHeader>
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlToolbarItemButton, SectionToolbarPreferences>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            ));
+            ).Cast<ControlToolbarItemButton>());
 
-            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarPreferences>
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlToolbarItemButton, SectionToolbarPrimary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            ));
+            ).Union(Items).Cast<ControlToolbarItemButton>());
 
-            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarPrimary>
+            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlToolbarItemButton, SectionToolbarSecondary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            ));
-
-            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarSecondary>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            ));
-
-            foreach (var item in header)
-            {
-                yield return item;
-            }
+            ).Cast<ControlToolbarItemButton>());
 
             foreach (var item in preferences)
             {
                 yield return item;
             }
 
+            if (preferences.Any() && (primary.Any() || secondary.Any()))
+            {
+                yield return new ControlToolbarItemDivider();
+            }
+
             foreach (var item in primary)
             {
                 yield return item;
+            }
+
+            if (primary.Any() && secondary.Any())
+            {
+                yield return new ControlToolbarItemDivider();
             }
 
             foreach (var item in secondary)

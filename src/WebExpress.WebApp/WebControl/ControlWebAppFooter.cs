@@ -14,20 +14,24 @@ namespace WebExpress.WebApp.WebControl
     /// </summary>
     public class ControlWebAppFooter : Control
     {
-        /// <summary>
-        /// Returns or sets the preferences area.
-        /// </summary>
-        public List<IControl> Preferences { get; protected set; } = [];
+        private readonly List<IControl> _preferences = [];
+        private readonly List<IControl> _primary = [];
+        private readonly List<IControl> _secondary = [];
 
         /// <summary>
-        /// Returns or sets the primary area.
+        /// Returns the preferences area.
         /// </summary>
-        public List<IControl> Primary { get; protected set; } = [];
+        public IEnumerable<IControl> Preferences => _preferences;
 
         /// <summary>
-        /// Returns or sets the secondary area.
+        /// Returns the primary area.
         /// </summary>
-        public List<IControl> Secondary { get; protected set; } = [];
+        public IEnumerable<IControl> Primary => _primary;
+
+        /// <summary>
+        /// Returns the secondary area.
+        /// </summary>
+        public IEnumerable<IControl> Secondary => _secondary;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -41,6 +45,60 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
+        /// Adds items to the preferences area.
+        /// </summary>
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControl[] items)
+        {
+            _preferences.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the preferences area.
+        /// </summary>
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControl item)
+        {
+            _preferences.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControl[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControl item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControl[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControl item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
         /// Converts the control to an HTML representation.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
@@ -48,42 +106,35 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>An HTML node representing the rendered control.</returns>
         public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
-            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterPreferences>
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterPreferences>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
+            ));
 
-            var primary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterPrimary>
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterPrimary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
+            ));
 
-            var secondary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterSecondary>
+            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterSecondary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
+            ));
 
-            var preferencesList = Preferences.Union(preferences).ToList();
-            var primaryList = Primary.Union(primary).ToList();
-            var secondaryList = Secondary.Union(secondary).ToList();
-
-            var elements = new List<IHtmlNode>
+            var footerCtrl = (preferences.Any() || primary.Any() || secondary.Any()) ? new ControlPanelFooter
+            (
+                Id,
+                new ControlPanel(null, [.. preferences]),
+                new ControlPanel(null, [.. primary]),
+                new ControlPanel(null, [.. secondary])
+            )
             {
-                new HtmlElementTextContentDiv(preferencesList.Select(x => x.Render(renderContext, visualTree)).ToArray()),
-                new HtmlElementTextContentDiv(primaryList.Select(x => x.Render(renderContext, visualTree)).ToArray()) { Class = "justify-content-center" },
-                new HtmlElementTextContentDiv(secondaryList.Select(x => x.Render(renderContext, visualTree)).ToArray())
-            };
+            } : null;
 
-            return new HtmlElementTextContentDiv(elements.ToArray())
-            {
-                Id = Id,
-                Class = Css.Concatenate("footer", GetClasses()),
-                Style = Style.Concatenate("", GetStyles()),
-                Role = Role
-            };
+            return footerCtrl?.Render(renderContext, visualTree);
         }
     }
 }

@@ -1,59 +1,72 @@
-﻿//using System.Collections;
-//using WebExpress.WebCore.WebAttribute;
-//using WebExpress.WebCore.WebComponent;
-//using WebExpress.WebCore.WebMessage;
-//using WebExpress.WebCore.WebResource;
-//using WebExpress.WebApp.WebNotificaation;
+﻿using System;
+using System.Linq;
+using WebExpress.WebCore.WebApplication;
+using WebExpress.WebCore.WebAttribute;
+using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebMessage;
+using WebExpress.WebCore.WebRestApi;
+using WebExpress.WebUI.WebNotification;
 
-//namespace WebExpress.WebApp.WebAPI.V1
-//{
-//    /// <summary>
-//    /// Returns the status and progress of a task (WebTask).
-//    /// </summary>
-//    [Segment("popupnotifications", "")]
-//    [ContextPath("/api/v1")]
-//    [Module<Module>]
-//    [IncludeSubPaths(true)]
-//    [Optional]
-//    public sealed class RestPopupNotification : ResourceRest
-//    {
-//        /// <summary>
-//        /// Initializes a new instance of the class.
-//        /// </summary>
-//        public RestPopupNotification()
-//        {
-//        }
+namespace WebExpress.WebApp.WebAPI.V1
+{
+    /// <summary>
+    /// Returns the status and progress of a task (WebTask).
+    /// </summary>
+    [Segment("popupnotifications", "")]
+    [ContextPath("/api")]
+    [Method(CrudMethod.GET)]
+    [Method(CrudMethod.DELETE)]
+    public sealed class RestPopupNotification : IRestApi
+    {
+        private readonly IComponentHub _componentHub;
+        private readonly IApplicationContext _applicationContext;
 
-//        /// <summary>
-//        /// Initialization
-//        /// </summary>
-//        /// <param name="context">The context.</param>
-//        public override void Initialization(IResourceContext context)
-//        {
-//            base.Initialization(context);
-//        }
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public RestPopupNotification(IComponentHub componentHub, IApplicationContext applicationContext)
+        {
+            _componentHub = componentHub;
+            _applicationContext = applicationContext;
+        }
 
-//        /// <summary>
-//        /// Processing of the resource that was called via the get request.
-//        /// </summary>
-//        /// <param name="request">The request.</param>
-//        /// <returns>An enumeration that can be serialized using the JsonSerializer.</returns>
-//        public override ICollection GetData(Request request)
-//        {
-//            return (ICollection)ComponentManager.GetComponent<NotificationManager>()?.GetNotifications(request);
-//        }
+        /// <summary>
+        /// Creates data based on the provided request.
+        /// </summary>
+        /// <param name="request">The request containing the data to create.</param>
+        public void CreateData(Request request)
+        {
+        }
 
-//        /// <summary>
-//        /// Processing of the resource that was called via the delete request.
-//        /// </summary>
-//        /// <param name="id">The id to delete.</param>
-//        /// <param name="request">The request.</param>
-//        /// <returns>The result of the deletion.</returns>
-//        public override bool DeleteData(string id, Request request)
-//        {
-//            ComponentManager.GetComponent<NotificationManager>()?.RemoveNotification(request, id);
+        /// <summary>
+        /// Retrieves data based on the provided request.
+        /// </summary>
+        /// <param name="request">The request containing the criteria for data retrieval.</param>
+        /// <returns>A collection of notifications.</returns>
+        public object GetData(Request request)
+        {
 
-//            return true;
-//        }
-//    }
-//}
+            return _componentHub.GetComponentManager<NotificationManager>()?.GetNotifications(_applicationContext, request);
+        }
+
+        /// <summary>
+        /// Updates data based on the provided request.
+        /// </summary>
+        /// <param name="request">The request containing the data to update.</param>
+        public void UpdateData(Request request)
+        {
+        }
+
+        /// <summary>
+        /// Deletes data based on the provided request.
+        /// </summary>
+        /// <param name="request">The request containing the data to delete.</param>
+        public void DeleteData(Request request)
+        {
+            if (Guid.TryParse(request.Uri.PathSegments.Last()?.ToString(), out Guid id))
+            {
+                _componentHub.GetComponentManager<NotificationManager>()?.RemoveNotifications(id);
+            }
+        }
+    }
+}

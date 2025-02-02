@@ -2,6 +2,7 @@
 using System.Linq;
 using WebExpress.WebApp.WebSection;
 using WebExpress.WebCore;
+using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
@@ -10,67 +11,44 @@ using WebExpress.WebUI.WebPage;
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Represents a sidebar control for the web application.
+    /// Represents a headline control with more options in the web application.
     /// </summary>
-    public class ControlWebAppSidebar : Control
+    public class ControlWebAppHeadlineMore : Control
     {
-        private readonly List<IControl> _header = [];
-        private readonly List<IControl> _preferences = [];
-        private readonly List<IControl> _primary = [];
-        private readonly List<IControl> _secondary = [];
-
-        /// <summary>
-        /// Returns the header area.
-        /// </summary>
-        public IEnumerable<IControl> Header => _header;
+        private readonly List<IControlDropdownItem> _preferences = [];
+        private readonly List<IControlDropdownItem> _primary = [];
+        private readonly List<IControlDropdownItem> _secondary = [];
 
         /// <summary>
         /// Returns the preferences area.
         /// </summary>
-        public IEnumerable<IControl> Preferences => _preferences;
+        public IEnumerable<IControlDropdownItem> Preferences => _preferences;
 
         /// <summary>
         /// Returns the primary area.
         /// </summary>
-        public IEnumerable<IControl> Primary => _primary;
+        public IEnumerable<IControlDropdownItem> Primary => _primary;
 
         /// <summary>
         /// Returns the secondary area.
         /// </summary>
-        public IEnumerable<IControl> Secondary => _secondary;
+        public IEnumerable<IControlDropdownItem> Secondary => _secondary;
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
-        public ControlWebAppSidebar(string id = null)
+        public ControlWebAppHeadlineMore(string id = null)
             : base(id)
         {
-        }
-
-        /// <summary>
-        /// Adds items to the header area.
-        /// </summary>
-        /// <param name="items">The items to add to the header area.</param>
-        public void AddHeader(params IControlToolbarItem[] items)
-        {
-            _header.AddRange(items);
-        }
-
-        /// <summary>
-        /// Removes an item from the header area.
-        /// </summary>
-        /// <param name="item">The item to remove from the header area.</param>
-        public void RemoveHeader(IControlToolbarItem item)
-        {
-            _header.Remove(item);
+            Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
         }
 
         /// <summary>
         /// Adds items to the preferences area.
         /// </summary>
         /// <param name="items">The items to add to the preferences area.</param>
-        public void AddPreferences(params IControlToolbarItem[] items)
+        public void AddPreferences(params IControlDropdownItem[] items)
         {
             _preferences.AddRange(items);
         }
@@ -79,7 +57,7 @@ namespace WebExpress.WebApp.WebControl
         /// Removes an item from the preferences area.
         /// </summary>
         /// <param name="item">The item to remove from the preferences area.</param>
-        public void RemovePreference(IControlToolbarItem item)
+        public void RemovePreference(IControlDropdownItem item)
         {
             _preferences.Remove(item);
         }
@@ -88,7 +66,7 @@ namespace WebExpress.WebApp.WebControl
         /// Adds items to the primary area.
         /// </summary>
         /// <param name="items">The items to add to the primary area.</param>
-        public void AddPrimary(params IControlToolbarItem[] items)
+        public void AddPrimary(params IControlDropdownItem[] items)
         {
             _primary.AddRange(items);
         }
@@ -97,7 +75,7 @@ namespace WebExpress.WebApp.WebControl
         /// Removes an item from the primary area.
         /// </summary>
         /// <param name="item">The item to remove from the primary area.</param>
-        public void RemovePrimary(IControlToolbarItem item)
+        public void RemovePrimary(IControlDropdownItem item)
         {
             _primary.Remove(item);
         }
@@ -106,7 +84,7 @@ namespace WebExpress.WebApp.WebControl
         /// Adds items to the secondary area.
         /// </summary>
         /// <param name="items">The items to add to the secondary area.</param>
-        public void AddSecondary(params IControlToolbarItem[] items)
+        public void AddSecondary(params IControlDropdownItem[] items)
         {
             _secondary.AddRange(items);
         }
@@ -115,7 +93,7 @@ namespace WebExpress.WebApp.WebControl
         /// Removes an item from the secondary area.
         /// </summary>
         /// <param name="item">The item to remove from the secondary area.</param>
-        public void RemoveSecondary(IControlToolbarItem item)
+        public void RemoveSecondary(IControlDropdownItem item)
         {
             _secondary.Remove(item);
         }
@@ -130,52 +108,47 @@ namespace WebExpress.WebApp.WebControl
         {
             var items = GetItems(renderContext);
 
-            var sidebarCtlr = items.Any() ?
-            new ControlPanelFlexbox(Id, [.. items])
+            var settingsCtlr = items.Any() ?
+            new ControlDropdown(Id, [.. items])
             {
-                Classes = ["sidebar"],
+                Icon = new PropertyIcon(TypeIcon.EllipsisHorizontal),
+                AlignmentMenu = TypeAlignmentDropdownMenu.Right,
                 //BackgroundColor = new PropertyColorButton(TypeColorButton.Dark),
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.None, PropertySpacing.Space.None)
             } :
             null;
 
-            return sidebarCtlr?.Render(renderContext, visualTree);
+            return settingsCtlr?.Render(renderContext, visualTree);
         }
 
         /// <summary>
-        /// Retrieves the items to be displayed in the control.
+        /// Retrieves the items to be displayed in the dropdown.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
         /// <returns>A collection of dropdown items.</returns>
-        private IEnumerable<IControl> GetItems(IRenderControlContext renderContext)
+        private IEnumerable<IControlDropdownItem> GetItems(IRenderControlContext renderContext)
         {
-            var header = Header.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarHeader>
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionHeadlineMorePreferences>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
             ));
 
-            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarPreferences>
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionHeadlineMorePrimary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
             ));
 
-            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarPrimary>
+            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionHeadlineMoreSecondary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
             ));
 
-            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarSecondary>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            ));
-
-            foreach (var item in header)
+            if (preferences.Any() && primary.Any() && secondary.Any())
             {
-                yield return item;
+                yield return new ControlDropdownItemHeader(I18N.Translate(renderContext.Request, "webexpress.webapp:headline.more.title"));
             }
 
             foreach (var item in preferences)
@@ -183,9 +156,19 @@ namespace WebExpress.WebApp.WebControl
                 yield return item;
             }
 
+            if (preferences.Any() && (primary.Any() || secondary.Any()))
+            {
+                yield return new ControlDropdownItemDivider();
+            }
+
             foreach (var item in primary)
             {
                 yield return item;
+            }
+
+            if (primary.Any() && secondary.Any())
+            {
+                yield return new ControlDropdownItemDivider();
             }
 
             foreach (var item in secondary)

@@ -15,20 +15,24 @@ namespace WebExpress.WebApp.WebControl
     /// </summary>
     public class ControlWebAppHeaderQuickCreate : Control
     {
-        /// <summary>
-        /// Returns or sets the preferences area.
-        /// </summary>
-        public List<IControlSplitButtonItem> Preferences { get; protected set; } = new List<IControlSplitButtonItem>();
+        private readonly List<IControlSplitButtonItem> _preferences = [];
+        private readonly List<IControlSplitButtonItem> _primary = [];
+        private readonly List<IControlSplitButtonItem> _secondary = [];
 
         /// <summary>
-        /// Returns or sets the primary area.
+        /// Returns the preferences area.
         /// </summary>
-        public List<IControlSplitButtonItem> Primary { get; protected set; } = new List<IControlSplitButtonItem>();
+        public IEnumerable<IControlSplitButtonItem> Preferences => _preferences;
 
         /// <summary>
-        /// Returns or sets the secondary area.
+        /// Returns the primary area.
         /// </summary>
-        public List<IControlSplitButtonItem> Secondary { get; protected set; } = new List<IControlSplitButtonItem>();
+        public IEnumerable<IControlSplitButtonItem> Primary => _primary;
+
+        /// <summary>
+        /// Returns the secondary area.
+        /// </summary>
+        public IEnumerable<IControlSplitButtonItem> Secondary => _secondary;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -41,6 +45,60 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
+        /// Adds items to the preferences area.
+        /// </summary>
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControlSplitButtonItem[] items)
+        {
+            _preferences.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the preferences area.
+        /// </summary>
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControlSplitButtonItem item)
+        {
+            _preferences.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControlSplitButtonItem[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControlSplitButtonItem item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControlSplitButtonItem[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControlSplitButtonItem item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
         /// Converts the control to an HTML representation.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
@@ -48,33 +106,33 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>An HTML node representing the rendered control.</returns>
         public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
-            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlSplitButtonItemLink, SectionAppQuickcreatePreferences>
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlSplitButtonItemLink, SectionAppQuickcreatePreferences>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
+            ));
 
-            var primary = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlSplitButtonItemLink, SectionAppQuickcreatePrimary>
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlSplitButtonItemLink, SectionAppQuickcreatePrimary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
+            ));
 
-            var secondary = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlSplitButtonItemLink, SectionAppQuickcreateSecondary>
+            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlSplitButtonItemLink, SectionAppQuickcreateSecondary>
             (
                 renderContext?.PageContext?.ApplicationContext,
                 renderContext?.PageContext?.Scopes
-            );
+            ));
 
-            var quickcreateList = new List<IControlSplitButtonItem>(Preferences.Union(preferences));
-            quickcreateList.AddRange(Primary.Union(primary));
-            quickcreateList.AddRange(Secondary.Union(secondary));
+            var quickcreateList = preferences
+                .Union(primary)
+                .Union(secondary);
 
-            var firstQuickcreate = (quickcreateList.FirstOrDefault() as ControlLink);
-            firstQuickcreate?.Render(renderContext, visualTree);
+            var firstQuickcreate = quickcreateList.FirstOrDefault() as ControlSplitButtonItemLink;
+            var nextQuickcreate = quickcreateList.Skip(1);
 
-            var quickcreate = (quickcreateList.Count > 1) ?
-            (IControl)new ControlSplitButtonLink(Id, quickcreateList.Skip(1).ToArray())
+            var quickcreate = nextQuickcreate.Any() ?
+            (IControl)new ControlSplitButtonLink(Id, nextQuickcreate.Skip(1).ToArray())
             {
                 Text = I18N.Translate(renderContext.Request?.Culture, "webexpress.webapp:header.quickcreate.label"),
                 Uri = firstQuickcreate?.Uri,
@@ -84,7 +142,7 @@ namespace WebExpress.WebApp.WebControl
                 OnClick = firstQuickcreate?.OnClick,
                 Modal = firstQuickcreate?.Modal
             } :
-            (Preferences.Count > 0) ?
+            Preferences.Any() ?
             new ControlButtonLink(Id)
             {
                 Text = I18N.Translate(renderContext.Request?.Culture, "webexpress.webapp:header.quickcreate.label"),

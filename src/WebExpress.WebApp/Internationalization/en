@@ -16,6 +16,7 @@ header.setting.label=Settings
 header.setting.systeminformation.label=System information
 
 headline.more.title=More options
+toolbar.more.title=More options
 
 status.400.title=Bad Request
 status.404.title=Resource not found

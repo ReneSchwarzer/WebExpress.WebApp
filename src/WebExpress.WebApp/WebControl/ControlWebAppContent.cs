@@ -1,68 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using WebExpress.WebApp.WebSection;
-using WebExpress.WebCore;
-using WebExpress.WebCore.WebHtml;
+﻿using WebExpress.WebCore.WebHtml;
 using WebExpress.WebUI.WebControl;
-using WebExpress.WebUI.WebFragment;
 using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Content of a web app page.
+    /// Represents the content control for a web application.
     /// </summary>
-    public class ControlWebAppContent : ControlPanel
+    public class ControlWebAppContent : Control
     {
         /// <summary>
-        /// Returns the preferences area.
+        /// Returns the toolbar.
         /// </summary>
-        public List<IControl> Preferences { get; } = [];
-
-        /// <summary>
-        /// Returns the primary area.
-        /// </summary>
-        public List<IControl> Primary { get; } = [];
-
-        /// <summary>
-        /// Returns the secondary area.
-        /// </summary>
-        public List<IControl> Secondary { get; } = [];
+        public ControlWebAppToolbar Toolbar { get; } = new ControlWebAppToolbar("webexpress-webapp-content-toolbar");
 
         /// <summary>
         /// Returns the main panel.
         /// </summary>
-        private ControlPanelMain MainPanel { get; } = new ControlPanelMain("webexpress.webapp.content.main")
+        public ControlWebAppMain MainPanel { get; } = new ControlWebAppMain("webexpress-webapp-content-main")
         {
-            Padding = new PropertySpacingPadding(PropertySpacing.Space.Two, PropertySpacing.Space.Null),
-            Margin = new PropertySpacingMargin(PropertySpacing.Space.Null, PropertySpacing.Space.Two, PropertySpacing.Space.Null, PropertySpacing.Space.Null),
-            //BackgroundColor = LayoutSchema.ContentBackground,
-            Classes = ["flex-grow-1"]
-        };
-
-        /// <summary>
-        /// Returns the flexbox.
-        /// </summary>
-        private ControlPanelFlexbox Flexbox { get; } = new ControlPanelFlexbox()
-        {
-            Layout = TypeLayoutFlexbox.Default,
-            Align = TypeAlignFlexbox.Stretch
+            //BackgroundColor = new PropertyColorBackground(TypeColorBackground.Danger),
         };
 
         /// <summary>
         /// Returns the page properties.
         /// </summary>
-        public ControlWebAppProperty Property { get; } = new ControlWebAppProperty("webexpress.webapp.content.property");
-
-        /// <summary>
-        /// Returns the toolbar.
-        /// </summary>
-        public ControlToolbar Toolbar { get; } = new ControlToolbar("webexpress.webapp.content.toolbar");
-
-        /// <summary>
-        /// Returns the headline control.
-        /// </summary>
-        public ControlWebAppHeadline Headline { get; } = new ControlWebAppHeadline("webexpress.webapp.content.main.headline");
+        public ControlWebAppProperty Property { get; } = new ControlWebAppProperty("webexpress-webapp-content-property");
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -71,57 +34,6 @@ namespace WebExpress.WebApp.WebControl
         public ControlWebAppContent(string id = null)
             : base(id)
         {
-            //BackgroundColor = LayoutSchema.ContentBackground;
-            //Toolbar.BackgroundColor = LayoutSchema.ToolbarBackground;
-            Margin = new PropertySpacingMargin(PropertySpacing.Space.Two);
-
-            Flexbox.Add(MainPanel);
-            Flexbox.Add(Property);
-
-            Add(Toolbar);
-            Add(Flexbox);
-
-            MainPanel.Add(Headline);
-            MainPanel.RetrieveVirtualItem += OnRetrieveVirtualMainPanelItems;
-
-            Classes = ["content"];
-        }
-
-        /// <summary>
-        /// Handles the retrieval of virtual items for the main panel.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The event data containing the context for rendering and scopes.</param>
-        private void OnRetrieveVirtualMainPanelItems(object sender, RetrieveVirtualControlItemEventArgs e)
-        {
-            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentPreferences>
-            (
-                e.RenderContext?.PageContext?.ApplicationContext,
-                e.RenderContext?.PageContext?.Scopes
-            );
-
-            var primary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentPrimary>
-            (
-                e.RenderContext?.PageContext?.ApplicationContext,
-                e.RenderContext?.PageContext?.Scopes
-            );
-
-            var secondary = WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionContentSecondary>
-            (
-                e.RenderContext?.PageContext?.ApplicationContext,
-                e.RenderContext?.PageContext?.Scopes
-            );
-
-            var preferencesList = Preferences.Union(preferences);
-            var primaryList = Primary.Union(primary);
-            var secondaryList = Secondary.Union(secondary);
-
-            e.Items =
-            [
-                new ControlPanel("webexpress.webapp.content.main.preferences", preferencesList.ToArray()),
-                new ControlPanel("webexpress.webapp.content.main.primary", primaryList.ToArray()),
-                new ControlPanel("webexpress.webapp.content.main.secondary", secondaryList.ToArray())
-            ];
         }
 
         /// <summary>
@@ -132,9 +44,22 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>An HTML node representing the rendered control.</returns>
         public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
-            Toolbar.Enable = Toolbar.Items.Any();
+            var contentCtlr = new ControlPanel
+            (
+                Id,
+                Toolbar,
+                new ControlPanelFlexbox(null, MainPanel, Property)
+                {
+                    Layout = TypeLayoutFlexbox.Default,
+                    Align = TypeAlignFlexbox.Stretch
+                }
+            )
+            {
+                Classes = ["content"],
+                Margin = new PropertySpacingMargin(PropertySpacing.Space.Two)
+            };
 
-            return base.Render(renderContext, visualTree);
+            return contentCtlr?.Render(renderContext, visualTree);
         }
     }
 }

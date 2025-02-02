@@ -14,8 +14,8 @@ namespace WebExpress.WebApp.Test.WebControl
         /// Tests the id property of the web app footer control.
         /// </summary>
         [Theory]
-        [InlineData(null, @"<div class=""footer""><div></div><div class=""justify-content-center""></div><div></div></div>")]
-        [InlineData("id", @"<div id=""id"" class=""footer""><div></div><div class=""justify-content-center""></div><div></div></div>")]
+        [InlineData(null, null)]
+        [InlineData("id", null)]
         public void Id(string id, string expected)
         {
             // preconditions

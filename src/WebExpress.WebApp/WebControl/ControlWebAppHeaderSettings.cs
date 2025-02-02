@@ -15,20 +15,24 @@ namespace WebExpress.WebApp.WebControl
     /// </summary>
     public class ControlWebAppHeaderSettings : Control
     {
-        /// <summary>
-        /// Returns or sets the preferences area.
-        /// </summary>
-        public List<IControlDropdownItem> Preferences { get; protected set; } = new List<IControlDropdownItem>();
+        private readonly List<IControlDropdownItem> _preferences = [];
+        private readonly List<IControlDropdownItem> _primary = [];
+        private readonly List<IControlDropdownItem> _secondary = [];
 
         /// <summary>
-        /// Returns or sets the primary area.
+        /// Returns the preferences area.
         /// </summary>
-        public List<IControlDropdownItem> Primary { get; protected set; } = new List<IControlDropdownItem>();
+        public IEnumerable<IControlDropdownItem> Preferences => _preferences;
 
         /// <summary>
-        /// Returns or sets the secondary area.
+        /// Returns the primary area.
         /// </summary>
-        public List<IControlDropdownItem> Secondary { get; protected set; } = new List<IControlDropdownItem>();
+        public IEnumerable<IControlDropdownItem> Primary => _primary;
+
+        /// <summary>
+        /// Returns the secondary area.
+        /// </summary>
+        public IEnumerable<IControlDropdownItem> Secondary => _secondary;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -41,6 +45,60 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
+        /// Adds items to the preferences area.
+        /// </summary>
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControlDropdownItem[] items)
+        {
+            _preferences.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the preferences area.
+        /// </summary>
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControlDropdownItem item)
+        {
+            _preferences.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControlDropdownItem[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControlDropdownItem item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControlDropdownItem[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControlDropdownItem item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
         /// Converts the control to an HTML representation.
         /// </summary>
         /// <param name="renderContext">The context in which the control is rendered.</param>
@@ -48,49 +106,10 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>An HTML node representing the rendered control.</returns>
         public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
-            var preferences = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSettingsPreferences>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            );
+            var items = GetItems(renderContext);
 
-            var primary = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSettingsPrimary>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            );
-
-            var secondary = WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSettingsSecondary>
-            (
-                renderContext?.PageContext?.ApplicationContext,
-                renderContext?.PageContext?.Scopes
-            );
-
-            var settingsList = new List<IControlDropdownItem>
-            {
-                new ControlDropdownItemHeader() { Text = I18N.Translate(renderContext.Request?.Culture, "webexpress.webapp:header.setting.label") }
-            };
-
-            var preferencesList = Preferences.Union(preferences).ToList();
-            var primaryList = Primary.Union(primary).ToList();
-            var secondaryList = Secondary.Union(secondary).ToList();
-
-            settingsList.AddRange(preferencesList);
-            if (preferencesList.Count > 0 && primaryList.Count > 0)
-            {
-                settingsList.Add(new ControlDropdownItemDivider());
-            }
-
-            settingsList.AddRange(primaryList);
-            if (primaryList.Count > 0 && secondaryList.Count > 0)
-            {
-                settingsList.Add(new ControlDropdownItemDivider());
-            }
-
-            settingsList.AddRange(secondaryList);
-
-            var settings = (settingsList.Count > 1) ?
-            new ControlDropdown(Id, settingsList.ToArray())
+            var settingCtlr = items.Any() ?
+            new ControlDropdown(Id, [.. items])
             {
                 Icon = new PropertyIcon(TypeIcon.Cog),
                 AlignmentMenu = TypeAlignmentDropdownMenu.Right,
@@ -99,7 +118,63 @@ namespace WebExpress.WebApp.WebControl
             } :
             null;
 
-            return settings?.Render(renderContext, visualTree);
+            return settingCtlr?.Render(renderContext, visualTree);
+        }
+
+        /// <summary>
+        /// Retrieves the items to be displayed in the dropdown.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <returns>A collection of dropdown items.</returns>
+        private IEnumerable<IControlDropdownItem> GetItems(IRenderControlContext renderContext)
+        {
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSettingsPreferences>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSettingsPrimary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSettingsSecondary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            if (preferences.Any() || primary.Any() || secondary.Any())
+            {
+                yield return new ControlDropdownItemHeader(I18N.Translate(renderContext.Request, "webexpress.webapp:header.setting.label"));
+            }
+
+            foreach (var item in preferences)
+            {
+                yield return item;
+            }
+
+            if (preferences.Any() && (primary.Any() || secondary.Any()))
+            {
+                yield return new ControlDropdownItemDivider();
+            }
+
+            foreach (var item in primary)
+            {
+                yield return item;
+            }
+
+            if (primary.Any() && secondary.Any())
+            {
+                yield return new ControlDropdownItemDivider();
+            }
+
+            foreach (var item in secondary)
+            {
+                yield return item;
+            }
         }
     }
 }
