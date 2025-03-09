@@ -66,10 +66,13 @@ setting.systeminformation.reboot.label=Neustart
 setting.systeminformation.reboot.header=Neustart
 setting.systeminformation.reboot.description=Starten Sie den Server neu. <b>Achtung!</b> Der Server ist in der Zeit nicht erreichbar und kann keine Anfragen entgegennehmen. 
 
+setting.category.general.name=Allgemeine Einstellungen
+setting.category.general.description=Allgemeine Einstellungen für die Webanwendung.
+setting.group.general.name=Allgemein
+setting.group.general.description=Allgemeine Einstellungen für die Webanwendung.
+
 setting.tab.general.label=Allgemein
-
 setting.group.system.label=System
-
 setting.titel.plugin.label=Plugins
 setting.titel.systeminformation.label=Systeminformationen
 setting.titel.log.label=Log

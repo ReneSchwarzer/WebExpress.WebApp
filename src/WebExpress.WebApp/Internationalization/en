@@ -81,10 +81,13 @@ setting.logfile.switchon.header=Enable logging
 setting.logfile.switchon.description=Activation is only valid until the next restart. To enable it permanently, change the settings in the configuration file. 
 setting.logfile.switchon.success=Logging has been enabled.
 
+setting.category.general.name=General settings
+setting.category.general.description=General settings for the web application.
+setting.group.general.name=General
+setting.group.general.description=General settings for the web application.
+
 setting.tab.general.label=General
-
 setting.group.system.label=System
-
 setting.titel.plugin.label=Plugins
 setting.titel.systeminformation.label=System information
 setting.titel.log.label=Log
