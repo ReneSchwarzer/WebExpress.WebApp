@@ -7,7 +7,6 @@ using System.Text;
 using WebExpress.WebCore;
 using WebExpress.WebCore.WebApplication;
 using WebExpress.WebCore.WebComponent;
-using WebExpress.WebCore.WebEndpoint;
 using WebExpress.WebCore.WebLog;
 using WebExpress.WebCore.WebMessage;
 using WebExpress.WebCore.WebPage;
@@ -205,9 +204,9 @@ namespace WebExpress.WebApp.Test.Fixture
         /// <returns>A fake context for testing.</returns>
         public static PageContext CreratePageContextMock(IApplicationContext applicationContext = null, IEnumerable<Type> scopes = null)
         {
-            var ctorPageContext = typeof(PageContext).GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, [typeof(IEndpointManager), typeof(Type), typeof(UriResource), typeof(IUriPathSegment)], null);
+            var ctorPageContext = typeof(PageContext).GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, [], null);
 
-            var pageContext = (PageContext)ctorPageContext.Invoke([WebEx.ComponentHub.EndpointManager, null, new UriResource(), null]);
+            var pageContext = (PageContext)ctorPageContext.Invoke([]);
             var applicationContextProperty = typeof(PageContext).GetProperty("ApplicationContext", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             applicationContextProperty.SetValue(pageContext, applicationContext);
 
