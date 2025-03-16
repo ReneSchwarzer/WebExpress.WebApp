@@ -6,6 +6,7 @@ using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
+using WebExpress.WebUI.WebIcon;
 using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
@@ -111,7 +112,7 @@ namespace WebExpress.WebApp.WebControl
             var helpCtlr = items.Any() ?
             new ControlDropdown(Id, [.. items])
             {
-                Icon = new PropertyIcon(TypeIcon.InfoCircle),
+                Icon = new IconInfoCircle(),
                 AlignmentMenu = TypeAlignmentDropdownMenu.Right,
                 //BackgroundColor = new PropertyColorButton(TypeColorButton.Dark),
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.None, PropertySpacing.Space.None)

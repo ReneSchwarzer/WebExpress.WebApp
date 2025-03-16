@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebIcon;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebPage;
 
@@ -20,7 +21,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns or sets the submit button icon.
         /// </summary>
-        public PropertyIcon SubmitButtonIcon { get { return SubmitButton?.Icon; } set { SubmitButton.Icon = value; } }
+        public IIcon SubmitButtonIcon { get { return SubmitButton?.Icon; } set { SubmitButton.Icon = value; } }
 
         /// <summary>
         /// Returns or sets the submit button color.

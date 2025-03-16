@@ -55,7 +55,7 @@ namespace WebExpress.WebApp.WebControl
                         listCtrl.Add(new ControlListItemLink()
                         {
                             Text = page.PageTitle,
-                            Icon = new PropertyIcon(page.Icon),
+                            Icon = page.Icon,
                             Uri = page?.Uri,
                             Active = page == renderContext.PageContext ? TypeActive.Active : TypeActive.None
                         });
@@ -71,7 +71,7 @@ namespace WebExpress.WebApp.WebControl
                         listCtrl.Add(new ControlListItemLink()
                         {
                             Text = page.PageTitle,
-                            Icon = new PropertyIcon(page.Icon),
+                            Icon = page.Icon,
                             Uri = page?.Uri,
                             Active = page == renderContext.PageContext ? TypeActive.Active : TypeActive.None
                         });
@@ -87,7 +87,7 @@ namespace WebExpress.WebApp.WebControl
                         listCtrl.Add(new ControlListItemLink()
                         {
                             Text = page.PageTitle,
-                            Icon = new PropertyIcon(page.Icon),
+                            Icon = page.Icon,
                             Uri = page?.Uri,
                             Active = page == renderContext.PageContext ? TypeActive.Active : TypeActive.None
                         });
