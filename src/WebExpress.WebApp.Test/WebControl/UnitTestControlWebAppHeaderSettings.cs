@@ -14,8 +14,8 @@ namespace WebExpress.WebApp.Test.WebControl
         /// Tests the id property of the web app header settings control.
         /// </summary>
         [Theory]
-        [InlineData(null, null)]
-        [InlineData("id", null)]
+        [InlineData(null, "<div class=\"dropdown ms-2\">*</div>")]
+        [InlineData("id", "<div id=\"id\" class=\"dropdown ms-2\">*</div>")]
         public void Id(string id, string expected)
         {
             // preconditions

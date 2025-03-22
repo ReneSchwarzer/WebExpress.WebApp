@@ -4,6 +4,7 @@ using WebExpress.WebApp.WebSection;
 using WebExpress.WebCore;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebSettingPage;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebFragment;
 using WebExpress.WebUI.WebIcon;
@@ -129,6 +130,42 @@ namespace WebExpress.WebApp.WebControl
         /// <returns>A collection of dropdown items.</returns>
         private IEnumerable<IControlDropdownItem> GetItems(IRenderControlContext renderContext)
         {
+            var settinPageManager = WebEx.ComponentHub.SettingPageManager;
+            var appicationContext = renderContext.PageContext?.ApplicationContext;
+            var preferenceCategories = settinPageManager?.GetSettingCategories(appicationContext)
+                .Where(x => x.Section == SettingSection.Preferences)
+                .Select
+                (
+                    x => new ControlDropdownItemLink()
+                    {
+                        Text = I18N.Translate(renderContext, x?.Name),
+                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Uri,
+                        Icon = x.Icon
+                    }
+                );
+            var primaryCategories = settinPageManager?.GetSettingCategories(appicationContext)
+                .Where(x => x.Section == SettingSection.Primary)
+                .Select
+                (
+                    x => new ControlDropdownItemLink()
+                    {
+                        Text = I18N.Translate(renderContext, x?.Name),
+                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Uri,
+                        Icon = x.Icon
+                    }
+                );
+            var secondaryCategories = settinPageManager?.GetSettingCategories(appicationContext)
+                .Where(x => x.Section == SettingSection.Secondary)
+                .Select
+                (
+                    x => new ControlDropdownItemLink()
+                    {
+                        Text = I18N.Translate(renderContext, x?.Name),
+                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Uri,
+                        Icon = x.Icon
+                    }
+                );
+
             var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSettingsPreferences>
             (
                 renderContext?.PageContext?.ApplicationContext,
@@ -147,9 +184,14 @@ namespace WebExpress.WebApp.WebControl
                 renderContext?.PageContext?.Scopes
             ));
 
-            if (preferences.Any() || primary.Any() || secondary.Any())
+            if (preferences.Any() || primary.Any() || secondary.Any() || preferenceCategories.Any())
             {
                 yield return new ControlDropdownItemHeader(I18N.Translate(renderContext.Request, "webexpress.webapp:header.setting.label"));
+            }
+
+            foreach (var item in preferenceCategories)
+            {
+                yield return item;
             }
 
             foreach (var item in preferences)
@@ -157,9 +199,14 @@ namespace WebExpress.WebApp.WebControl
                 yield return item;
             }
 
-            if (preferences.Any() && (primary.Any() || secondary.Any()))
+            if ((preferenceCategories.Any() || preferences.Any()) && (primary.Any() || secondary.Any()))
             {
                 yield return new ControlDropdownItemDivider();
+            }
+
+            foreach (var item in primaryCategories)
+            {
+                yield return item;
             }
 
             foreach (var item in primary)
@@ -167,9 +214,14 @@ namespace WebExpress.WebApp.WebControl
                 yield return item;
             }
 
-            if (primary.Any() && secondary.Any())
+            if ((primaryCategories.Any() || primary.Any()) && secondary.Any())
             {
                 yield return new ControlDropdownItemDivider();
+            }
+
+            foreach (var item in secondaryCategories)
+            {
+                yield return item;
             }
 
             foreach (var item in secondary)

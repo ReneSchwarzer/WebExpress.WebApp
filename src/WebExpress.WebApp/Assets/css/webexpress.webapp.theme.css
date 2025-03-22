@@ -1,0 +1,51 @@
+﻿#webexpress-webapp-header {
+    background: var(--bs-gray-800);
+}
+
+#webexpress-webapp-header-apptitle {
+    color: var(--bs-white);
+}
+
+#webexpress-webapp-header-appnavigation {
+    color: var(--bs-white);
+}
+
+#webexpress-webapp-header-appnavigation .nav-link {
+    color: var(--bs-white);
+}
+    
+#webexpress-webapp-header-appnavigation .active {
+    color: var(--bs-info);
+}
+
+#webexpress-webapp-breadcrumb {
+    background: var(--bs-light);
+}
+
+#webexpress-webapp-sidebar {
+    background: var(--bs-light);
+}
+
+#webexpress-webapp-settingtab {
+    background: var(--bs-light);
+}
+
+#webexpress-webapp-settingmenu {
+    background: var(--bs-light);
+}
+
+#webexpress-webapp-split-gutter {
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+}
+
+#webexpress-webapp-content-main-headline {
+    background: var(--bs-white);
+}
+
+#webexpress-webapp-headline-more {
+    background: var(--bs-white);
+}
+
+#webindex-webfragment-footerprimaryfragment {
+    background: var(--bs-light);
+}

@@ -1,13 +1,13 @@
 ﻿using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebSettingPage;
-using WebExpress.WebCore.WebSettingPage.Model;
+using WebExpress.WebUI.WebIcon;
 
 namespace WebExpress.WebApp.WebSettingPage
 {
     /// <summary>
     /// Represents the general settings category for the web application.
     /// </summary>
-    //[Icon(TypeIcon.Globe)]
+    [WebIcon<IconCog>]
     [Name("webexpress.webapp:setting.category.general.name")]
     [Description("webexpress.webapp:setting.category.general.description")]
     [SettingSection(SettingSection.Primary)]

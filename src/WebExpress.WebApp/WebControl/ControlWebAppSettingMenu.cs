@@ -47,7 +47,7 @@ namespace WebExpress.WebApp.WebControl
                 controls.Add(listCtrl);
 
                 foreach (var page in settingPages
-                    .Where(x => x.Section == WebCore.WebSettingPage.Model.SettingSection.Preferences)
+                    .Where(x => x.Section == SettingSection.Preferences)
                     .OrderBy(x => I18N.Translate(renderContext, x.PageTitle)))
                 {
                     if (!page.Hide && (!page.Conditions.Any() || page.Conditions.All(x => x.Fulfillment(renderContext.Request))))
@@ -63,7 +63,7 @@ namespace WebExpress.WebApp.WebControl
                 }
 
                 foreach (var page in settingPages
-                    .Where(x => x.Section == WebCore.WebSettingPage.Model.SettingSection.Primary)
+                    .Where(x => x.Section == SettingSection.Primary)
                     .OrderBy(x => I18N.Translate(renderContext, x.PageTitle)))
                 {
                     if (!page.Hide && (!page.Conditions.Any() || page.Conditions.All(x => x.Fulfillment(renderContext.Request))))
@@ -79,7 +79,7 @@ namespace WebExpress.WebApp.WebControl
                 }
 
                 foreach (var page in settingPages
-                    .Where(x => x.Section == WebCore.WebSettingPage.Model.SettingSection.Secondary)
+                    .Where(x => x.Section == SettingSection.Secondary)
                     .OrderBy(x => I18N.Translate(renderContext, x.PageTitle)))
                 {
                     if (!page.Hide && (!page.Conditions.Any() || page.Conditions.All(x => x.Fulfillment(renderContext.Request))))

@@ -30,10 +30,15 @@
     <None Remove="WebAttribute\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\css\webexpress.webapp.theme.css" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\css\webexpress.webapp.css" />
 		<EmbeddedResource Include="Assets\css\webexpress.webapp.popupnotification.css" />
 		<EmbeddedResource Include="Assets\css\webexpress.webapp.taskprogressbar.css" />
+		<EmbeddedResource Include="Assets\css\webexpress.webapp.theme.css" />
 		<EmbeddedResource Include="Assets\js\webexpress.webapp.popupnotification.js" />
 		<EmbeddedResource Include="Assets\js\webexpress.webapp.table.js" />
 		<EmbeddedResource Include="Assets\js\webexpress.webapp.selection.js" />

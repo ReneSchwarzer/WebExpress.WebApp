@@ -75,8 +75,7 @@ namespace WebExpress.WebApp.WebSettingPage
                 Orientation = TypeOrientationSplit.Horizontal,
                 //SplitterColor = LayoutSchema.SplitterColor,
                 Panel1InitialSize = 20,
-                Panel1MinSize = 150,
-                Styles = ["min-height: 85%;"]
+                Panel1MinSize = 150
             };
 
             html.Body.Add(split.Render(renderContext, this));

@@ -6,6 +6,7 @@ using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
+using WebExpress.WebCore.WebTheme;
 using WebExpress.WebCore.WebUri;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebPage;
@@ -17,6 +18,11 @@ namespace WebExpress.WebApp.WebPage
     /// </summary>
     public class VisualTreeWebApp : VisualTreeControl
     {
+        /// <summary>
+        /// Returns or sets the theme of the web application.
+        /// </summary>
+        public IThemeContext Theme { get; set; }
+
         /// <summary>
         /// Returns header control.
         /// </summary>
@@ -92,6 +98,7 @@ namespace WebExpress.WebApp.WebPage
             AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.css"));
             AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.popupnotification.css"));
             AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.taskprogressbar.css"));
+            AddCssLink(Theme?.ThemeStyle ?? UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.theme.css"));
             AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.js"));
             AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.popupnotification.js"));
             AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.selection.js"));
@@ -119,6 +126,10 @@ namespace WebExpress.WebApp.WebPage
 
             // header
             Header.AppTitle.Text = html.Head.Title;
+            if (Theme?.ThemeMode == ThemeMode.Dark)
+            {
+                html.Body.AddUserAttribute("data-bs-theme", "dark");
+            }
             html.Body.Add(Header.Render(renderContext, this));
             html.Body.Add(Toast.Render(renderContext, this));
             html.Body.Add(Breadcrumb.Render(renderContext, this));
@@ -135,8 +146,7 @@ namespace WebExpress.WebApp.WebPage
                 Orientation = TypeOrientationSplit.Horizontal,
                 //SplitterColor = LayoutSchema.SplitterColor,
                 Panel1InitialSize = 20,
-                Panel1MinSize = 150,
-                Styles = ["min-height: 85%;"]
+                Panel1MinSize = 150
             };
 
             html.Body.Add(split.Render(renderContext, this));
