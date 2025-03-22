@@ -1,51 +1,75 @@
-﻿#webexpress-webapp-header {
-    background: var(--bs-gray-800);
+﻿#wx-header {
+    background: var(--bs-dark);
 }
 
-#webexpress-webapp-header-apptitle {
+#wx-header-apptitle {
     color: var(--bs-white);
 }
 
-#webexpress-webapp-header-appnavigation {
+#wx-header-appnavigation {
     color: var(--bs-white);
 }
 
-#webexpress-webapp-header-appnavigation .nav-link {
+#wx-header-appnavigation .nav-link {
     color: var(--bs-white);
 }
     
-#webexpress-webapp-header-appnavigation .active {
+#wx-header-appnavigation .active {
     color: var(--bs-info);
 }
 
-#webexpress-webapp-breadcrumb {
+#wx-breadcrumb {
     background: var(--bs-light);
 }
 
-#webexpress-webapp-sidebar {
+#wx-prologue {
     background: var(--bs-light);
 }
 
-#webexpress-webapp-settingtab {
+#wx-searchoptions {
     background: var(--bs-light);
 }
 
-#webexpress-webapp-settingmenu {
+#wx-sidebar {
     background: var(--bs-light);
 }
 
-#webexpress-webapp-split-gutter {
+#wx-settingtab {
+    background: var(--bs-light);
+}
+
+#wx-settingmenu {
+    background: var(--bs-light);
+}
+
+#wx-split-gutter {
     background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
 }
 
-#webexpress-webapp-content-main-headline {
+#wx-content {
+}
+
+#wx-content-toolbar {
+}
+
+#wx-content-toolbar-more {
+}
+
+#wx-content-main {
+}
+
+#wx-content-main-headline {
     background: var(--bs-white);
 }
 
-#webexpress-webapp-headline-more {
+#wx-content-main-headline-more {
     background: var(--bs-white);
 }
 
-#webindex-webfragment-footerprimaryfragment {
+#wx-content-main-property {
+    background: var(--bs-blue200);
+}
+
+#wx-footer {
     background: var(--bs-light);
 }

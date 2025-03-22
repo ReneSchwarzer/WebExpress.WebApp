@@ -40,7 +40,6 @@ namespace WebExpress.WebApp.WebControl
         public ControlWebAppProperty(string id = null)
             : base(id)
         {
-            //BackgroundColor = LayoutSchema.PropertyBackground;
         }
 
         /// <summary>

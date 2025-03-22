@@ -8,14 +8,15 @@ main {
     flex: auto;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
-.sidebar {
+.wx-sidebar {
     overflow: auto;
     min-height: 100%;
 }
 
-.proterty {
+.wx-proterty {
     overflow: auto;
     display: block;
     background: #C6E2FF;
@@ -23,11 +24,12 @@ main {
     min-width: 15%;
 }
 
-.content {
+.wx-content {
     flex: auto;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
-.footer {
+.wx-footer {
 }

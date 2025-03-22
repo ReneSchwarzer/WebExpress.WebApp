@@ -128,23 +128,14 @@ namespace WebExpress.WebApp.WebControl
                 preferences.Any() ? new ControlNavigation("webexpress.webapp.header.appnavigation.preferences", [.. preferences])
                 {
                     Layout = TypeLayoutTab.Default,
-                    //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
-                    //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
-                    //LinkColor = LayoutSchema.HeaderNavigationLink
                 }.Render(renderContext, visualTree) : null,
                 primary.Any() ? new ControlNavigation("webexpress.webapp.header.appnavigation.primary", [.. primary])
                 {
                     Layout = TypeLayoutTab.Default,
-                    //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
-                    //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
-                    //LinkColor = LayoutSchema.HeaderNavigationLink
                 }.Render(renderContext, visualTree) : null,
                 secondary.Any() ? new ControlNavigation("webexpress.webapp.header.appnavigation.secondary", Secondary.Union(secondary).ToArray())
                 {
                     Layout = TypeLayoutTab.Default,
-                    //ActiveColor = LayoutSchema.HeaderNavigationActiveBackground,
-                    //ActiveTextColor = LayoutSchema.HeaderNavigationActive,
-                    //LinkColor = LayoutSchema.HeaderNavigationLink
                 }.Render(renderContext, visualTree) : null
             )
             {

@@ -133,7 +133,7 @@ namespace WebExpress.WebApp.WebControl
             var sidebarCtlr = items.Any() ?
             new ControlPanelFlexbox(Id, [.. items])
             {
-                Classes = ["sidebar"],
+                Classes = ["wx-sidebar"],
                 //BackgroundColor = new PropertyColorButton(TypeColorButton.Dark),
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.None, PropertySpacing.Space.None)
             } :

@@ -36,12 +36,12 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns the page properties.
         /// </summary>
-        public ControlWebAppProperty Property { get; } = new ControlWebAppProperty("webexpress-webapp-content-property");
+        public ControlWebAppProperty Property { get; } = new ControlWebAppProperty("wx-content-main-property");
 
         /// <summary>
         /// Returns the headline control.
         /// </summary>
-        public ControlWebAppHeadline Headline { get; } = new ControlWebAppHeadline("webexpress-webapp-content-main-headline");
+        public ControlWebAppHeadline Headline { get; } = new ControlWebAppHeadline("wx-content-main-headline");
 
         /// <summary>
         /// Initializes a new instance of the class.

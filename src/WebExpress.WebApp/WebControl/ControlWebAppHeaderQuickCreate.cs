@@ -136,8 +136,6 @@ namespace WebExpress.WebApp.WebControl
             {
                 Text = I18N.Translate(renderContext.Request?.Culture, "webexpress.webapp:header.quickcreate.label"),
                 Uri = firstQuickcreate?.Uri,
-                //BackgroundColor = LayoutSchema.HeaderQuickCreateButtonBackground,
-                //Size = LayoutSchema.HeaderQuickCreateButtonSize,
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Auto, PropertySpacing.Space.None),
                 OnClick = firstQuickcreate?.OnClick,
                 Modal = firstQuickcreate?.Modal
@@ -147,9 +145,6 @@ namespace WebExpress.WebApp.WebControl
             {
                 Text = I18N.Translate(renderContext.Request?.Culture, "webexpress.webapp:header.quickcreate.label"),
                 Uri = firstQuickcreate?.Uri,
-                //BackgroundColor = LayoutSchema.HeaderQuickCreateButtonBackground,
-                //Size = LayoutSchema.HeaderQuickCreateButtonSize,
-                //Margin = new PropertySpacingMargin(PropertySpacing.Space.Auto, PropertySpacing.Space.None),
                 OnClick = firstQuickcreate?.OnClick,
                 Modal = firstQuickcreate?.Modal
             } :

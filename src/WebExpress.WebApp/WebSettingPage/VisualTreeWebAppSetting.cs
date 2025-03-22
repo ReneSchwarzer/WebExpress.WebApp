@@ -18,12 +18,12 @@ namespace WebExpress.WebApp.WebSettingPage
         /// <summary>
         /// Returns the area for setting tab.
         /// </summary>
-        public ControlWebAppSettingTab SettingTab { get; protected set; } = new ControlWebAppSettingTab("webexpress-webapp-settingtab");
+        public ControlWebAppSettingTab SettingTab { get; protected set; } = new ControlWebAppSettingTab("wx-settingtab");
 
         /// <summary>
         /// Returns the sidebar control.
         /// </summary>
-        public new ControlWebAppSettingMenu Sidebar { get; protected set; } = new ControlWebAppSettingMenu("webexpress-webapp-settingmenu");
+        public new ControlWebAppSettingMenu Sidebar { get; protected set; } = new ControlWebAppSettingMenu("wx-settingmenu");
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -66,14 +66,13 @@ namespace WebExpress.WebApp.WebSettingPage
 
             var split = new ControlPanelSplit
             (
-                "webexpress-webapp-split",
+                "wx-split",
                 [Sidebar],
                 [Content]
             )
             {
                 Border = new PropertyBorder(true),
                 Orientation = TypeOrientationSplit.Horizontal,
-                //SplitterColor = LayoutSchema.SplitterColor,
                 Panel1InitialSize = 20,
                 Panel1MinSize = 150
             };

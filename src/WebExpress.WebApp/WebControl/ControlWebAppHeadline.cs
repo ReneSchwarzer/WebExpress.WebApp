@@ -49,7 +49,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns the more control.
         /// </summary>
-        public ControlWebAppHeadlineMore More { get; } = new ControlWebAppHeadlineMore("webexpress-webapp-headline-more")
+        public ControlWebAppHeadlineMore More { get; } = new ControlWebAppHeadlineMore("wx-content-main-headline-more")
         {
         };
 
@@ -60,7 +60,6 @@ namespace WebExpress.WebApp.WebControl
         public ControlWebAppHeadline(string id = null)
             : base(id)
         {
-            // BackgroundColor = LayoutSchema.HeadlineBackground;
         }
 
         /// <summary>
@@ -205,7 +204,6 @@ namespace WebExpress.WebApp.WebControl
                     new ControlText()
                     {
                         Text = I18N.Translate(renderContext.Request?.Culture, renderContext.PageContext?.PageTitle),
-                        //TextColor = LayoutSchema.HeadlineTitle,
                         Format = TypeFormatText.H2,
                         Padding = new PropertySpacingPadding(PropertySpacing.Space.One),
                         Margin = new PropertySpacingMargin(PropertySpacing.Space.None, PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.Null)

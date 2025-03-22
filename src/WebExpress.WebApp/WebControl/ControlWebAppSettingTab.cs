@@ -44,7 +44,6 @@ namespace WebExpress.WebApp.WebControl
             : base(id)
         {
             Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
-            //BackgroundColor = LayoutSchema.HeaderBackground;
         }
 
         /// <summary>

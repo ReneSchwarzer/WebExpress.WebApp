@@ -31,7 +31,6 @@ namespace WebExpress.WebApp.WebControl
             var apptitle = new ControlText()
             {
                 Text = I18N.Translate(renderContext.Request.Culture, renderContext.PageContext?.ApplicationContext?.ApplicationName),
-                //TextColor = LayoutSchema.HeaderTitle,
                 Format = TypeFormatText.H1,
                 Padding = new PropertySpacingPadding(PropertySpacing.Space.One),
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.None, PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.Null)

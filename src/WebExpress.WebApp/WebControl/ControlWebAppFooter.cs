@@ -40,8 +40,6 @@ namespace WebExpress.WebApp.WebControl
         public ControlWebAppFooter(string id = null)
             : base(id)
         {
-            //BackgroundColor = LayoutSchema.FooterBackground;
-            //TextColor = LayoutSchema.FooterText;
         }
 
         /// <summary>
@@ -132,6 +130,7 @@ namespace WebExpress.WebApp.WebControl
                 new ControlPanel(null, [.. secondary])
             )
             {
+                Classes = ["wx-footer"],
             } : null;
 
             return footerCtrl?.Render(renderContext, visualTree);

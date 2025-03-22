@@ -35,7 +35,7 @@
 //        /// <summary>
 //        /// The id of the web task for importing a plugin.
 //        /// </summary>
-//        private const string TaskId = "webexpress-webapp-plugin-upload";
+//        private const string TaskId = "wx-plugin-upload";
 
 //        /// <summary>
 //        /// Returns the label control.

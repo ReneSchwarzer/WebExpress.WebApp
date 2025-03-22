@@ -40,21 +40,21 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns or sets the application navigator.
         /// </summary>
-        public ControlWebAppHeaderAppNavigator AppNavigator { get; } = new ControlWebAppHeaderAppNavigator("webexpress-webapp-header-appnavigator")
+        public ControlWebAppHeaderAppNavigator AppNavigator { get; } = new ControlWebAppHeaderAppNavigator("wx-header-appnavigator")
         {
         };
 
         /// <summary>
         /// Returns or setss the name of the application.
         /// </summary>
-        public ControlWebAppHeaderAppTitle AppTitle { get; } = new ControlWebAppHeaderAppTitle("webexpress-webapp-header-apptitle")
+        public ControlWebAppHeaderAppTitle AppTitle { get; } = new ControlWebAppHeaderAppTitle("wx-header-apptitle")
         {
         };
 
         /// <summary>
         /// Returns or sets the navigation of the application.
         /// </summary>
-        public ControlWebAppHeaderAppNavigation AppNavigation { get; } = new ControlWebAppHeaderAppNavigation("webexpress-webapp-header-appnavigation")
+        public ControlWebAppHeaderAppNavigation AppNavigation { get; } = new ControlWebAppHeaderAppNavigation("wx-header-appnavigation")
         {
             Layout = TypeLayoutFlexbox.Inline,
             Justify = TypeJustifiedFlexbox.Start
@@ -63,28 +63,28 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns or sets the quick create.
         /// </summary>
-        public ControlWebAppHeaderQuickCreate QuickCreate { get; } = new ControlWebAppHeaderQuickCreate("webexpress-webapp-header-quickcreate")
+        public ControlWebAppHeaderQuickCreate QuickCreate { get; } = new ControlWebAppHeaderQuickCreate("wx-header-quickcreate")
         {
         };
 
         /// <summary>
         /// Returns or sets the navigation of the application helpers.
         /// </summary>
-        public ControlWebAppHeaderHelp Help { get; } = new ControlWebAppHeaderHelp("webexpress-webapp-header-help")
+        public ControlWebAppHeaderHelp Help { get; } = new ControlWebAppHeaderHelp("wx-header-help")
         {
         };
 
         /// <summary>
         /// Returns or sets the navigation of the application helpers.
         /// </summary>
-        public ControlWebAppHeaderNotification Notifications { get; } = new ControlWebAppHeaderNotification("webexpress-webapp-header-notifications")
+        public ControlWebAppHeaderNotification Notifications { get; } = new ControlWebAppHeaderNotification("wx-header-notifications")
         {
         };
 
         /// <summary>
         /// Returns or sets the navigation of the application settings.
         /// </summary>
-        public ControlWebAppHeaderSettings Settings { get; } = new ControlWebAppHeaderSettings("webexpress-webapp-header-settings")
+        public ControlWebAppHeaderSettings Settings { get; } = new ControlWebAppHeaderSettings("wx-header-settings")
         {
         };
 
@@ -98,7 +98,6 @@ namespace WebExpress.WebApp.WebControl
             Fixed = TypeFixed.Top;
             Styles = new List<string>(["position: sticky; top: 0; z-index: 99;"]);
             Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
-            //BackgroundColor = LayoutSchema.HeaderBackground;
         }
 
         /// <summary>

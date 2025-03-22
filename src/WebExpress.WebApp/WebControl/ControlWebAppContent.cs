@@ -12,12 +12,12 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns the toolbar.
         /// </summary>
-        public ControlWebAppToolbar Toolbar { get; } = new ControlWebAppToolbar("webexpress-webapp-content-toolbar");
+        public ControlWebAppToolbar Toolbar { get; } = new ControlWebAppToolbar("wx-content-toolbar");
 
         /// <summary>
         /// Returns the main panel.
         /// </summary>
-        public ControlWebAppMain MainPanel { get; } = new ControlWebAppMain("webexpress-webapp-content-main")
+        public ControlWebAppMain MainPanel { get; } = new ControlWebAppMain("wx-content-main")
         {
             //BackgroundColor = new PropertyColorBackground(TypeColorBackground.Danger),
         };
@@ -25,7 +25,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns the page properties.
         /// </summary>
-        public ControlWebAppProperty Property { get; } = new ControlWebAppProperty("webexpress-webapp-content-property");
+        public ControlWebAppProperty Property { get; } = new ControlWebAppProperty("wx-content-property");
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -51,11 +51,12 @@ namespace WebExpress.WebApp.WebControl
                 new ControlPanelFlexbox(null, MainPanel, Property)
                 {
                     Layout = TypeLayoutFlexbox.Default,
-                    Align = TypeAlignFlexbox.Stretch
+                    Align = TypeAlignFlexbox.Stretch,
+                    FlexGrow = TypeFlexGrow.Grow
                 }
             )
             {
-                Classes = ["content"],
+                Classes = ["wx-content"],
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two)
             };
 

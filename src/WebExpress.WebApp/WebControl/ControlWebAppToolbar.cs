@@ -36,7 +36,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns the quick create.
         /// </summary>
-        public ControlWebAppToolbarMore More { get; } = new ControlWebAppToolbarMore("webexpress-webapp-toolbar-more")
+        public ControlWebAppToolbarMore More { get; } = new ControlWebAppToolbarMore("wx-content-toolbar-more")
         {
         };
 
@@ -48,7 +48,6 @@ namespace WebExpress.WebApp.WebControl
             : base(id)
         {
             Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
-            //BackgroundColor = LayoutSchema.HeaderBackground;
         }
 
         /// <summary>
