@@ -4,6 +4,7 @@ using WebExpress.WebApp.WebApiControl;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebEndpoint;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebCore.WebPage;
 using WebExpress.WebCore.WebTheme;
@@ -82,19 +83,19 @@ namespace WebExpress.WebApp.WebPage
             Header.Fixed = TypeFixed.Top;
             Header.Styles = new List<string>(["position: sticky; top: 0; z-index: 99;"]);
 
-            Breadcrumb.Uri = pageContext?.Uri;
+            Breadcrumb.Uri = pageContext?.Route.ToUri();
             Breadcrumb.Margin = new PropertySpacingMargin(PropertySpacing.Space.Null);
             Content.Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.None, PropertySpacing.Space.None);
 
-            AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.css"));
-            AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.popupnotification.css"));
-            AddCssLink(UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.taskprogressbar.css"));
-            AddCssLink(Theme?.ThemeStyle ?? UriResource.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.theme.css"));
-            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.js"));
-            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.popupnotification.js"));
-            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.selection.js"));
-            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.table.js"));
-            AddHeaderScriptLink(UriResource.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.taskprogressbar.js"));
+            AddCssLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.css"));
+            AddCssLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.popupnotification.css"));
+            AddCssLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.taskprogressbar.css"));
+            AddCssLink(Theme?.ThemeStyle.ToString() ?? RouteEndpoint.Combine(applicationContext?.ContextPath, "/assets/css/webexpress.webapp.theme.css"));
+            AddHeaderScriptLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.js"));
+            AddHeaderScriptLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.popupnotification.js"));
+            AddHeaderScriptLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.selection.js"));
+            AddHeaderScriptLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.table.js"));
+            AddHeaderScriptLink(RouteEndpoint.Combine(applicationContext?.ContextPath, "assets/js/webexpress.webapp.taskprogressbar.js"));
         }
 
         /// <summary>

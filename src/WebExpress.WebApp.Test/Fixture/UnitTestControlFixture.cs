@@ -7,6 +7,7 @@ using System.Text;
 using WebExpress.WebCore;
 using WebExpress.WebCore.WebApplication;
 using WebExpress.WebCore.WebComponent;
+using WebExpress.WebCore.WebEndpoint;
 using WebExpress.WebCore.WebLog;
 using WebExpress.WebCore.WebMessage;
 using WebExpress.WebCore.WebPage;
@@ -38,13 +39,13 @@ namespace WebExpress.WebApp.Test.Fixture
         {
             return new HttpServerContext
             (
-                "localhost",
+                new RouteEndpoint("localhost"),
                 [],
                 "",
                 Environment.CurrentDirectory,
                 Environment.CurrentDirectory,
                 Environment.CurrentDirectory,
-                new UriResource("/server"),
+                new RouteEndpoint("/server"),
                 CultureInfo.GetCultureInfo("en"),
                 new Log() { LogMode = LogMode.Off },
                 null
@@ -106,7 +107,7 @@ namespace WebExpress.WebApp.Test.Fixture
             if (!string.IsNullOrEmpty(uri))
             {
                 var uriProperty = typeof(Request).GetProperty("Uri", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                uriProperty.SetValue(request, new UriResource(uri));
+                uriProperty.SetValue(request, new UriEndpoint(uri));
             }
 
             return request;

@@ -14,8 +14,8 @@ namespace WebExpress.WebApp.Test.WebControl
         /// Tests the id property of the web app header app title control.
         /// </summary>
         [Theory]
-        [InlineData(null, @"<a href=""/server/app"" class=""text-decoration-none""><h1 class=""p-1 mb-0 me-2"">TestApplication</h1></a>")]
-        [InlineData("id", @"<a id=""id"" href=""/server/app"" class=""text-decoration-none""><h1 class=""p-1 mb-0 me-2"">TestApplication</h1></a>")]
+        [InlineData(null, @"<a href=""/server/app"" class=""text-decoration-none""><h1 class=""p-1 me-2 mb-0"">TestApplication</h1></a>")]
+        [InlineData("id", @"<a id=""id"" href=""/server/app"" class=""text-decoration-none""><h1 class=""p-1 me-2 mb-0"">TestApplication</h1></a>")]
         public void Id(string id, string expected)
         {
             // preconditions

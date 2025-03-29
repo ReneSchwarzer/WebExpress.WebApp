@@ -35,7 +35,7 @@ namespace WebExpress.WebApp.WebApiControl
             var settings = new
             {
                 id = "26E517F5-56F7-485E-A212-6033618708F3",
-                resturi = applicationContext?.ContextPath.Append("api/1/popupnotifications")?.ToString(),
+                resturi = applicationContext?.ContextPath.Concat("api/1/popupnotifications")?.ToString(),
                 intervall = 15000
             };
 

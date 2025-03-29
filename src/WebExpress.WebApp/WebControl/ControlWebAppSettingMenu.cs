@@ -56,7 +56,7 @@ namespace WebExpress.WebApp.WebControl
                         {
                             Text = page.PageTitle,
                             Icon = page.Icon,
-                            Uri = page?.Uri,
+                            Uri = page?.Route.ToUri(),
                             Active = page == renderContext.PageContext ? TypeActive.Active : TypeActive.None
                         });
                     }
@@ -72,7 +72,7 @@ namespace WebExpress.WebApp.WebControl
                         {
                             Text = page.PageTitle,
                             Icon = page.Icon,
-                            Uri = page?.Uri,
+                            Uri = page?.Route.ToUri(),
                             Active = page == renderContext.PageContext ? TypeActive.Active : TypeActive.None
                         });
                     }
@@ -88,7 +88,7 @@ namespace WebExpress.WebApp.WebControl
                         {
                             Text = page.PageTitle,
                             Icon = page.Icon,
-                            Uri = page?.Uri,
+                            Uri = page?.Route.ToUri(),
                             Active = page == renderContext.PageContext ? TypeActive.Active : TypeActive.None
                         });
                     }

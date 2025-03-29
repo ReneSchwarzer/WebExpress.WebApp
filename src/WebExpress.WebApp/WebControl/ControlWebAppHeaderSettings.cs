@@ -139,7 +139,7 @@ namespace WebExpress.WebApp.WebControl
                     x => new ControlDropdownItemLink()
                     {
                         Text = I18N.Translate(renderContext, x?.Name),
-                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Uri,
+                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Route.ToUri(),
                         Icon = x.Icon
                     }
                 );
@@ -150,7 +150,7 @@ namespace WebExpress.WebApp.WebControl
                     x => new ControlDropdownItemLink()
                     {
                         Text = I18N.Translate(renderContext, x?.Name),
-                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Uri,
+                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Route.ToUri(),
                         Icon = x.Icon
                     }
                 );
@@ -161,7 +161,7 @@ namespace WebExpress.WebApp.WebControl
                     x => new ControlDropdownItemLink()
                     {
                         Text = I18N.Translate(renderContext, x?.Name),
-                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Uri,
+                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x)?.Route.ToUri(),
                         Icon = x.Icon
                     }
                 );

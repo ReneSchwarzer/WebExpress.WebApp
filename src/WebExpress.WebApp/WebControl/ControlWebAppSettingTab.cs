@@ -139,7 +139,7 @@ namespace WebExpress.WebApp.WebControl
                     x => new ControlNavigationItemLink()
                     {
                         Text = I18N.Translate(renderContext, x?.Name),
-                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x).Uri,
+                        Uri = settinPageManager.GetFirstSettingPage(appicationContext, x).Route.ToUri(),
                         Active = settingPageContext.SettingCategory == x ? TypeActive.Active : TypeActive.None
                     }
                 );

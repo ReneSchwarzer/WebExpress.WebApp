@@ -112,14 +112,14 @@ namespace WebExpress.WebApp.WebControl
             var navigatorCtrl = items.Any() ?
             (IControl)new ControlDropdown(Id, [.. items])
             {
-                Image = application?.Icon,
+                Image = application?.Icon.ToString(),
                 Height = 50,
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None),
                 Styles = ["padding: 0.5em;"]
             } :
             new ControlImage(Id)
             {
-                Uri = application?.Icon,
+                Uri = application?.Icon.ToUri(),
                 Height = 50,
                 Padding = new PropertySpacingPadding(PropertySpacing.Space.Two),
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None)
