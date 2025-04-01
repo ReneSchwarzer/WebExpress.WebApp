@@ -9,7 +9,7 @@
 //using static WebExpress.WebCore.Internationalization.InternationalizationManager;
 //using WebExpress.WebApp.WebUser.Model;
 
-//namespace WebExpress.WebAPI.V1
+//namespace WebExpress.WebApp.WWW.Api.V1
 //{
 //    /// <summary>
 //    /// REST API for user management.

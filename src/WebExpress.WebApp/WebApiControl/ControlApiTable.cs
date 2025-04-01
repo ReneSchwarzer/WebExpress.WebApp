@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using WebExpress.WebCore.WebHtml;
+using WebExpress.WebCore.WebUri;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebPage;
 
@@ -17,7 +18,7 @@ namespace WebExpress.WebApp.WebApiControl
         /// <summary>
         /// Returns or sets the uri that determines the data.
         /// </summary>
-        public string RestUri { get; set; }
+        public IUri RestUri { get; set; }
 
         /// <summary>
         /// Returns or sets the settings for the editing options (e.g. Edit, Delete, ...).

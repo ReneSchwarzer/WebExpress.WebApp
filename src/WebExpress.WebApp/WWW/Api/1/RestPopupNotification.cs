@@ -7,15 +7,14 @@ using WebExpress.WebCore.WebMessage;
 using WebExpress.WebCore.WebRestApi;
 using WebExpress.WebUI.WebNotification;
 
-namespace WebExpress.WebApp.WebAPI.V1
+namespace WebExpress.WebApp.WWW.Api._1
 {
     /// <summary>
     /// Returns the status and progress of a task (WebTask).
     /// </summary>
-    [Segment("popupnotifications", "")]
-    [ContextPath("/api")]
     [Method(CrudMethod.GET)]
     [Method(CrudMethod.DELETE)]
+    [IncludeSubPaths(true)]
     public sealed class RestPopupNotification : IRestApi
     {
         private readonly IComponentHub _componentHub;

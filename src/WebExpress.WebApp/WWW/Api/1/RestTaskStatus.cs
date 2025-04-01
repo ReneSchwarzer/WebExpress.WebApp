@@ -5,7 +5,7 @@
 //using WebExpress.WebCore.WebMessage;
 //using WebExpress.WebCore.WebResource;
 
-//namespace WebExpress.WebApp.WebAPI.V1
+//namespace WebExpress.WebApp.WWW.Api.V1
 //{
 //    /// <summary>
 //    /// Determines the status and progress of a task (WebTask).

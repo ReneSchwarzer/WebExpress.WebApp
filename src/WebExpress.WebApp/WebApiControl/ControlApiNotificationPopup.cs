@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 using System.Text.Json;
+using WebExpress.WebApp.WWW.Api._1;
+using WebExpress.WebCore;
 using WebExpress.WebCore.WebHtml;
 using WebExpress.WebUI.WebControl;
 using WebExpress.WebUI.WebPage;
@@ -35,7 +37,7 @@ namespace WebExpress.WebApp.WebApiControl
             var settings = new
             {
                 id = "26E517F5-56F7-485E-A212-6033618708F3",
-                resturi = applicationContext?.ContextPath.Concat("api/1/popupnotifications")?.ToString(),
+                resturi = WebEx.ComponentHub.SitemapManager.GetUri<RestPopupNotification>(applicationContext).ToString(),
                 intervall = 15000
             };
 
