@@ -66,7 +66,7 @@ namespace WebExpress.WebApp.Test.WebFragment
             // preconditions
             var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
             var application = componentHub.ApplicationManager.GetApplications(applicationType).FirstOrDefault();
-            var renderContext = UnitTestControlFixture.CrerateRenderContextMock(application, [scopeType]);
+            var renderContext = UnitTestControlFixture.CreateRenderContextMock(application, [scopeType]);
             var visualTree = new VisualTreeControl(componentHub, renderContext.PageContext);
 
             // reflection to get GetFragments method
@@ -112,7 +112,7 @@ namespace WebExpress.WebApp.Test.WebFragment
             // preconditions
             var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
             var application = componentHub.ApplicationManager.GetApplications(applicationType).FirstOrDefault();
-            var renderContext = UnitTestControlFixture.CrerateRenderContextMock(application, [scopeType]);
+            var renderContext = UnitTestControlFixture.CreateRenderContextMock(application, [scopeType]);
             var visualTree = new VisualTreeControl(componentHub, renderContext.PageContext);
 
             // test execution

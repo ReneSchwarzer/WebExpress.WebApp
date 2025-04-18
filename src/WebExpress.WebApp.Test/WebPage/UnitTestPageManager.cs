@@ -51,8 +51,7 @@ namespace WebExpress.WebApp.Test.WebPage
 
             // test execution
             var searchResult = componentHub.SitemapManager.SearchResource(new Uri(uri), searchContext);
-
-            var response = componentHub.EndpointManager.HandleRequest(UnitTestControlFixture.CrerateRequestMock(), searchResult.EndpointContext);
+            _ = componentHub.EndpointManager.HandleRequest(UnitTestControlFixture.CreateRequestMock(), searchResult.EndpointContext);
 
             Assert.Equal(id, searchResult?.EndpointContext?.EndpointId.ToString());
         }

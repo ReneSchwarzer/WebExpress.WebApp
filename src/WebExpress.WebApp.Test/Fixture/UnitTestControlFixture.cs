@@ -99,6 +99,7 @@ namespace WebExpress.WebApp.Test.Fixture
         /// <param name="uri">The URI of the request.</param>
         /// <returns>A fake request for testing.</returns>
         public static Request CreateRequestMock(string content = "", string uri = "")
+        {
             var context = CreateHttpContextMock(content);
 
             var request = context.Request;
@@ -203,6 +204,7 @@ namespace WebExpress.WebApp.Test.Fixture
         /// <param name="scopes">The scopes of the page.</param></param>
         /// <returns>A fake context for testing.</returns>
         public static PageContext CreatePageContextMock(IApplicationContext applicationContext = null, IEnumerable<Type> scopes = null)
+        {
             var ctorPageContext = typeof(PageContext).GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, [], null);
 
             var pageContext = (PageContext)ctorPageContext.Invoke([]);
