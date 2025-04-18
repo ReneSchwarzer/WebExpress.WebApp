@@ -202,8 +202,7 @@ namespace WebExpress.WebApp.Test.Fixture
         /// <param name="applicationContext">The application context. If null, defaults to null.</param>
         /// <param name="scopes">The scopes of the page.</param></param>
         /// <returns>A fake context for testing.</returns>
-        public static PageContext CreratePageContextMock(IApplicationContext applicationContext = null, IEnumerable<Type> scopes = null)
-        {
+        public static PageContext CreatePageContextMock(IApplicationContext applicationContext = null, IEnumerable<Type> scopes = null)
             var ctorPageContext = typeof(PageContext).GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, [], null);
 
             var pageContext = (PageContext)ctorPageContext.Invoke([]);
