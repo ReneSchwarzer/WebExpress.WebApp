@@ -1,65 +1,55 @@
-﻿//using WebExpress.WebCore.Internationalization;
-//using WebExpress.WebCore.WebHtml;
-//using WebExpress.WebCore.WebPage;
-//using WebExpress.WebUI.WebControl;
+﻿using WebExpress.WebCore.Internationalization;
+using WebExpress.WebCore.WebHtml;
+using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebIcon;
+using WebExpress.WebUI.WebPage;
 
-//namespace WebExpress.WebApp.WebControl
-//{
-//    public class ControlModalFormConfirmDelete : ControlModalFormConfirm
-//    {
-//        /// <summary>
-//        /// Initializes a new instance of the class.
-//        /// </summary>
-//        /// <param name="id">The control id.</param>
-//        public ControlModalFormConfirmDelete(string id = null)
-//            : this(id, null)
-//        {
+namespace WebExpress.WebApp.WebControl
+{
+    /// <summary>
+    /// Represents a modal confirmation form specifically for delete actions.
+    /// </summary>
+    public class ControlModalFormConfirmDelete : ControlModalFormConfirm
+    {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        /// <param name="id">The control id.</param>
+        public ControlModalFormConfirmDelete(string id = null)
+            : this(id, null)
+        {
 
-//        }
+        }
 
-//        /// <summary>
-//        /// Initializes a new instance of the class.
-//        /// </summary>
-//        /// <param name="id">The control id.</param>
-//        /// <param name="content">The form controls.</param>
-//        public ControlModalFormConfirmDelete(string id, params ControlFormItem[] content)
-//            : base(id, content)
-//        {
-//        }
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        /// <param name="id">The control id.</param>
+        /// <param name="content">The form controls.</param>
+        public ControlModalFormConfirmDelete(string id, params ControlFormItem[] content)
+            : base(id, content)
+        {
+            SubmitButtonIcon = new IconTrash();
+            SubmitButtonColor = new PropertyColorButton(TypeColorButton.Danger);
+        }
 
-//        /// <summary>
-//        /// Convert to html.
-//        /// </summary>
-//        /// <param name="context">The context in which the control is rendered.</param>
-//        /// <returns>The control as html.</returns>
-//        public override IHtmlNode Render(RenderContext context)
-//        {
-//            if (string.IsNullOrWhiteSpace(Header))
-//            {
-//                Header = context.Page.I18N("webexpress.webapp", "delete.header");
-//            }
+        /// <summary>
+        /// Converts the control to an HTML representation.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
+        {
+            if (string.IsNullOrWhiteSpace(Header))
+            {
+                Header = I18N.Translate(renderContext, "webexpress.webapp:delete.header");
+            }
 
-//            if (string.IsNullOrWhiteSpace(SubmitButtonLabel))
-//            {
-//                SubmitButtonLabel = context.Page.I18N("webexpress.webapp", "delete.label");
-//            }
+            SubmitButtonLabel ??= I18N.Translate(renderContext, "webexpress.webapp:delete.label");
+            Content ??= new ControlFormItemStaticText() { Text = I18N.Translate(renderContext, "webexpress.webapp:delete.description") };
 
-//            if (Content == null)
-//            {
-//                Content = new ControlFormItemStaticText() { Text = context.Page.I18N("webexpress.webapp", "delete.description") };
-//            }
-
-//            if (SubmitButtonIcon == null)
-//            {
-//                SubmitButtonIcon = new PropertyIcon(TypeIcon.TrashAlt);
-//            }
-
-//            if (SubmitButtonColor == null)
-//            {
-//                SubmitButtonColor = new PropertyColorButton(TypeColorButton.Danger);
-//            }
-
-//            return base.Render(context);
-//        }
-//    }
-//}
+            return base.Render(renderContext, visualTree);
+        }
+    }
+}

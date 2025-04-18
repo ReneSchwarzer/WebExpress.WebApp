@@ -41,7 +41,7 @@ namespace WebExpress.WebApp.WebControl
         /// <summary>
         /// Returns or sets the submit button.
         /// </summary>
-        private ControlFormItemButtonSubmit SubmitButton { get; set; }
+        private ControlFormItemButtonSubmit SubmitButton { get; } = new ControlFormItemButtonSubmit("submit");
 
         /// <summary>
         /// Returns or sets the redirect uri.
@@ -55,8 +55,6 @@ namespace WebExpress.WebApp.WebControl
         public ControlModalFormConfirm(string id = null, params ControlFormItem[] content)
             : base(id, content)
         {
-            SubmitButton = new ControlFormItemButtonSubmit("submit");
-
             Form.ProcessForm += (s, e) =>
             {
                 OnConfirm(e.Context);
@@ -110,6 +108,7 @@ namespace WebExpress.WebApp.WebControl
             }
 
             Form.RedirectUri = RedirectUri ?? renderContext.Request.Uri;
+            SubmitButton.Text = SubmitButtonLabel;
 
             return base.Render(renderContext, visualTree, items);
         }

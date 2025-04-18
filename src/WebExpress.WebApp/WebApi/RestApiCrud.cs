@@ -59,7 +59,9 @@ namespace WebExpress.WebApp.WebApi
 
             lock (Guard)
             {
-                var wqlStatement = WebEx.ComponentHub.GetComponentManager<WebIndex.IndexManager>()?.Retrieve<T>(wql ?? $"{GetDefaultSearchAttribute()}='{search}'");
+                var wqlStatement = !string.IsNullOrWhiteSpace(search) || !string.IsNullOrWhiteSpace(wql)
+                    ? WebEx.ComponentHub.GetComponentManager<WebIndex.IndexManager>()?.Retrieve<T>(wql ?? $"{GetDefaultSearchAttribute()}='{search}*'")
+                    : WebEx.ComponentHub.GetComponentManager<WebIndex.IndexManager>()?.Retrieve<T>("");
                 var data = GetData(wqlStatement, request);
 
                 var count = data.Count();
@@ -107,7 +109,7 @@ namespace WebExpress.WebApp.WebApi
         protected virtual string GetDefaultSearchAttribute()
         {
             return typeof(T).GetProperties()
-                //.Where(x => x.GetCustomAttribute<IndexDefaultSearchAttribute>() != null)
+                .Where(x => x.GetCustomAttribute<IndexDefaultSearchAttribute>() != null)
                 .Where(x => x.GetCustomAttribute<IndexIgnoreAttribute>() == null)
                 .Select(x => x.Name)
                 .FirstOrDefault();
