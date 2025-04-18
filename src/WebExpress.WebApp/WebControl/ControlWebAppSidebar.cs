@@ -1,86 +1,189 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebExpress.WebApp.WebSection;
+using WebExpress.WebCore;
 using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebFragment;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
     /// <summary>
-    /// Sidebar for a web app.
+    /// Represents a sidebar control for the web application.
     /// </summary>
     public class ControlWebAppSidebar : Control
     {
-        /// <summary>
-        /// Returns or sets the header area.
-        /// </summary>
-        public List<IControl> Header { get; protected set; } = new List<IControl>();
+        private readonly List<IControl> _header = [];
+        private readonly List<IControl> _preferences = [];
+        private readonly List<IControl> _primary = [];
+        private readonly List<IControl> _secondary = [];
 
         /// <summary>
-        /// Returns or sets the preferences area.
+        /// Returns the header area.
         /// </summary>
-        public List<IControl> Preferences { get; protected set; } = new List<IControl>();
+        public IEnumerable<IControl> Header => _header;
 
         /// <summary>
-        /// Returns or sets the primary area.
+        /// Returns the preferences area.
         /// </summary>
-        public List<IControl> Primary { get; protected set; } = new List<IControl>();
+        public IEnumerable<IControl> Preferences => _preferences;
 
         /// <summary>
-        /// Returns or sets the secondary area.
+        /// Returns the primary area.
         /// </summary>
-        public List<IControl> Secondary { get; protected set; } = new List<IControl>();
+        public IEnumerable<IControl> Primary => _primary;
 
         /// <summary>
-        /// Determines whether content exists
+        /// Returns the secondary area.
         /// </summary>
-        public bool HasContent => Header.Any() || Preferences.Any() || Primary.Any() || Secondary.Any();
+        public IEnumerable<IControl> Secondary => _secondary;
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppSidebar(string id = null)
             : base(id)
         {
-            Init();
         }
 
         /// <summary>
-        /// Initialization
+        /// Adds items to the header area.
         /// </summary>
-        private void Init()
+        /// <param name="items">The items to add to the header area.</param>
+        public void AddHeader(params IControlToolbarItem[] items)
         {
-            BackgroundColor = LayoutSchema.SidebarBackground;
-            //Height = TypeHeight.OneHundred;
+            _header.AddRange(items);
         }
 
         /// <summary>
-        /// Convert to html.
+        /// Removes an item from the header area.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
-        /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context)
+        /// <param name="item">The item to remove from the header area.</param>
+        public void RemoveHeader(IControlToolbarItem item)
         {
-            if (!HasContent)
+            _header.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the preferences area.
+        /// </summary>
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControlToolbarItem[] items)
+        {
+            _preferences.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the preferences area.
+        /// </summary>
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControlToolbarItem item)
+        {
+            _preferences.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControlToolbarItem[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControlToolbarItem item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControlToolbarItem[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControlToolbarItem item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
+        /// Converts the control to an HTML representation.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
+        {
+            var items = GetItems(renderContext);
+
+            var sidebarCtlr = items.Any() ?
+            new ControlPanelFlexbox(Id, [.. items])
             {
-                return null;
+                Classes = ["wx-sidebar"],
+                //BackgroundColor = new PropertyColorButton(TypeColorButton.Dark),
+                Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.None, PropertySpacing.Space.None)
+            } :
+            null;
+
+            return sidebarCtlr?.Render(renderContext, visualTree);
+        }
+
+        /// <summary>
+        /// Retrieves the items to be displayed in the control.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <returns>A collection of dropdown items.</returns>
+        protected virtual IEnumerable<IControl> GetItems(IRenderControlContext renderContext)
+        {
+            foreach (var item in Header.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarHeader>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            )))
+            {
+                yield return item;
             }
 
-            var elements = new List<IHtmlNode>();
-            elements.AddRange(Header.Select(x => x.Render(context)));
-            elements.AddRange(Preferences.Select(x => x.Render(context)));
-            elements.AddRange(Primary.Select(x => x.Render(context)));
-            elements.AddRange(Secondary.Select(x => x.Render(context)));
-
-            return new HtmlElementTextContentDiv(elements)
+            foreach (var item in Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarPreferences>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            )))
             {
-                Id = Id,
-                Class = Css.Concatenate("sidebar", GetClasses()),
-                Style = Style.Concatenate("display: block;", GetStyles()),
-                Role = Role
-            };
+                yield return item;
+            }
+
+            foreach (var item in Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarPrimary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            )))
+            {
+                yield return item;
+            }
+
+            foreach (var item in Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionSidebarSecondary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            )))
+            {
+                yield return item;
+            }
         }
     }
 }

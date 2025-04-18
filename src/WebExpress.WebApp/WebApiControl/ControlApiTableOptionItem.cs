@@ -65,7 +65,7 @@ namespace WebExpress.WebApp.WebApiControl
         public string OnClick { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         public ControlApiTableOptionItem()
         {
@@ -73,7 +73,7 @@ namespace WebExpress.WebApp.WebApiControl
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="label">The label of the column.</param>
         /// <param name="type">The type of option entry.</param>

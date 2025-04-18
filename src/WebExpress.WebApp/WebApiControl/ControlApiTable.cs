@@ -4,17 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
+using WebExpress.WebCore.WebUri;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebApiControl
 {
+    /// <summary>
+    /// Represents a control panel for API table interactions.
+    /// </summary>
     public class ControlApiTable : ControlPanel, IControlApi
     {
         /// <summary>
         /// Returns or sets the uri that determines the data.
         /// </summary>
-        public string RestUri { get; set; }
+        public IUri RestUri { get; set; }
 
         /// <summary>
         /// Returns or sets the settings for the editing options (e.g. Edit, Delete, ...).
@@ -27,7 +31,7 @@ namespace WebExpress.WebApp.WebApiControl
         public ICollection<ControlApiTableOptionItem> OptionItems { get; private set; } = new List<ControlApiTableOptionItem>();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlApiTable(string id = null)
@@ -38,11 +42,10 @@ namespace WebExpress.WebApp.WebApiControl
         /// <summary>
         /// Generates the javascript to control the control.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
         /// <param name="id">The id of the control.</param>
         /// <param name="css">The css classes that are assigned to the control.</param>
         /// <returns>The javascript code.</returns>
-        protected virtual string GetScript(RenderContext context, string id, string css)
+        protected virtual string GetScript(string id, string css)
         {
             var settings = new
             {
@@ -68,11 +71,11 @@ namespace WebExpress.WebApp.WebApiControl
         }
 
         /// <summary>
-        /// Convert to html.
+        /// Converts the control to an HTML representation.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
-        /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context)
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var classes = Classes.ToList();
 
@@ -82,7 +85,7 @@ namespace WebExpress.WebApp.WebApiControl
                 Style = GetStyles()
             };
 
-            context.VisualTree.AddScript(Id, GetScript(context, Id, string.Join(" ", classes)));
+            visualTree.AddScript(Id, GetScript(Id, string.Join(" ", classes)));
 
             return html;
         }

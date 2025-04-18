@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.WebApp.WebPage;
+using WebExpress.WebApp.WebSection;
+using WebExpress.WebCore;
 using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebFragment;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -12,61 +14,126 @@ namespace WebExpress.WebApp.WebControl
     /// </summary>
     public class ControlWebAppFooter : Control
     {
-        /// <summary>
-        /// Returns or sets the preferences area.
-        /// </summary>
-        public List<IControl> Preferences { get; protected set; } = new List<IControl>();
+        private readonly List<IControl> _preferences = [];
+        private readonly List<IControl> _primary = [];
+        private readonly List<IControl> _secondary = [];
 
         /// <summary>
-        /// Returns or sets the primary area.
+        /// Returns the preferences area.
         /// </summary>
-        public List<IControl> Primary { get; protected set; } = new List<IControl>();
+        public IEnumerable<IControl> Preferences => _preferences;
 
         /// <summary>
-        /// Returns or sets the secondary area.
+        /// Returns the primary area.
         /// </summary>
-        public List<IControl> Secondary { get; protected set; } = new List<IControl>();
+        public IEnumerable<IControl> Primary => _primary;
 
         /// <summary>
-        /// Constructor
+        /// Returns the secondary area.
+        /// </summary>
+        public IEnumerable<IControl> Secondary => _secondary;
+
+        /// <summary>
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppFooter(string id = null)
             : base(id)
         {
-            Init();
         }
 
         /// <summary>
-        /// Initialization
+        /// Adds items to the preferences area.
         /// </summary>
-        private void Init()
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControl[] items)
         {
-            BackgroundColor = LayoutSchema.FooterBackground;
-            TextColor = LayoutSchema.FooterText;
+            _preferences.AddRange(items);
         }
 
         /// <summary>
-        /// Convert to html.
+        /// Removes an item from the preferences area.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
-        /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context)
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControl item)
         {
-            var elements = new List<IHtmlNode>
-            {
-                new HtmlElementTextContentDiv(Preferences.Select(x => x.Render(context))),
-                new HtmlElementTextContentDiv(Primary.Select(x => x.Render(context))) { Class = "justify-content-center" },
-                new HtmlElementTextContentDiv(Secondary.Select(x => x.Render(context)))
-            };
+            _preferences.Remove(item);
+        }
 
-            return new HtmlElementTextContentDiv(elements)
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControl[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControl item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControl[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControl item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
+        /// Converts the control to an HTML representation.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
+        {
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterPreferences>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterPrimary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<IFragmentControl, SectionFooterSecondary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            var footerCtrl = (preferences.Any() || primary.Any() || secondary.Any()) ? new ControlPanelFooter
+            (
+                Id,
+                new ControlPanel(null, [.. preferences]),
+                new ControlPanel(null, [.. primary]),
+                new ControlPanel(null, [.. secondary])
+            )
             {
-                Id = Id,
-                Class = Css.Concatenate("footer", GetClasses()),
-                Style = Style.Concatenate("", GetStyles()),
-                Role = Role
-            };
+                Classes = ["wx-footer"],
+            } : null;
+
+            return footerCtrl?.Render(renderContext, visualTree);
         }
     }
 }

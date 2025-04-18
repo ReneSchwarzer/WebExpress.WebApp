@@ -1,0 +1,75 @@
+﻿#wx-header {
+    background: var(--bs-dark);
+}
+
+#wx-header-apptitle {
+    color: var(--bs-white);
+}
+
+#wx-header-appnavigation {
+    color: var(--bs-white);
+}
+
+#wx-header-appnavigation .nav-link {
+    color: var(--bs-white);
+}
+    
+#wx-header-appnavigation .active {
+    color: var(--bs-info);
+}
+
+#wx-breadcrumb {
+    background: var(--bs-light);
+}
+
+#wx-prologue {
+    background: var(--bs-light);
+}
+
+#wx-searchoptions {
+    background: var(--bs-light);
+}
+
+#wx-sidebar {
+    background: var(--bs-light);
+}
+
+#wx-settingtab {
+    background: var(--bs-light);
+}
+
+#wx-settingmenu {
+    background: var(--bs-light);
+}
+
+#wx-split-gutter {
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+}
+
+#wx-content {
+}
+
+#wx-content-toolbar {
+}
+
+#wx-content-toolbar-more {
+}
+
+#wx-content-main {
+}
+
+#wx-content-main-headline {
+    background: var(--bs-white);
+}
+
+#wx-content-main-headline-more {
+    background: var(--bs-white);
+}
+
+#wx-content-main-property {
+    background: var(--bs-blue200);
+}
+
+#wx-footer {
+    background: var(--bs-light);
+}

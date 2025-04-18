@@ -16,13 +16,12 @@ header.setting.label=Settings
 header.setting.systeminformation.label=System information
 
 headline.more.title=More options
+toolbar.more.title=More options
 
 status.400.title=Bad Request
 status.404.title=Resource not found
 status.404.description=The HTTP status code 404 means that the called resource cannot be found on the Web server. Either content has been removed or moved to a different URL. The following causes may be responsible for this: <ul><li>The URL is created incorrectly or incorrectly linked internally.</li><li>The URL was entered incorrectly.</li><li>The web server is not in operation.</li><li>The URL or content has been deleted or paged out.</li></ul>
 status.500.title=Internal Server Error
-
-notificationmanager.initialization=The notification manager has been initialized.
 
 pagesettingmanager.initialization=The settings page manager has been initialized.
 pagesettingmanager.register=A settings page has been added to the settings page manager.
@@ -82,10 +81,13 @@ setting.logfile.switchon.header=Enable logging
 setting.logfile.switchon.description=Activation is only valid until the next restart. To enable it permanently, change the settings in the configuration file. 
 setting.logfile.switchon.success=Logging has been enabled.
 
+setting.category.general.name=General settings
+setting.category.general.description=General settings for the web application.
+setting.group.general.name=General
+setting.group.general.description=General settings for the web application.
+
 setting.tab.general.label=General
-
 setting.group.system.label=System
-
 setting.titel.plugin.label=Plugins
 setting.titel.systeminformation.label=System information
 setting.titel.log.label=Log

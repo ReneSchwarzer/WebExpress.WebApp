@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using WebExpress.WebApp.WebSection;
+using WebExpress.WebCore;
 using WebExpress.WebCore.Internationalization;
-using WebExpress.WebCore.WebComponent;
 using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebFragment;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -12,79 +15,175 @@ namespace WebExpress.WebApp.WebControl
     /// </summary>
     public class ControlWebAppHeaderAppNavigator : Control
     {
-        /// <summary>
-        /// Returns or sets the preferences area.
-        /// </summary>
-        public List<IControlDropdownItem> Preferences { get; protected set; } = new List<IControlDropdownItem>();
+        private readonly List<IControlDropdownItem> _preferences = [];
+        private readonly List<IControlDropdownItem> _primary = [];
+        private readonly List<IControlDropdownItem> _secondary = [];
 
         /// <summary>
-        /// Returns or sets the primary area.
+        /// Returns the preferences area.
         /// </summary>
-        public List<IControlDropdownItem> Primary { get; protected set; } = new List<IControlDropdownItem>();
+        public IEnumerable<IControlDropdownItem> Preferences => _preferences;
 
         /// <summary>
-        /// Returns or sets the secondary area.
+        /// Returns the primary area.
         /// </summary>
-        public List<IControlDropdownItem> Secondary { get; protected set; } = new List<IControlDropdownItem>();
+        public IEnumerable<IControlDropdownItem> Primary => _primary;
 
         /// <summary>
-        /// Constructor
+        /// Returns the secondary area.
+        /// </summary>
+        public IEnumerable<IControlDropdownItem> Secondary => _secondary;
+
+        /// <summary>
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeaderAppNavigator(string id = null)
             : base(id)
         {
-            Init();
-        }
-
-        /// <summary>
-        /// Initialization
-        /// </summary>
-        private void Init()
-        {
             Padding = new PropertySpacingPadding(PropertySpacing.Space.Null);
         }
 
         /// <summary>
-        /// Convert to html.
+        /// Adds items to the preferences area.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
-        /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context)
+        /// <param name="items">The items to add to the preferences area.</param>
+        public void AddPreferences(params IControlDropdownItem[] items)
         {
-            var application = ComponentManager.ApplicationManager.GetApplcation(context.Page.ApplicationContext?.ApplicationId);
+            _preferences.AddRange(items);
+        }
 
-            var hamburger = new List<IControlDropdownItem>
+        /// <summary>
+        /// Removes an item from the preferences area.
+        /// </summary>
+        /// <param name="item">The item to remove from the preferences area.</param>
+        public void RemovePreference(IControlDropdownItem item)
+        {
+            _preferences.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the primary area.
+        /// </summary>
+        /// <param name="items">The items to add to the primary area.</param>
+        public void AddPrimary(params IControlDropdownItem[] items)
+        {
+            _primary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the primary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the primary area.</param>
+        public void RemovePrimary(IControlDropdownItem item)
+        {
+            _primary.Remove(item);
+        }
+
+        /// <summary>
+        /// Adds items to the secondary area.
+        /// </summary>
+        /// <param name="items">The items to add to the secondary area.</param>
+        public void AddSecondary(params IControlDropdownItem[] items)
+        {
+            _secondary.AddRange(items);
+        }
+
+        /// <summary>
+        /// Removes an item from the secondary area.
+        /// </summary>
+        /// <param name="item">The item to remove from the secondary area.</param>
+        public void RemoveSecondary(IControlDropdownItem item)
+        {
+            _secondary.Remove(item);
+        }
+
+        /// <summary>
+        /// Converts the control to an HTML representation.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
+        {
+            var application = renderContext?.PageContext?.ApplicationContext;
+            var items = GetItems(renderContext);
+
+            var navigatorCtrl = items.Any() ?
+            (IControl)new ControlDropdown(Id, [.. items])
             {
-                new ControlDropdownItemHeader() { Text = context.I18N(context.Page.ApplicationContext, context.Page.ApplicationContext?.ApplicationName) }
-            };
-
-            hamburger.AddRange(Primary);
-
-            if (Primary.Count > 0 && Secondary.Count > 0)
-            {
-                hamburger.Add(new ControlDropdownItemDivider());
-            }
-
-            hamburger.AddRange(Secondary);
-
-            var logo = (hamburger.Count > 1) ?
-            (IControl)new ControlDropdown("webexpress.webapp.header.icon", hamburger)
-            {
-                Image = application?.Icon,
+                Image = application?.Icon.ToString(),
                 Height = 50,
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None),
-                Styles = new List<string>() { "padding: 0.5em;" }
+                Styles = ["padding: 0.5em;"]
             } :
-            new ControlImage("webexpress.webapp.header.icon")
+            new ControlImage(Id)
             {
-                Uri = application?.Icon,
+                Uri = application?.Icon.ToUri(),
                 Height = 50,
                 Padding = new PropertySpacingPadding(PropertySpacing.Space.Two),
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.Two, PropertySpacing.Space.None)
             };
 
-            return logo?.Render(context);
+            return navigatorCtrl?.Render(renderContext, visualTree);
+        }
+
+        /// <summary>
+        /// Retrieves the items to be displayed in the dropdown.
+        /// </summary>
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <returns>A collection of dropdown items.</returns>
+        private IEnumerable<IControlDropdownItem> GetItems(IRenderControlContext renderContext)
+        {
+            var application = renderContext?.PageContext?.ApplicationContext;
+
+            var preferences = Preferences.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppPreferences>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            var primary = Primary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppPrimary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            var secondary = Secondary.Union(WebEx.ComponentHub.FragmentManager.GetFragments<FragmentControlDropdownItemLink, SectionAppSecondary>
+            (
+                renderContext?.PageContext?.ApplicationContext,
+                renderContext?.PageContext?.Scopes
+            ));
+
+            if (preferences.Any() && primary.Any() && secondary.Any())
+            {
+                yield return new ControlDropdownItemHeader(I18N.Translate(renderContext.Request, application?.ApplicationName));
+            }
+
+            foreach (var item in preferences)
+            {
+                yield return item;
+            }
+
+            if (preferences.Any() && (primary.Any() || secondary.Any()))
+            {
+                yield return new ControlDropdownItemDivider();
+            }
+
+            foreach (var item in primary)
+            {
+                yield return item;
+            }
+
+            if (primary.Any() && secondary.Any())
+            {
+                yield return new ControlDropdownItemDivider();
+            }
+
+            foreach (var item in secondary)
+            {
+                yield return item;
+            }
         }
     }
 }

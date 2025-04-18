@@ -1,8 +1,7 @@
 ﻿using WebExpress.WebCore.Internationalization;
 using WebExpress.WebCore.WebHtml;
-using WebExpress.WebCore.WebPage;
-using WebExpress.WebApp.WebPage;
 using WebExpress.WebUI.WebControl;
+using WebExpress.WebUI.WebPage;
 
 namespace WebExpress.WebApp.WebControl
 {
@@ -12,43 +11,35 @@ namespace WebExpress.WebApp.WebControl
     public class ControlWebAppHeaderAppTitle : ControlLink
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
         public ControlWebAppHeaderAppTitle(string id = null)
             : base(id)
         {
-            Init();
-        }
-
-        /// <summary>
-        /// Initialization
-        /// </summary>
-        private void Init()
-        {
             Decoration = TypeTextDecoration.None;
         }
 
         /// <summary>
-        /// Convert to html.
+        /// Converts the control to an HTML representation.
         /// </summary>
-        /// <param name="context">The context in which the control is rendered.</param>
-        /// <returns>The control as html.</returns>
-        public override IHtmlNode Render(RenderContext context)
+        /// <param name="renderContext">The context in which the control is rendered.</param>
+        /// <param name="visualTree">The visual tree representing the control's structure.</param>
+        /// <returns>An HTML node representing the rendered control.</returns>
+        public override IHtmlNode Render(IRenderControlContext renderContext, IVisualTreeControl visualTree)
         {
             var apptitle = new ControlText()
             {
-                Text = context.I18N(context.ApplicationContext, context.ApplicationContext?.ApplicationName),
-                TextColor = LayoutSchema.HeaderTitle,
+                Text = I18N.Translate(renderContext.Request.Culture, renderContext.PageContext?.ApplicationContext?.ApplicationName),
                 Format = TypeFormatText.H1,
                 Padding = new PropertySpacingPadding(PropertySpacing.Space.One),
                 Margin = new PropertySpacingMargin(PropertySpacing.Space.None, PropertySpacing.Space.Two, PropertySpacing.Space.None, PropertySpacing.Space.Null)
             };
 
-            return new HtmlElementTextSemanticsA(apptitle.Render(context))
+            return new HtmlElementTextSemanticsA(apptitle.Render(renderContext, visualTree))
             {
                 Id = Id,
-                Href = context?.Page?.ApplicationContext?.ContextPath?.ToString(),
+                Href = renderContext?.PageContext?.ApplicationContext?.ContextPath?.ToString(),
                 Class = Css.Concatenate("", GetClasses()),
                 Style = Style.Concatenate("", GetStyles()),
                 Role = Role

@@ -8,43 +8,40 @@ using WebExpress.WebIndex;
 
 namespace WebExpress.WebApp.WebIndex
 {
-    public sealed class IndexManager : WebExpress.WebIndex.IndexManager, IComponentPlugin
+    /// <summary>
+    /// Manages the index for the web application and handles component registration and removal.
+    /// </summary>
+    public sealed class IndexManager : WebExpress.WebIndex.IndexManager, IComponentManager
     {
-        /// <summary>
-        /// Returns the reference to the context of the host.
-        /// </summary>
-        public IHttpServerContext HttpServerContext { get; private set; }
+        private readonly IHttpServerContext _httpServerContext;
+        private readonly IComponentHub _componentHub;
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the class.
         /// </summary>
-        internal IndexManager()
+        /// <param name="httpServerContext">The reference to the context of the host.</param>
+        /// <param name="componentHub">The component hub.</param>
+        internal IndexManager(IHttpServerContext httpServerContext, IComponentHub componentHub)
         {
-            ComponentManager.PluginManager.AddPlugin += (s, pluginContext) =>
+            _httpServerContext = httpServerContext;
+            _componentHub = componentHub;
+
+            _componentHub.PluginManager.AddPlugin += (s, pluginContext) =>
             {
                 Register(pluginContext);
             };
 
-            ComponentManager.PluginManager.RemovePlugin += (s, pluginContext) =>
+            _componentHub.PluginManager.RemovePlugin += (s, pluginContext) =>
             {
                 Remove(pluginContext);
             };
-        }
 
-        /// <summary>
-        /// Initialization
-        /// </summary>
-        /// <param name="context">The reference to the context of the host.</param>
-        public void Initialization(IHttpServerContext context)
-        {
-            HttpServerContext = context;
-
-            HttpServerContext.Log.Debug
+            _httpServerContext.Log.Debug
             (
-                InternationalizationManager.I18N("webexpress.webapp:indexmanager.initialization")
+                I18N.Translate("webexpress.webapp:indexmanager.initialization")
             );
 
-            Initialization(new IndexContext() { IndexDirectory = Path.Combine(context.DataPath, "index") });
+            Initialization(new IndexContext() { IndexDirectory = Path.Combine(httpServerContext.DataPath, "index") });
         }
 
         /// <summary>
@@ -73,17 +70,6 @@ namespace WebExpress.WebApp.WebIndex
         /// </summary>
         /// <param name="pluginContext">The context of the plugin that contains the components to remove.</param>
         public void Remove(IPluginContext pluginContext)
-        {
-            //Dictionary.Remove(pluginContext);
-        }
-
-        /// <summary>
-        /// Information about the component is collected and prepared for output in the log.
-        /// </summary>
-        /// <param name="pluginContext">The context of the plugin.</param>
-        /// <param name="output">A list of log entries.</param>
-        /// <param name="deep">The shaft deep.</param>
-        public void PrepareForLog(IPluginContext pluginContext, IList<string> output, int deep)
         {
 
         }
