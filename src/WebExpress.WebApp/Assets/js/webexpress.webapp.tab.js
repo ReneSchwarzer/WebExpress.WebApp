@@ -16,6 +16,12 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
     _movableTab = false;
     _templates = new Map();
     _templateOrder = [];
+    _confirm = null;
+    _deletingTabId = null;
+    _destroyed = false;
+    _onDocumentClick = null;
+    _queryVersion = 0;
+    _lastSliceData = null;
 
     // drag & drop reorder state
     _dragTabId = null;
@@ -128,6 +134,9 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
         const viewStateId = (element.dataset && element.dataset.wxViewstate) || null;
 
         webexpress.webapp.ViewStateRegistry.whenReady(element, viewStateId, (viewState) => {
+            if (this._destroyed) {
+                return;
+            }
             this._viewState = viewState;
             this._store = viewState;
 
@@ -150,19 +159,24 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
      * @param {object} slice The resource slice { items, total, data, loading, error }.
      */
     _applySlice(slice) {
+        if (this._destroyed) {
+            return;
+        }
         slice = slice || {};
 
         if (slice.data) {
-            this.updateData(webexpress.webapp.tabModel.mapTabs(slice.data));
+            if (slice.data !== this._lastSliceData) {
+                this._lastSliceData = slice.data;
+                this.updateData(webexpress.webapp.tabModel.mapTabs(slice.data));
+            }
         } else if (slice.loading === false && !slice.error) {
             // a settled load without a payload is an empty tab set, not a pending
             // one, so the placeholder applies
-            this._dataApplied = true;
-            this._updateEmptyState();
+            this._lastSliceData = null;
+            this.updateData([]);
         }
 
-        this._element.classList.remove("placeholder-glow");
-        this._isLoading = false;
+        this._element.classList.toggle("placeholder-glow", slice.loading === true);
     }
 
     /**
@@ -324,7 +338,7 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
                 this._toggleTemplateMenu();
             });
 
-            document.addEventListener("click", (e) => {
+            this._onDocumentClick = (e) => {
                 if (!this._addLi || !this._addTemplateMenu || !this._addTemplateMenu.classList.contains("show")) {
                     return;
                 }
@@ -332,7 +346,8 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
                 if (!this._addLi.contains(e.target)) {
                     this._hideTemplateMenu();
                 }
-            });
+            };
+            document.addEventListener("click", this._onDocumentClick);
         } else {
             this._addTabButton.addEventListener("click", (e) => {
                 e.preventDefault();
@@ -470,14 +485,18 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
      * Fetches tab data from the configured REST endpoint via GET.
      */
     async _receiveData() {
-        if (this._restUri === "" || !this._service) {
+        if (this._destroyed || this._restUri === "" || !this._service) {
             return;
         }
 
         this._isLoading = true;
         this._element.classList.add("placeholder-glow");
 
+        const version = ++this._queryVersion;
         const result = await this._service.query({});
+        if (this._destroyed || version !== this._queryVersion) {
+            return;
+        }
 
         if (!result.ok) {
             // a superseded query arrives as an abort result and is ignored
@@ -897,41 +916,32 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
      * @param {Array<Object>} tabs - The array of tab definition objects.
      */
     updateData(tabs) {
-        if (tabs === undefined || tabs === null) {
+        if (this._destroyed || !Array.isArray(tabs)) {
             return;
         }
 
         this._dataApplied = true;
-
-        // clear existing headers except the add button and toolbar
-        if (this._navElement !== null) {
-            const headers = Array.from(this._navElement.children);
-            for (let i = 0; i < headers.length; i++) {
-                if (headers[i] !== this._addLi && headers[i] !== this._toolbarLi) {
-                    this._navElement.removeChild(headers[i]);
-                }
-            }
-        }
+        const activeTabId = this._activeTabId;
 
         // the placeholder leaves through the flagged detach, so wiping the pane
         // host cannot tear down the instances of its call-to-action controls
         this._detachEmptyState();
 
-        // clear existing panes
-        if (this._contentElement !== null) {
-            this._contentElement.innerHTML = "";
+        for (const tab of this._tabs) {
+            this._removeTabElements(tab);
         }
 
         this._tabs = [];
+        this._activeTabId = null;
 
         // build new tabs from data
         for (let i = 0; i < tabs.length; i++) {
             this._renderSingleTab(tabs[i]);
         }
 
-        // select the first tab by default if available
+        // rebuilt panes need their active classes even when the selected id did not change
         if (this._tabs.length > 0) {
-            this.selectTab(this._tabs[0].id);
+            this.selectTab(this._tabs.some(tab => tab.id === activeTabId) ? activeTabId : this._tabs[0].id);
         }
 
         // refresh add button state for the loaded tab set
@@ -1002,23 +1012,27 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
     _buildTabHeader(tab) {
         // call the base class implementation first
         const li = super._buildTabHeader(tab);
+        tab.headerElement = li;
+        // the base constructor also builds authored tabs before derived fields are initialized
+        const readonly = this._readonly ?? (this._element.dataset.readonly === "true");
+        const movable = this._movableTab ?? (this._element.dataset.movableTab === "true");
 
         // add the drag-to-reorder grip when enabled
-        if (this._movableTab && !this._readonly) {
+        if (movable && !readonly) {
             this._makeTabMovable(li, tab);
         }
 
-        if (this._readonly) {
+        if (readonly) {
             return li;
         }
 
         const a = li.querySelector(".nav-link");
 
         if (a !== null) {
-            const closeBtn = document.createElement("span");
-            closeBtn.className = "wx-webapp-tab-close ms-2 text-muted";
-            closeBtn.style.cursor = "pointer";
-            closeBtn.title = this._i18n("webexpress.webui:close", "Close");
+            const closeBtn = document.createElement("button");
+            closeBtn.type = "button";
+            closeBtn.className = "wx-webapp-tab-close";
+            closeBtn.title = this._i18n("webexpress.webapp:tab.delete.label", "Delete tab “{name}”").replace("{name}", () => tab.label);
             closeBtn.setAttribute("aria-label", closeBtn.title);
             closeBtn.innerHTML = `<i class="${this._iconClass("xmark")}"></i>`;
 
@@ -1029,7 +1043,8 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
                 this._closeTab(tab.id);
             });
 
-            a.appendChild(closeBtn);
+            li.classList.add("wx-webapp-tab-closable");
+            li.appendChild(closeBtn);
         }
 
         return li;
@@ -1248,61 +1263,85 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
     }
 
     /**
-     * Handles the closing/removal of a specific tab from the DOM and state.
+     * Confirms deletion while retaining the selected tab until the service succeeds.
      * @param {string} tabId - The identifier of the tab to close.
      */
     _closeTab(tabId) {
-        if (this._readonly) {
+        const tab = this._tabs.find(item => item.id === tabId);
+        if (this._readonly || this._destroyed || this._deletingTabId !== null || !tab) {
             return;
         }
 
-        // send delete request to the server before removing the tab locally
-        if (this._restUri && tabId && this._service) {
-            this._service.remove({ params: { id: tabId } }).then((result) => {
-                if (!result.ok && result.error.kind !== "abort") {
-                    // optionally show error, but still remove tab from ui to ensure responsiveness
-                    console.error("delete request failed (still removing tab locally):", webexpress.webapp.ServiceResult.describe(result));
-                }
-            });
+        this._confirm = this._confirm || new webexpress.webui.ModalConfirm();
+        const accepted = this._confirm.confirmation(
+            "webexpress.webapp:tab.delete.title",
+            this._i18n("webexpress.webapp:tab.delete.message", "Delete tab “{name}”? This action cannot be undone.").replace("{name}", () => tab.label),
+            () => this._deleteTab(tabId),
+            {
+                confirmLabel: this._i18n("webexpress.webapp:tab.delete.confirm", "Delete"),
+                errorMessage: this._i18n("webexpress.webapp:tab.delete.error", "The tab could not be deleted. Please try again."),
+                fallbackFocus: () => this._tabs.find(item => item.id === this._activeTabId)?.headerElement.querySelector(".nav-link") || this._addTabButton
+            }
+        );
+        if (accepted) {
+            this._confirm.show();
+        }
+    }
+
+    /**
+     * Commits a confirmed deletion once, keeping failures available for retry.
+     * @param {string} tabId - The confirmed tab id.
+     * @returns {Promise<boolean>} Whether the confirmation can be dismissed.
+     */
+    async _deleteTab(tabId) {
+        if (this._readonly || this._destroyed || this._deletingTabId !== null) {
+            return false;
+        }
+        if (!this._tabs.some(tab => tab.id === tabId)) {
+            return true;
+        }
+        if (this._resource && !this._service) {
+            return false;
         }
 
-        let closedIndex = -1;
-
-        // filter out the closed tab from the model
-        const newTabs = [];
-        for (let i = 0; i < this._tabs.length; i++) {
-            if (this._tabs[i].id === tabId) {
-                closedIndex = i;
+        this._deletingTabId = tabId;
+        try {
+            if (this._service) {
+                const result = await this._service.remove({ params: { id: tabId } });
+                if (!result.ok) {
+                    return false;
+                }
+            }
+            if (this._destroyed) {
+                return false;
+            }
+            this._removeTab(tabId);
+            if (this._viewState) {
+                this._syncDeletedTab(tabId);
             } else {
-                newTabs.push(this._tabs[i]);
+                // a GET started before this deletion may still contain the removed id
+                this._queryVersion++;
+                this._isLoading = false;
+                this._element.classList.remove("placeholder-glow");
             }
+            this._dispatch(webexpress.webapp.Event.TAB_CLOSED_EVENT, { tabId: tabId });
+            return true;
+        } finally {
+            this._deletingTabId = null;
         }
-        this._tabs = newTabs;
+    }
 
-        // remove the header element from the navigation
-        if (this._navElement !== null) {
-            const navLinks = this._navElement.querySelectorAll(".nav-link");
-            for (let i = 0; i < navLinks.length; i++) {
-                if (navLinks[i].dataset.tabId === tabId) {
-                    const li = navLinks[i].parentElement;
-                    if (li !== null && li.parentElement !== null) {
-                        li.parentElement.removeChild(li);
-                    }
-                }
-            }
+    /**
+     * Keeps model, selection and empty state consistent after a successful deletion.
+     * @param {string} tabId - The deleted tab id.
+     */
+    _removeTab(tabId) {
+        const closedIndex = this._tabs.findIndex(tab => tab.id === tabId);
+        if (closedIndex === -1) {
+            return;
         }
-
-        // remove the content pane from the dom
-        const pane = document.getElementById(tabId);
-        if (pane !== null && pane.parentElement !== null) {
-            // trigger destruction of child instances if supported
-            if (webexpress && webexpress.webui && webexpress.webui.Controller) {
-                webexpress.webui.Controller.removeInstances(pane);
-            }
-            pane.parentElement.removeChild(pane);
-        }
-
-        // handle active state if the closed tab was currently visible
+        const [tab] = this._tabs.splice(closedIndex, 1);
+        this._removeTabElements(tab);
         if (this._activeTabId === tabId) {
             this._activeTabId = null;
             if (this._tabs.length > 0) {
@@ -1311,14 +1350,61 @@ webexpress.webapp.TabCtrl = class extends webexpress.webui.TabCtrl {
             }
         }
 
-        // refresh the add button availability after the tab list changed
         this._updateAddButtonState();
         this._updateEmptyState();
+    }
 
-        // notify external components about tab removal
-        this._dispatch(webexpress.webapp.Event.TAB_CLOSED_EVENT, {
-            tabId: tabId
+    /**
+     * Limits teardown to owned elements and detaches before controller cleanup,
+     * because connected nodes are deliberately excluded by removeInstances.
+     * @param {object} tab - The tab whose rendered elements are no longer needed.
+     */
+    _removeTabElements(tab) {
+        tab.headerElement?.remove();
+        tab.paneElement.remove();
+        webexpress.webui.Controller.removeInstances(tab.paneElement);
+    }
+
+    /**
+     * Updates the central slice before reloading so its loading notification cannot
+     * resurrect the deleted tab. The new load also supersedes an older resource query.
+     * @param {string} tabId - The id whose deletion the server acknowledged.
+     */
+    _syncDeletedTab(tabId) {
+        this._viewState.setState(state => {
+            const slice = state[this._resource];
+            if (!slice?.data) {
+                return null;
+            }
+            const previous = webexpress.webapp.tabModel.mapTabs(slice.data);
+            const items = previous.filter(tab => String(tab.id) !== tabId);
+            return { [this._resource]: {
+                ...slice,
+                data: { ...slice.data, items: items },
+                items: Array.isArray(slice.items) ? slice.items.filter(tab => String(tab.id) !== tabId) : slice.items,
+                total: typeof slice.total === "number" ? Math.max(0, slice.total - (previous.length - items.length)) : slice.total
+            } };
         });
+        this._viewState.load(this._resource);
+    }
+
+    /**
+     * Releases the detached placeholder, document listener and separately owned modal.
+     */
+    destroy() {
+        this._destroyed = true;
+        this._confirm?.destroy();
+        this._confirm = null;
+        if (this._onDocumentClick) {
+            document.removeEventListener("click", this._onDocumentClick);
+            this._onDocumentClick = null;
+        }
+        if (this._emptyStateElement) {
+            this._emptyStateElement.remove();
+            this._emptyStateElement._wxDetached = false;
+            webexpress.webui.Controller.removeInstances(this._emptyStateElement);
+        }
+        super.destroy();
     }
 };
 

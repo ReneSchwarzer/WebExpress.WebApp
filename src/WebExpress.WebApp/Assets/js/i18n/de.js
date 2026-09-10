@@ -344,6 +344,11 @@ webexpress.webui.I18N.register("de", "webexpress.webapp", {
 
     // tabs
     "tab.move": "Tab verschieben",
+    "tab.delete.label": "Tab „{name}“ löschen",
+    "tab.delete.title": "Tab löschen?",
+    "tab.delete.message": "Möchten Sie den Tab „{name}“ löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "tab.delete.confirm": "Löschen",
+    "tab.delete.error": "Der Tab konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
 
     // columns (dashboard / kanban)
     "column.edit": "Spalte umbenennen",

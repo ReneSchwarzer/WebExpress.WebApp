@@ -106,11 +106,24 @@ The response must contain `newTab`:
 }
 ```
 
-### DELETE (close tab)
+### DELETE (delete tab)
 
-Closing a tab sends a `DELETE` request to:
+The delete button opens the shared `webexpress.webui.ModalConfirm` with the tab's name.
+Only confirmation sends a `DELETE` request through the configured data service to:
 
 `<data-uri>?id=<tabId>`
+
+The tab, selection and template capacity remain unchanged until the service succeeds.
+While the request is pending, confirmation and dismissal are locked to prevent duplicate
+requests. A failed or aborted request keeps the dialog open with a translated error and
+allows retry. Cancel, the dialog close button and Escape dismiss an idle confirmation
+without deleting anything. A control without a service removes the tab locally after
+confirmation. Readonly controls do not expose deletion.
+
+On success, the controller disposes the owned pane's child controls and emits
+`TAB_CLOSED_EVENT` once. Deleting the active tab selects its preceding neighbor (or the
+first remaining tab); deleting the last tab shows the empty-state placeholder. A data
+refresh preserves the selected id when it still exists and reapplies its visible state.
 
 ### PUT (reorder tabs)
 

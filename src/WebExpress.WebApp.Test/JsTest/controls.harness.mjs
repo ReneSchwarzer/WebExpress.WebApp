@@ -51,6 +51,7 @@ const WEBUI_BASE_CONTROLS = [
     // tested against the words a page shows rather than against the raw keys
     "i18n/en.js",
     "webexpress.webui.modal.js",
+    "webexpress.webui.modal.confirm.js",
     "webexpress.webui.modal.page.js",
     "webexpress.webui.modal.form.js",
     // the sidebar dialog the link surface opens is a split with a tree in it

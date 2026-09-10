@@ -22,18 +22,55 @@
 
 /* show the grip and the close icon only while hovering the tab button;
    visibility (not display) keeps the layout stable so the tab does not jump */
-.nav-link .wx-webapp-tab-grip,
-.nav-link .wx-webapp-tab-close {
+.nav-link .wx-webapp-tab-grip {
     visibility: hidden;
 }
 
 .nav-link:hover .wx-webapp-tab-grip,
-.nav-link:hover .wx-webapp-tab-close {
+.nav-link:focus-visible .wx-webapp-tab-grip {
     visibility: visible;
 }
 
-.wx-webapp-tab-close:hover {
-    color: var(--wx-body-color);
+.wx-webapp-tab-closable {
+    position: relative;
+}
+
+.wx-webapp-tab-closable > .nav-link {
+    padding-inline-end: 2.25rem;
+}
+
+.wx-webapp-tab-close {
+    position: absolute;
+    inset-inline-end: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--wx-secondary-color, var(--bs-secondary-color));
+    transition: color 0.2s ease-in-out;
+    padding: 0.25rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.wx-webapp-tab-closable:hover > .wx-webapp-tab-close,
+.wx-webapp-tab-closable:focus-within > .wx-webapp-tab-close {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.wx-webapp-tab-close:hover,
+.wx-webapp-tab-close:focus-visible {
+    color: var(--wx-danger, var(--bs-danger));
+}
+
+@media (hover: none) {
+    .wx-webapp-tab-close {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .nav-item.wx-webapp-tab-movable.wx-webapp-tab-dragging {

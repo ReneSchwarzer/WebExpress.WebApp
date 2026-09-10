@@ -344,6 +344,11 @@ webexpress.webui.I18N.register("en", "webexpress.webapp", {
 
     // tabs
     "tab.move": "Reorder tab",
+    "tab.delete.label": "Delete tab “{name}”",
+    "tab.delete.title": "Delete tab?",
+    "tab.delete.message": "Delete tab “{name}”? This action cannot be undone.",
+    "tab.delete.confirm": "Delete",
+    "tab.delete.error": "The tab could not be deleted. Please try again.",
 
     // columns (dashboard / kanban)
     "column.edit": "Rename column",
