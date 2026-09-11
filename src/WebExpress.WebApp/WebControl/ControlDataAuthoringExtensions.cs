@@ -324,6 +324,20 @@ namespace WebExpress.WebApp.WebControl
         }
 
         /// <summary>
+        /// Declares the standard data service of the login dialog, which is the one of
+        /// the login form it frames: the credentials are submitted with POST.
+        /// </summary>
+        /// <typeparam name="TEndpoint">The endpoint type that owns the route.</typeparam>
+        /// <param name="control">The login dialog.</param>
+        /// <param name="configure">An optional adjustment of the preset.</param>
+        /// <returns>The control for chaining.</returns>
+        public static ControlDataModalLogin DataService<TEndpoint>(this ControlDataModalLogin control, Action<DataServiceDescriptor> configure = null)
+            where TEndpoint : IEndpoint
+        {
+            return AddPreset(control, DataServiceDescriptor.SubmitData, Endpoint<TEndpoint>(), Domains<TEndpoint>(), configure);
+        }
+
+        /// <summary>
         /// Declares the standard data service of the tag surface, which loads
         /// and suggests with GET; additions and deletions shape their own
         /// requests against the same base.

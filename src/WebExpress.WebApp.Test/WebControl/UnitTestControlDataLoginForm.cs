@@ -86,7 +86,7 @@ namespace WebExpress.WebApp.Test.WebControl
         /// </summary>
         [Theory]
         [InlineData(null, @"<div class=""wx-webapp-login""></div>")]
-        [InlineData("My Login", @"<div class=""wx-webapp-login"" dataset-title=""My Login""></div>")]
+        [InlineData("My Login", @"<div class=""wx-webapp-login"" data-title=""My Login""></div>")]
         public void Title(string title, string expected)
         {
             // arrange

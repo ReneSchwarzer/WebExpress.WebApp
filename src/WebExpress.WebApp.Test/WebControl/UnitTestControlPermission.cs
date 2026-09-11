@@ -140,6 +140,85 @@ namespace WebExpress.WebApp.Test.WebControl
         }
 
         /// <summary>
+        /// Tests that the Title property renders into the <c>data-title</c>
+        /// attribute the client captions the toolbar with, and that a blank
+        /// title emits nothing, so a surface hosted under a dialog header stays
+        /// without a caption of its own.
+        /// </summary>
+        [Theory]
+        [InlineData(null, @"<div id=""o1"" class=""wx-webapp-permission"" data-page-size=""10"" data-wx-source-paging=""#o1_pager"" data-wx-bind=""paging""></div><div id=""o1_pager"" class=""wx-webui-pagination""></div>")]
+        [InlineData("", @"<div id=""o1"" class=""wx-webapp-permission"" data-page-size=""10"" data-wx-source-paging=""#o1_pager"" data-wx-bind=""paging""></div><div id=""o1_pager"" class=""wx-webui-pagination""></div>")]
+        [InlineData("Permissions of Incident", @"<div id=""o1"" class=""wx-webapp-permission"" data-page-size=""10"" data-title=""Permissions of Incident"" data-wx-source-paging=""#o1_pager"" data-wx-bind=""paging""></div><div id=""o1_pager"" class=""wx-webui-pagination""></div>")]
+        public void Title(string title, string expected)
+        {
+            // arrange
+            var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
+            var context = UnitTestControlFixture.CreateRenderContextMock();
+            var visualTree = new VisualTreeControl(componentHub, context.PageContext);
+            var control = new ControlDataPermission("o1")
+            {
+                Title = _ => title
+            };
+
+            // act
+            var html = control.Render(context, visualTree);
+
+            // validation
+            AssertExtensions.EqualWithPlaceholders(expected, html);
+        }
+
+        /// <summary>
+        /// Tests that the tools contributed through the toolbar sections are
+        /// rendered into the host, in section order, and that a search box among
+        /// them is bound to the surface without the page having to know the id
+        /// the fragment renders with.
+        /// </summary>
+        [Fact]
+        public void Tools_RendersContributedFragmentsAndBindsTheSearchBox()
+        {
+            // arrange
+            var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
+            var application = componentHub.ApplicationManager.GetApplications(typeof(TestApplication)).FirstOrDefault();
+            var context = UnitTestControlFixture.CreateRenderContextMock(application);
+            var visualTree = new VisualTreeControl(componentHub, context.PageContext);
+            var control = new ControlDataPermission("o1");
+
+            // act
+            var html = control.Render(context, visualTree);
+
+            // validation
+            AssertExtensions.EqualWithPlaceholders(
+                @"<div id=""o1"" class=""wx-webapp-permission"" data-page-size=""10"" data-wx-source-search=""#webexpress-webapp-test-testfragmentpermissiontoolbarsearch"" data-wx-source-paging=""#o1_pager"" data-wx-bind=""search,paging""><div class=""wx-permission-tools""><div id=""webexpress-webapp-test-testfragmentpermissiontoolbartext"">Tool</div><div id=""webexpress-webapp-test-testfragmentpermissiontoolbarsearch"" class=""wx-webui-search""*</div></div></div><div id=""o1_pager"" class=""wx-webui-pagination""></div>",
+                html);
+        }
+
+        /// <summary>
+        /// Tests that a search bind the page authored keeps precedence over the
+        /// one the control would add for a contributed search box.
+        /// </summary>
+        [Fact]
+        public void Tools_AuthoredSearchBindKeepsPrecedence()
+        {
+            // arrange
+            var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
+            var application = componentHub.ApplicationManager.GetApplications(typeof(TestApplication)).FirstOrDefault();
+            var context = UnitTestControlFixture.CreateRenderContextMock(application);
+            var visualTree = new VisualTreeControl(componentHub, context.PageContext);
+            var control = new ControlDataPermission("o1")
+            {
+                Bind = _ => new Binding().Add(new BindSearch { Source = "search" })
+            };
+
+            // act
+            var html = control.Render(context, visualTree);
+
+            // validation
+            AssertExtensions.EqualWithPlaceholders(
+                @"<div id=""o1"" class=""wx-webapp-permission"" data-page-size=""10"" data-wx-source-search=""#search"" data-wx-source-paging=""#o1_pager"" data-wx-bind=""search,paging""><div class=""wx-permission-tools"">*</div></div><div id=""o1_pager"" class=""wx-webui-pagination""></div>",
+                html);
+        }
+
+        /// <summary>
         /// Tests that an authored binding survives next to the paging bind the
         /// control always adds, so a page can attach a search control.
         /// </summary>

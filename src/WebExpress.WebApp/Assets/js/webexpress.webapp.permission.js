@@ -22,10 +22,17 @@
  * policy set is the edited value, which keeps a group's chips together on one
  * page.
  *
+ * The toolbar above the table reads [title] [tools] … [assign groups]: the
+ * optional caption, the tools the server rendered into the host (a search box,
+ * a filter, an action a plugin contributed) and the assign affordance. Title
+ * and tools stay on a read-only surface, the affordance does not.
+ *
  * Declarative configuration: the host carries a wx-service island named "data"
  * for the assignment endpoint plus two islands named "groups" and "policies"
  * that supply the directories - the groups the assign dialog offers and the
- * policies the chips are picked from.
+ * policies the chips are picked from. data-title captions the toolbar and a
+ * child element with the class wx-permission-tools carries the tools; both are
+ * optional.
  *
  * REST contract:
  *   GET    {data}?q=…&p=…&l=…                    → { items: [{ groupId, groupName, policyIds }], total, assignedGroupIds }
@@ -70,9 +77,7 @@ webexpress.webapp.PermissionCtrl = class extends webexpress.webapp.TableCtrl {
 
         this._directories = this._loadDirectories();
 
-        if (!this._readonly) {
-            this._buildToolbar();
-        }
+        this._buildToolbar();
     }
 
     /**
@@ -83,6 +88,22 @@ webexpress.webapp.PermissionCtrl = class extends webexpress.webapp.TableCtrl {
      */
     get _readonly() {
         return this._element.dataset.readonly === "true";
+    }
+
+    /**
+     * Lifts the tools the server rendered into the host out of it before the
+     * base replaces the children with the table; the toolbar mounts them again
+     * once the table stands. The base fires this hook from its constructor,
+     * ahead of the field initialisers of this class, so the tools are kept on
+     * a property no initialiser resets.
+     * @param {HTMLElement} element - The host element.
+     */
+    _beforeInitParse(element) {
+        this._tools = element.querySelector(":scope > .wx-permission-tools");
+
+        if (this._tools) {
+            this._tools.remove();
+        }
     }
 
     /**
@@ -259,21 +280,43 @@ webexpress.webapp.PermissionCtrl = class extends webexpress.webapp.TableCtrl {
     }
 
     /**
-     * Puts the assign affordance above the table, which is the one action of the
-     * surface that does not belong to a stored assignment.
+     * Puts the toolbar above the table: the caption and the contributed tools
+     * at the start, the assign affordance - the one action of the surface that
+     * does not belong to a stored assignment - at the end. A read-only surface
+     * keeps the caption and the tools, because they help with reading the
+     * assignments as well; without any of the three there is no bar.
      */
     _buildToolbar() {
+        const title = this._element.dataset.title || "";
+
+        if (!title && !this._tools && this._readonly) {
+            return;
+        }
+
         this._toolbar = document.createElement("div");
         this._toolbar.className = "wx-permission-toolbar";
 
-        this._assignButton = document.createElement("button");
-        this._assignButton.type = "button";
-        this._assignButton.className = "btn btn-primary wx-permission-assign";
-        this._assignButton.appendChild(webexpress.webui.Icon.create(this._iconClass("plus"), "me-2"));
-        this._assignButton.appendChild(document.createTextNode(this._i18n("webexpress.webapp:permission.assign.groups", "Assign groups")));
-        this._assignButton.addEventListener("click", () => this._openAssignDialog());
+        if (title) {
+            const caption = document.createElement("span");
+            caption.className = "wx-permission-title";
+            caption.textContent = title;
+            this._toolbar.appendChild(caption);
+        }
 
-        this._toolbar.appendChild(this._assignButton);
+        if (this._tools) {
+            this._toolbar.appendChild(this._tools);
+        }
+
+        if (!this._readonly) {
+            this._assignButton = document.createElement("button");
+            this._assignButton.type = "button";
+            this._assignButton.className = "btn btn-primary wx-permission-assign";
+            this._assignButton.appendChild(webexpress.webui.Icon.create(this._iconClass("plus"), "me-2"));
+            this._assignButton.appendChild(document.createTextNode(this._i18n("webexpress.webapp:permission.assign.groups", "Assign groups")));
+            this._assignButton.addEventListener("click", () => this._openAssignDialog());
+
+            this._toolbar.appendChild(this._assignButton);
+        }
 
         // ahead of the progress bar the base put in front of the table, which
         // reports on the table rather than on the toolbar

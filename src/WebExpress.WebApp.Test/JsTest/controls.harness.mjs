@@ -73,6 +73,8 @@ const WEBUI_BASE_CONTROLS = [
     "webexpress.webui.dashboard.js",
     "webexpress.webui.avatar.dropdown.js",
     "webexpress.webui.login.js",
+    // the login dialog frames the REST login the way it frames the plain one
+    "webexpress.webui.modal.login.js",
     "webexpress.webui.input.tile.js",
     "webexpress.webui.kanban.js",
     "webexpress.webui.input.cascading.js",

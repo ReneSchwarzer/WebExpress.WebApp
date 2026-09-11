@@ -112,10 +112,11 @@ function stubFetch(rt, entries, options = {}) {
 }
 
 /**
- * Builds the host the server renders: the marker class, the page size and the
- * three service islands.
+ * Builds the host the server renders: the marker class, the page size, the
+ * three service islands and, when asked for, the caption attribute and the
+ * container of the contributed tools.
  * @param {object} rt - The loaded runtime.
- * @param {object} [options] - Overrides such as readonly.
+ * @param {object} [options] - Overrides such as readonly, title and tools.
  * @returns {object} The host element.
  */
 function createHost(rt, options = {}) {
@@ -128,6 +129,22 @@ function createHost(rt, options = {}) {
     if (options.readonly) {
         element.setAttribute("data-readonly", "true");
         element.dataset.readonly = "true";
+    }
+
+    if (options.title) {
+        element.setAttribute("data-title", options.title);
+        element.dataset.title = options.title;
+    }
+
+    if (options.tools) {
+        // what a fragment scoped to the control renders into the host
+        const tools = rt.createElement("div");
+        tools.classList.add("wx-permission-tools");
+        const tool = rt.createElement("span");
+        tool.classList.add("wx-test-tool");
+        tool.textContent = "Tool";
+        tools.appendChild(tool);
+        element.appendChild(tools);
     }
 
     for (const descriptor of [
@@ -347,8 +364,57 @@ test("permission readonly drops the toolbar, the options and the inline edit", a
     await settle();
 
     assert.equal(ctrl._assignButton, undefined, "a read-only surface offers no way to assign");
+    assert.equal(ctrl._toolbar, undefined, "without a caption or tools there is nothing left for a bar");
     assert.equal(ctrl._rows[0].options, null);
     assert.equal(ctrl._columns[1].rendererOptions.editable, false);
+});
+
+test("permission puts the caption and the contributed tools ahead of the assign affordance", async () => {
+    const rt = load();
+    stubFetch(rt, [{ groupId: "g1", groupName: "IT Support", policyIds: ["p1"] }]);
+
+    const host = createHost(rt, { title: "Permissions of Incident", tools: true });
+    const tools = host.querySelector(".wx-permission-tools");
+
+    const ctrl = new rt.wxapp.PermissionCtrl(host);
+    await settle();
+
+    // the table base replaces the children of the host, so the tools only
+    // survive because the surface lifts them out first
+    assert.equal(ctrl._toolbar.parentNode, host, "the bar sits on the host");
+    assert.equal(host.firstElementChild, ctrl._toolbar, "the bar leads, ahead of the progress bar and the table");
+
+    const parts = ctrl._toolbar.children;
+    assert.equal(parts.length, 3);
+    assert.ok(parts[0].classList.contains("wx-permission-title"), "the caption opens the bar");
+    assert.equal(parts[0].textContent, "Permissions of Incident");
+    assert.equal(parts[1], tools, "the very container the server rendered follows, not a copy");
+    assert.equal(tools.querySelector(".wx-test-tool").textContent, "Tool", "the tool inside it is untouched");
+    assert.equal(parts[2], ctrl._assignButton, "the affordance closes the bar");
+});
+
+test("permission keeps the caption and the tools on a read-only surface", async () => {
+    const rt = load();
+    stubFetch(rt, [{ groupId: "g1", groupName: "IT Support", policyIds: ["p1"] }]);
+
+    const ctrl = new rt.wxapp.PermissionCtrl(createHost(rt, { readonly: true, title: "Permissions", tools: true }));
+    await settle();
+
+    const parts = ctrl._toolbar.children;
+    assert.equal(parts.length, 2, "reading the assignments is what the caption and the tools help with as well");
+    assert.ok(parts[0].classList.contains("wx-permission-title"));
+    assert.ok(parts[1].classList.contains("wx-permission-tools"));
+    assert.equal(ctrl._assignButton, undefined);
+});
+
+test("permission opens the bar with the affordance alone when nothing captions it", async () => {
+    const rt = load();
+    stubFetch(rt, [{ groupId: "g1", groupName: "IT Support", policyIds: ["p1"] }]);
+
+    const ctrl = new rt.wxapp.PermissionCtrl(createHost(rt));
+    await settle();
+
+    assert.deepEqual(ctrl._toolbar.children, [ctrl._assignButton]);
 });
 
 test("permission pages through the pagination control it is bound to", async () => {

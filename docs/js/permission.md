@@ -9,7 +9,7 @@ Further groups are assigned through the dialog the **Assign groups** button abov
 The control derives from `webexpress.webapp.TableCtrl`, so the rendering, the column templates, the options menu and the pager wiring are the ones every REST table uses. All changes are persisted via REST: the control issues `GET` / `POST` / `PUT` / `DELETE` requests against the configured assignment endpoint and dispatches events that let the surrounding application react to assignments and revocations.
 
 ```
-                                           [ + Assign groups ]
+   [Title] [<Preferences>|<Primary>|<Secondary>]    [ + Assign groups ]
    ┌──────────────────────────────────────────────────────────────────┐
    │  Group               │ Permissions                               │
    │  ────────────────────┼────────────────────────────────────────── │
@@ -19,6 +19,31 @@ The control derives from `webexpress.webapp.TableCtrl`, so the rendering, the co
    └──────────────────────────────────────────────────────────────────┘
                                             ‹  1  2  3  ›
 ```
+
+## Title and tools
+
+The toolbar above the table reads `[title] [tools] … [assign groups]`. Title and tools are optional; without either, the bar holds the assign affordance alone, and a read-only surface without either has no bar at all.
+
+- The **title** captions the surface. It names what the assignments protect when the surrounding page does not - hosted in a modal, the dialog header usually does, which is why it is left empty there. The C# control translates it, so an i18n key may be passed.
+- The **tools** are contributed by fragments: a search box, a filter, an action a plugin adds without the page hosting the surface knowing about it. Three sections decide the order on the bar - `SectionPermissionToolbarPreferences`, `SectionPermissionToolbarPrimary` and `SectionPermissionToolbarSecondary` - exactly as the toolbar sections of the WebApp page do. Any control fragment (`IFragmentControl`) may be contributed.
+- The sections resolve against the **runtime type** of the control. A fragment scoped to `ControlDataPermission` joins every permission surface of the application; a fragment aimed at one particular surface is scoped to a subclass that surface is declared with.
+- A **search box** among the tools (`FragmentControlSearch`) searches the surface: the control binds it through the search bind itself, because the page does not know the id a fragment renders with. A search bind the page authored through `Bind` keeps precedence.
+- Title and tools **stay on a read-only surface**, because reading the assignments is what they help with as well; only the assign affordance, the options menu and the inline edit go.
+
+```csharp
+[Section<SectionPermissionToolbarPrimary>]
+[Scope<ControlDataPermission>]
+public sealed class PermissionSearch : FragmentControlSearch
+{
+    public PermissionSearch(IFragmentContext fragmentContext)
+        : base(fragmentContext)
+    {
+        Placeholder = _ => "Search groups…";
+    }
+}
+```
+
+The tools are rendered on the server and handed to the client inside the host, in a container carrying the class `wx-permission-tools`. The client lifts the container out before the table takes over the host and mounts it on the toolbar between the caption and the assign affordance, so a contributed tool is free to be any control of the framework and keeps the instance the server rendered.
 
 ## The assign dialog
 
@@ -47,7 +72,7 @@ The dialog is the framework modal (`webexpress.webui.ModalCtrl`), built on the f
 
 ## Declarative Configuration
 
-The control is bootstrapped from a single host element carrying the `wx-webapp-permission` CSS class. The services are declared through `wx-service` island elements inside the host, additional options through `data-` attributes; the control then rewrites the element's contents to render the table.
+The control is bootstrapped from a single host element carrying the `wx-webapp-permission` CSS class. The services are declared through `wx-service` island elements inside the host, additional options through `data-` attributes; the control then rewrites the element's contents to render the table. A child element carrying the class `wx-permission-tools` survives the rewrite: it is lifted onto the toolbar and holds the contributed tools.
 
 ### Services
 
@@ -62,8 +87,10 @@ The control is bootstrapped from a single host element carrying the `wx-webapp-p
 | Attribute                | Description                                                                                | Example
 |--------------------------|--------------------------------------------------------------------------------------------|----------------------------
 | `data-page-size`         | Number of groups per page. The C# control emits `10` unless a page size is declared.        | `data-page-size="25"`
-| `data-readonly`          | When `"true"`, hides the assign toolbar, the options menu and the inline editing of the chips. | `data-readonly="true"`
+| `data-title`             | Caption at the start of the toolbar. Omitted, the bar starts with the tools or the assign affordance. | `data-title="Permissions of Incident"`
+| `data-readonly`          | When `"true"`, hides the assign affordance, the options menu and the inline editing of the chips; the caption and the tools stay. | `data-readonly="true"`
 | `data-wx-source-paging`  | Selector of the pagination control the surface pages through, set by the paging bind.        | `data-wx-source-paging="#permissions_pager"`
+| `data-wx-source-search`  | Selector of the search box that searches the surface, set by the search bind - by the page, or by the control for a search box among the tools. | `data-wx-source-search="#permissions_search"`
 
 ### REST Contract
 
@@ -114,11 +141,12 @@ permElement.addEventListener(webexpress.webapp.Event.PERMISSION_ASSIGNED_EVENT, 
 
 ## Use Case Examples
 
-The following example manages the permissions of the class `Incident` inside a modal. The C# page declares the control through the fluent authoring surface:
+The following example manages the permissions of the class `Incident` on a page of its own, captioned by the surface itself. The C# page declares the control through the fluent authoring surface:
 
 ```csharp
 new ControlDataPermission("incident-permissions")
 {
+    Title = _ => "webexpress.myapp:incident.permissions.title",
     PageSize = _ => 10
 }
     .DataService<IncidentPermissions>()
@@ -126,17 +154,24 @@ new ControlDataPermission("incident-permissions")
     .PoliciesService<IncidentPermissionPolicies>();
 ```
 
-The rendered host element carries the service islands, the paging bind and the pagination control it drives:
+The rendered host element carries the service islands, the caption, the tools a fragment contributed (here the search box of the example above, bound by the control), the paging bind and the pagination control it drives:
 
 ```html
-<div class="wx-webapp-permission" data-page-size="10"
-     data-wx-bind="paging" data-wx-source-paging="#incident-permissions_pager">
+<div class="wx-webapp-permission" data-page-size="10" data-title="Permissions of Incident"
+     data-wx-bind="search,paging"
+     data-wx-source-search="#myapp-webfragment-permissionsearch"
+     data-wx-source-paging="#incident-permissions_pager">
     <wx-service hidden name="data" kind="rest" base-uri="/api/permissions/incident" method="GET"></wx-service>
     <wx-service hidden name="groups" kind="rest" base-uri="/api/identity/groups" method="GET"></wx-service>
     <wx-service hidden name="policies" kind="rest" base-uri="/api/identity/policies" method="GET"></wx-service>
+    <div class="wx-permission-tools">
+        <div id="myapp-webfragment-permissionsearch" class="wx-webui-search" …></div>
+    </div>
 </div>
 <div id="incident-permissions_pager" class="wx-webui-pagination"></div>
 ```
+
+Hosted in a modal whose header already names the resource, the title is left empty and the bar starts with the tools or the assign affordance.
 
 A read-only variant for users without administrative rights:
 
