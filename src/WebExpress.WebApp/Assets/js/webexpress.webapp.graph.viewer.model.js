@@ -60,7 +60,17 @@ webexpress.webapp.graphViewerModel = {
             foregroundColor: this._text(node.foregroundColor),
             foregroundCss: this._text(node.foregroundCss),
             backgroundColor: this._text(node.backgroundColor),
-            backgroundCss: this._text(node.backgroundCss)
+            backgroundCss: this._text(node.backgroundCss),
+
+            // a node may say more than its name: the second line naming what it
+            // is, and the state it stands in as a captioned dot. The viewer has
+            // always drawn both when they are there; they are carried through
+            // here so a server-fed graph can say them too, and not only a model
+            // a control built for itself in the browser
+            description: this._text(node.description),
+            state: this._text(node.state),
+            stateColor: this._text(node.stateColor),
+            stateCss: this._text(node.stateCss)
         };
 
         const x = this._coordinate(node.x);

@@ -100,5 +100,45 @@ namespace WebExpress.WebApp.WebRestApi
         /// </summary>
         [JsonPropertyName("foregroundCss")]
         public string ForegroundCss { get; set; }
+
+        /// <summary>
+        /// Gets or sets the second line of the node: what the thing the node stands for is,
+        /// under the name it is called by.
+        /// </summary>
+        /// <remarks>
+        /// A node whose label is an identifier - a record key, a host name - says what it is
+        /// only by the company it keeps, and a reader following a graph of them has to open
+        /// each one to find out. The viewer draws this line beneath the label and gives the
+        /// node the room for it; without a description it keeps the compact shape it has
+        /// always had.
+        /// </remarks>
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state of the thing the node stands for, drawn as a captioned dot.
+        /// </summary>
+        /// <remarks>
+        /// It is the third thing a reader asks of a node that stands for a record - what it is
+        /// called, what it is, and where it stands - and the one that decides whether the
+        /// connection still matters. <see cref="StateColor"/> or <see cref="StateCss"/> paints
+        /// the dot; neither of them alone says anything, so a state without one is drawn in the
+        /// neutral tone.
+        /// </remarks>
+        [JsonPropertyName("state")]
+        public string State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the color of the state dot.
+        /// </summary>
+        [JsonPropertyName("stateColor")]
+        public string StateColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the CSS class of the state dot, for a host that paints its states
+        /// through a stylesheet rather than through a stored color.
+        /// </summary>
+        [JsonPropertyName("stateCss")]
+        public string StateCss { get; set; }
     }
 }
