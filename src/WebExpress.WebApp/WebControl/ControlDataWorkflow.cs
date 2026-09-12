@@ -92,6 +92,26 @@ namespace WebExpress.WebApp.WebControl
         public Func<IRenderControlContext, bool> GridSnap { get; set; }
 
         /// <summary>
+        /// Gets or sets whether the designer takes the height its host offers instead of
+        /// bringing one of its own.
+        /// </summary>
+        /// <remarks>
+        /// The canvas and the properties pane scroll on their own, which needs a definite
+        /// height, and a host rarely has one - hence the self-imposed default of the
+        /// <c>--wx-we-host-height</c> custom property. That is the right shape for a designer
+        /// shown among other blocks on a page. Where the designer <em>is</em> the view, it is
+        /// the wrong one: a canvas with a height of its own inside an application-shell pane
+        /// either leaves dead space below it or reaches past the pane, which then scrolls
+        /// around a canvas that already pans.
+        ///
+        /// A host that is a flex column - which the WebApp content panel becomes on its own
+        /// for a filling control - drives the height. A host that hands nothing down falls
+        /// back to the self-imposed height, never to the content: the panes only scroll while
+        /// the designer is bounded.
+        /// </remarks>
+        public Func<IRenderControlContext, bool> Fill { get; set; } = _ => false;
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="id">The control id.</param>
@@ -110,11 +130,12 @@ namespace WebExpress.WebApp.WebControl
         {
 
             var grid = Grid?.Invoke(renderContext) ?? 0;
+            var fill = Fill?.Invoke(renderContext) ?? false;
 
             var html = new HtmlElementTextContentDiv()
             {
                 Id = Id,
-                Class = Css.Concatenate("wx-webapp-workflow-editor", GetClasses(renderContext)),
+                Class = Css.Concatenate("wx-webapp-workflow-editor", fill ? "wx-fill" : null, GetClasses(renderContext)),
                 Style = GetStyles(renderContext)
             }
                 .AddUserAttribute("data-grid", grid > 0 ? grid.ToString() : null)

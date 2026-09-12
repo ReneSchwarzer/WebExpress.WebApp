@@ -21,5 +21,11 @@ namespace WebExpress.WebApp.WebControl
         /// Has no effect while <see cref="Grid"/> is 0.
         /// </summary>
         Func<IRenderControlContext, bool> GridSnap { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the designer takes the height its host offers instead of
+        /// bringing one of its own.
+        /// </summary>
+        Func<IRenderControlContext, bool> Fill { get; set; }
     }
 }

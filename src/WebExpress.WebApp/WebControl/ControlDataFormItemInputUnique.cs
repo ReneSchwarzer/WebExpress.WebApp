@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebExpress.WebApp.WebControl;
 using WebExpress.WebApp.WebData;
 using WebExpress.WebCore.Internationalization;
@@ -108,10 +109,14 @@ namespace WebExpress.WebApp.WebApiControl
             var pattern = Pattern?.Invoke(renderContext);
             var required = Required?.Invoke(renderContext) ?? false;
 
+            // the classes the author put on the control travel on the host: the client
+            // controller builds the input inside it, so a mark such as the dialog's title
+            // input is read off the host by the stylesheet rather than off the input
             var html = new HtmlElementTextContentDiv()
             {
                 Id = Id,
-                Class = "wx-webapp-input-unique"
+                Class = Css.Concatenate("wx-webapp-input-unique", Classes),
+                Style = string.Join("; ", Styles.Where(x => !string.IsNullOrWhiteSpace(x)))
             }
                 .AddUserAttribute("name", name)
                 .AddUserAttribute("placeholder", I18N.Translate(renderContext, placeholder))

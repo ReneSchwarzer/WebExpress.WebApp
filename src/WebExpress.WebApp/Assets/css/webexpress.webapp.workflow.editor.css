@@ -56,7 +56,14 @@
 }
 
 /* ───────── Host element ───────── */
-.wx-webapp-workflow-editor.wx-workflow-editor {
+/* The host is addressed by the classes the controllers put on it at mount
+   (wx-graph-editor from the base, wx-workflow-editor from the designer), never by
+   the wx-webapp-workflow-editor the author wrote: the controller registry strips
+   that one before the constructor runs, so a rule keyed on it matches nothing
+   and the graph editor's own content-driven sizing silently takes over. Both
+   classes are named so this rule outranks the graph editor's single-class one
+   whatever the stylesheets' load order. */
+.wx-graph-editor.wx-workflow-editor {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -75,6 +82,21 @@
     border: 1px solid var(--wx-we-border);
     border-radius: var(--wx-we-radius);
     overflow: hidden;
+}
+
+/* Fill mode: the designer takes the height its host offers instead of bringing one
+   of its own, which is what an application shell asks of the content of a pane.
+   Both the basis and the height are stated: a flex column host drives the basis,
+   and where a host hands nothing down the height still has to come from the
+   environment rather than from the content - 100% would resolve to auto against an
+   auto-height host, which is the content, the one answer this mode exists to stop
+   the canvas from following. The cap keeps the designer inside a host that does
+   have an extent, and the floor keeps a pane too short for the toolbar and a row
+   of states scrolling rather than crushing them. */
+.wx-graph-editor.wx-workflow-editor.wx-fill {
+    flex: 1 1 var(--wx-we-host-height, var(--wx-we-host-min-height));
+    max-height: 100%;
+    min-height: 12rem;
 }
 
 /* The Split host fills the remaining vertical space. Both panes are capped by
@@ -760,7 +782,7 @@
 
 /* ───────── Responsive ───────── */
 @media (max-width: 720px) {
-    .wx-webapp-workflow-editor.wx-workflow-editor {
+    .wx-graph-editor.wx-workflow-editor {
         --wx-we-host-min-height: 360px;
     }
 

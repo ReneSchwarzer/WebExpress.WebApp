@@ -87,6 +87,36 @@ namespace WebExpress.WebApp.Test.WebControl
         }
 
         /// <summary>
+        /// Tests that the classes and styles the author puts on the control land on the
+        /// host element. The client controller builds the input inside the host, so a
+        /// stylesheet mark - the dialog's title input, for one - has to be readable off
+        /// the host; a control that dropped them could not be marked at all.
+        /// </summary>
+        [Theory]
+        [InlineData(null, null, @"<div class=""wx-webapp-input-unique""></div>")]
+        [InlineData("wx-modal-title-input", null, @"<div class=""wx-webapp-input-unique wx-modal-title-input""></div>")]
+        [InlineData("wx-modal-title-input", "min-width: 4rem;", @"<div class=""wx-webapp-input-unique wx-modal-title-input"" style=""min-width: 4rem;""></div>")]
+        public void ClassesAndStyles(string cssClass, string style, string expected)
+        {
+            // arrange
+            var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
+            var form = new ControlForm();
+            var context = new RenderControlFormContext(UnitTestControlFixture.CreateRenderContextMock(), form);
+            var visualTree = new VisualTreeControl(componentHub, context.PageContext);
+            var control = new ControlDataFormItemInputUnique(null)
+            {
+                Classes = cssClass is null ? [] : [cssClass],
+                Styles = style is null ? [] : [style]
+            };
+
+            // act
+            var html = control.Render(context, visualTree);
+
+            // validation
+            AssertExtensions.EqualWithPlaceholders(expected, html);
+        }
+
+        /// <summary>
         /// Tests the description property of the REST unique control.
         /// </summary>
         [Theory]

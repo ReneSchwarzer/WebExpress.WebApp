@@ -37,6 +37,35 @@ namespace WebExpress.WebApp.Test.WebControl
         }
 
         /// <summary>
+        /// Tests that a filling designer carries the marker the content panel of the
+        /// application shell keys its flex chain on, and a designer that keeps its own
+        /// height does not: the marker alone turns every panel above it into a growing
+        /// column, so emitting it unasked would change the layout of a page that
+        /// stacks the designer among other blocks.
+        /// </summary>
+        [Theory]
+        [InlineData(false, @"<div id=""id"" class=""wx-webapp-workflow-editor""></div>")]
+        [InlineData(true, @"<div id=""id"" class=""wx-webapp-workflow-editor wx-fill""></div>")]
+        public void Fill(bool fill, string expected)
+        {
+            // arrange
+            var componentHub = UnitTestControlFixture.CreateAndRegisterComponentHubMock();
+            var application = componentHub.ApplicationManager.GetApplications(typeof(TestApplication)).FirstOrDefault();
+            var context = UnitTestControlFixture.CreateRenderContextMock(application);
+            var visualTree = new VisualTreeControl(componentHub, context.PageContext);
+            var control = new ControlDataWorkflow("id")
+            {
+                Fill = _ => fill
+            };
+
+            // act
+            var html = control.Render(context, visualTree);
+
+            // validation
+            AssertExtensions.EqualWithPlaceholders(expected, html);
+        }
+
+        /// <summary>
         /// When bound to a ViewState resource, the control emits only the
         /// <c>data-wx-resource</c> binding and skips its own <c>wx-service</c>
         /// island, because the enclosing ViewState owns the service and the central load.

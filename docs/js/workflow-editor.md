@@ -136,6 +136,34 @@ The height comes from `--wx-we-host-height`, which defaults to `--wx-we-host-min
 
 An inline `height` on the host works too and wins over both.
 
+### Filling the pane
+
+A height of its own is right for a designer among other blocks on a page. Where the
+designer *is* the view, it is wrong: inside an application shell the page does not scroll,
+the panes do, and a canvas of 600px either leaves the rest of the pane empty or reaches
+past it. `Fill` takes the height from the host instead:
+
+```csharp
+new ControlDataWorkflow("designer")
+{
+    Fill = _ => true
+};
+```
+
+The host is marked `wx-fill`, and a flex column host then drives the designer: the canvas
+and the properties pane scroll on their own inside a frame that ends where the pane does.
+In a `WebExpress.WebApp` shell the content panel becomes a flex column on its own as soon
+as a filling control is on the page, so `Fill` is all a page there has to set; elsewhere,
+make the host a flex column with `min-height: 0`. A host that hands nothing down leaves
+the designer at `--wx-we-host-height`, **never at its content height**; `max-height: 100%`
+keeps it inside a host that does have an extent, and a 12rem floor keeps a short pane
+scrolling rather than crushing the toolbar.
+
+The stylesheet addresses the host by the classes the controllers put on it at mount
+(`wx-graph-editor`, `wx-workflow-editor`), never by `wx-webapp-workflow-editor`: the
+controller registry strips that class before the constructor runs, so a rule keyed on it
+matches nothing.
+
 Colour fields use the framework colour control (`ControlFormItemInputColor` /
 `InputColorCtrl`), so the panel offers the same curated palette as every other colour field
 in the application.
