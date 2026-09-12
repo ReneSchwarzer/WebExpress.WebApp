@@ -7,6 +7,7 @@ using WebExpress.WebCore.WebAttribute;
 using WebExpress.WebCore.WebIdentity;
 using WebExpress.WebCore.WebMessage;
 using WebExpress.WebCore.WebRestApi;
+using WebExpress.WebCore.WebSession.Model;
 
 namespace WebExpress.WebApp.WebRestApi
 {
@@ -30,15 +31,31 @@ namespace WebExpress.WebApp.WebRestApi
         protected virtual int BaseLockoutDelaySeconds => 30;
 
         /// <summary>
-        /// Gets the maximum number of failed attempts allowed before the account is permanently locked.
+        /// Gets the maximum number of failed attempts allowed before the account is hard-locked.
         /// Defaults to 5.
         /// </summary>
         protected virtual int PermanentLockoutAttempts => 5;
 
         /// <summary>
-        /// Tracks failed login attempts per user.
+        /// Gets how long, in seconds, an account stays hard-locked after reaching
+        /// <see cref="PermanentLockoutAttempts"/>, and equally the idle span after which any
+        /// lockout state is forgotten. Defaults to one hour.
         /// </summary>
-        private static readonly ConcurrentDictionary<string, RestApiSessionFailedAttemptInfo> FailedAttempts = new(StringComparer.OrdinalIgnoreCase);
+        /// <remarks>
+        /// The previous hard lock had no way back short of a restart. Bounding it means an
+        /// account unlocks itself once the attacker gives up, which is the automatic half of the
+        /// unlock story; <see cref="ResetFailedAttempts"/> is the manual half, for an
+        /// administrator who wants to clear a lock at once.
+        /// </remarks>
+        protected virtual int PermanentLockoutDurationSeconds => 60 * 60;
+
+        /// <summary>
+        /// Tracks failed login attempts, keyed by application and user so a lockout is confined
+        /// to the application (tenant) it happened in rather than shared across every application
+        /// in the process. Static because a fresh endpoint instance handles each request, so the
+        /// counters have to outlive the instance.
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, RestApiSessionFailedAttemptInfo> FailedAttempts = new(StringComparer.Ordinal);
 
         /// <summary>
         /// Processes a login request containing user credentials.
@@ -91,7 +108,7 @@ namespace WebExpress.WebApp.WebRestApi
 
             // check if the user is currently locked out
             var normalizedUser = username.Trim();
-            if (IsLockedOut(normalizedUser, out var remainingSeconds))
+            if (IsLockedOut(request, normalizedUser, out var remainingSeconds))
             {
                 if (remainingSeconds == -1)
                 {
@@ -120,23 +137,35 @@ namespace WebExpress.WebApp.WebRestApi
             if (identity is not null)
             {
                 // clear failed attempts on successful login
-                FailedAttempts.TryRemove(normalizedUser, out _);
+                ResetFailedAttempts(request, normalizedUser);
 
-                var sessionId = GenerateSession(identity, request);
+                var session = EstablishSession(identity, request);
+
+                // valid credentials are not enough: if the session could not be established the
+                // client has nothing to authenticate later requests with, so this is a login
+                // failure, not a success with a missing session
+                if (session is null)
+                {
+                    return new RestApiSessionResult
+                    {
+                        Success = false,
+                        Message = I18N.Translate("webexpress.webapp:login.error.session")
+                    }.ToResponse();
+                }
 
                 return new RestApiSessionResult
                 {
                     Success = true,
-                    SessionId = sessionId,
+                    SessionId = GetSessionToken(session, request),
                     Message = I18N.Translate("webexpress.webapp:login.success")
                 }.ToResponse();
             }
 
             // record failed attempt
-            RecordFailedAttempt(normalizedUser);
+            RecordFailedAttempt(request, normalizedUser);
 
             // check if locked out after this attempt
-            if (IsLockedOut(normalizedUser, out var retryAfter))
+            if (IsLockedOut(request, normalizedUser, out var retryAfter))
             {
                 if (retryAfter == -1)
                 {
@@ -191,15 +220,36 @@ namespace WebExpress.WebApp.WebRestApi
         protected abstract IIdentity ValidateCredentials(string username, string password);
 
         /// <summary>
-        /// Generates an sessionId for the given identity.
+        /// Establishes the server-side session for a freshly authenticated identity.
         /// </summary>
+        /// <remarks>
+        /// The default signs the identity into the request's session and returns it, or null when
+        /// the sign-in fails - the caller turns that null into a login error rather than reporting
+        /// a success the client cannot act on.
+        /// </remarks>
         /// <param name="identity">The authenticated identity.</param>
         /// <param name="request">The original request.</param>
-        /// <returns>A token string, or null if token-based auth is not used.</returns>
-        protected virtual string GenerateSession(IIdentity identity, IRequest request)
+        /// <returns>The established session, or null if it could not be created.</returns>
+        protected virtual Session EstablishSession(IIdentity identity, IRequest request)
         {
-            return WebEx.ComponentHub.IdentityManager.Login(identity, request)?
-                .Id.ToString();
+            return WebEx.ComponentHub.IdentityManager.Login(identity, request);
+        }
+
+        /// <summary>
+        /// Returns the token the login response hands the client, if any.
+        /// </summary>
+        /// <remarks>
+        /// For a cookie session there is none: the id travels only in the http-only cookie the
+        /// server set on this response, and putting it in the body as well would hand an injected
+        /// script the one thing the cookie keeps from it. A bearer-token derivation overrides this
+        /// to return its token.
+        /// </remarks>
+        /// <param name="session">The session that was just established.</param>
+        /// <param name="request">The original request.</param>
+        /// <returns>The token to return to the client, or null when the cookie carries the session.</returns>
+        protected virtual string GetSessionToken(Session session, IRequest request)
+        {
+            return null;
         }
 
         /// <summary>
@@ -215,19 +265,31 @@ namespace WebExpress.WebApp.WebRestApi
         /// Checks whether a user is currently locked out due to excessive failed attempts
         /// and calculates the remaining penalty time using exponential backoff.
         /// </summary>
+        /// <param name="request">The request, used to scope the lockout to its application.</param>
         /// <param name="username">The username to check.</param>
-        /// <param name="remainingSeconds">The number of seconds remaining, or -1 for permanent lockout.</param>
+        /// <param name="remainingSeconds">The number of seconds remaining, or -1 for a hard lockout.</param>
         /// <returns>True if locked out; otherwise, false.</returns>
-        private bool IsLockedOut(string username, out int remainingSeconds)
+        private bool IsLockedOut(IRequest request, string username, out int remainingSeconds)
         {
             remainingSeconds = 0;
 
-            if (!FailedAttempts.TryGetValue(username, out var info))
+            var key = LockoutKey(request, username);
+
+            if (!FailedAttempts.TryGetValue(key, out var info))
             {
                 return false;
             }
 
-            // permanently lock account if maximum attempts are reached
+            // any lockout state, hard or throttled, is forgotten once the account has been left
+            // alone for the full lockout duration - this is the automatic unlock, and it also
+            // keeps the store from holding entries for accounts no one is attacking any more
+            if ((DateTime.UtcNow - info.LastAttempt).TotalSeconds >= PermanentLockoutDurationSeconds)
+            {
+                FailedAttempts.TryRemove(key, out _);
+                return false;
+            }
+
+            // hard-lock the account once it reaches the ceiling, until the duration above lapses
             if (info.Count >= PermanentLockoutAttempts)
             {
                 remainingSeconds = -1;
@@ -260,11 +322,12 @@ namespace WebExpress.WebApp.WebRestApi
         /// <summary>
         /// Records a failed login attempt for the specified user.
         /// </summary>
+        /// <param name="request">The request, used to scope the attempt to its application.</param>
         /// <param name="username">The username for which the attempt failed.</param>
-        private void RecordFailedAttempt(string username)
+        private void RecordFailedAttempt(IRequest request, string username)
         {
             FailedAttempts.AddOrUpdate(
-                username,
+                LockoutKey(request, username),
                 _ => new RestApiSessionFailedAttemptInfo { Count = 1, LastAttempt = DateTime.UtcNow },
                 (_, existing) =>
                 {
@@ -276,6 +339,39 @@ namespace WebExpress.WebApp.WebRestApi
                     };
                 }
             );
+        }
+
+        /// <summary>
+        /// Clears the failed-attempt record for a user, lifting any lockout at once.
+        /// </summary>
+        /// <remarks>
+        /// Called on a successful login and available to a derived administrative endpoint as the
+        /// manual counterpart to the time-based unlock, so a locked-out account need not wait out
+        /// <see cref="PermanentLockoutDurationSeconds"/>.
+        /// </remarks>
+        /// <param name="request">The request, used to scope the reset to its application.</param>
+        /// <param name="username">The username to unlock.</param>
+        protected void ResetFailedAttempts(IRequest request, string username)
+        {
+            FailedAttempts.TryRemove(LockoutKey(request, username), out _);
+        }
+
+        /// <summary>
+        /// Builds the store key that scopes a lockout to one application and user.
+        /// </summary>
+        /// <remarks>
+        /// The username is lower-cased so the lockout is case-insensitive in the user while the
+        /// application id, which is case-sensitive, stays intact; a newline separates the two so
+        /// no application id and username can run together into another pair's key.
+        /// </remarks>
+        /// <param name="request">The request whose application scopes the key.</param>
+        /// <param name="username">The username.</param>
+        /// <returns>The composite key.</returns>
+        private static string LockoutKey(IRequest request, string username)
+        {
+            var scope = request?.ApplicationContext?.ApplicationId ?? string.Empty;
+
+            return scope + "\n" + (username ?? string.Empty).ToLowerInvariant();
         }
     }
 }

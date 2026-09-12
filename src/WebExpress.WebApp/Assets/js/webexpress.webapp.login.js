@@ -113,10 +113,8 @@ webexpress.webapp.LoginCtrl = class extends webexpress.webui.LoginCtrl {
                 // reset failed attempts on successful login
                 this._failedAttempts = 0;
 
-                if (data.sessionId) {
-                    document.cookie = "session=" + encodeURIComponent(data.sessionId) + "; path=/";
-                }
-
+                // the session cookie arrived with this response, http-only and set by the
+                // server; the next navigation carries it
                 if (this._redirectUri) {
                     window.location.href = this._redirectUri;
                 } else {
